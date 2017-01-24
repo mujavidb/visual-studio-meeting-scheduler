@@ -1,23 +1,24 @@
 {
-	"name": "Visual Studio Meeting Scheduler",
+	"name": "VS1 Team 8 Project",
+	"description": "A meeting scheduler extension for Microsoft's VSTS platform for organising meetings.",
 	"version": "1.0.0",
 	"scripts": {
-	    "dev": "npm run watch_sass",
-	    "watch_sass": "node-sass --watch --output-style compressed --include-path scss src/scss src/css",
-
+		"dev": "npm run watch_sass",
+		"watch_sass": "node-sass --watch --output-style compressed --include-path scss src/scss src/css"
 	},
-	"keywords": "",
+	"author": "Mujavid Bukhari, Alasdair Hall and Kelvin Chan",
+	"keywords": [],
 	"devDependencies": {
-	  "babel-core": "6.13.2",
-	  "babel-cli": "^6.10.1",
-	  "babel-preset-es2015": "6.13.2",
-	  "babel-preset-es2015-webpack": "6.4.3",
-	  "node-sass": "^3.8.0",
-	  "autoprefixer": "^6.3.6",
-	  "postcss-cli": "^2.5.2"
+		"babel-core": "6.13.2",
+		"babel-cli": "^6.10.1",
+		"babel-preset-es2015": "6.13.2",
+		"babel-preset-es2015-webpack": "6.4.3",
+		"node-sass": "^3.8.0",
+		"autoprefixer": "^6.3.6",
+		"postcss-cli": "^2.5.2"
 	},
 	"babel": {
-	  "minified": true,
-	  "shouldPrintComment": false
+		"minified": true,
+		"shouldPrintComment": false
 	}
 }
