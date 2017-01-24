@@ -1,39 +1,70 @@
 @import "normalize";
 
-$background-color:#E8E8E8;
+$background:#E8E8E8;
+
+$default-text: #4c4c4c;
+$darker-text: #2c2c2c;
+
+$upcoming-event:#199DCA;
+$upcoming-event-hover:#168EB8;
+$past-event:#EB9F61;
+$past-event-hover: #E0894E;
+$event-invitation:#A0447A;
+$event-invitation-hover: #8F417F;
+
+$primary-button:#137CC9;
+$primary-button-hover:#0875AC;
 
 html,body {
-	background-color: $background-color;
+	background-color: $background;
 	margin: 0;
 }
 
 html {
 	font-family: Segoe UI, sans-serif;
 	padding: 0;
+	box-sizing: border-box;
 }
 
 body {
 	padding:20px;
+	box-sizing: border-box;
 	width: 100vw;
 	height: 100vh;
-	color: #4c4c4c;
+	color: $default-text;
 	display: flex;
 	flex-flow: row nowrap;
 	align-items: flex-start;
 }
 
 a, a:hover {
-	color: #4c4c4c;
+	color: $default-text;
 	text-decoration: none;
 }
 
-.container  {
+.large_card_area {
 	margin-right: 20px;
 	padding:20px;
+	box-sizing: border-box;
 	background-color: white;
 	display: flex;
 	flex-flow: column nowrap;
-	width: 600px;
+	width: 100%;
+	max-width: 500px;
+}
+
+.large_card_area:last-child {
+	margin-right: 0;
+}
+
+@media (max-width: 700px) {
+	body {
+		flex-direction: column;
+	}
+	.large_card_area {
+		max-width: 100%;
+		margin-bottom: 20px;
+	}
 }
 
 header {
@@ -75,8 +106,8 @@ header {
 
 .button {
 	font-size: 1em;
-	box-sizing: border-box;
 	padding: 10px 15px;
+	box-sizing: border-box;
 	color: white;
 	border: 1px solid #CCCCCC;
 }
@@ -86,11 +117,11 @@ header {
 }
 
 .primary {
-	background-color: #137CC9;
+	background-color: $primary-button;
 }
 
 .primary:hover {
-	background-color: #0875AC;
+	background-color: $primary-button-hover;
 }
 
 .content_filters {
@@ -100,14 +131,16 @@ header {
 
 .content_filters a {
 	padding: 3px 10px;
+	box-sizing: border-box;
 	border-left: 2px solid #ccc;
-	color: #4c4c4c;
+	color: $default-text;
 	font-weight: 400;
 }
 
 .content_filters a:first-child {
 	border-left:none;
 	padding: 3px 10px 3px 0;
+	box-sizing: border-box;
 }
 
 .all_meetings:not(.past) .upcoming_button,
@@ -122,31 +155,32 @@ header {
 	color:white;
 	box-sizing: border-box;
 	padding: 20px;
+	box-sizing: border-box;
 	background-color: #9c9c9c;
 }
 
 .upcoming .meeting_card {
-	background-color: #199DCA;
+	background-color: $upcoming-event;
 }
 
 .upcoming .meeting_card:hover {
-	background-color: #168EB8;
+	background-color: $upcoming-event-hover;
 }
 
 .past .meeting_card {
-	background-color: #EB9F61;
+	background-color: $past-event;
 }
 
 .past .meeting_card:hover {
-	background-color: #E0894E;
+	background-color: $past-event-hover;
 }
 
 .invitations .meeting_card {
-	background-color: #A0447A;
+	background-color: $event-invitation;
 }
 
 .invitations .meeting_card:hover {
-	background-color: #8F417F;
+	background-color: $event-invitation-hover;
 }
 
 
@@ -181,9 +215,10 @@ header {
 	justify-content: center;
 	align-items: center;
 	padding: 6px;
+	box-sizing: border-box;
 	border: 1px solid white;
 	background-color: rgba(145, 65, 125, 0.9);
-	margin-right: 10px;
+	margin: 0 10px 10px 0;
 }
 
 .attendee_initials {
