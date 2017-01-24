@@ -15,6 +15,8 @@ $event-invitation-hover: #8F417F;
 $primary-button:#137CC9;
 $primary-button-hover:#0875AC;
 
+$border: #CCCCCC;
+
 html,body {
 	background-color: $background;
 	margin: 0;
@@ -42,6 +44,9 @@ a, a:hover {
 	text-decoration: none;
 }
 
+
+// LARGE CARD LEVEL
+
 .large_card_area {
 	margin-right: 20px;
 	padding:20px;
@@ -60,6 +65,12 @@ a, a:hover {
 
 .large_card_area main {
 	overflow: scroll;
+	display: flex;
+	flex-flow: column nowrap;
+}
+
+.large_card_area.create_meeting {
+	max-width: 700px;
 }
 
 @media (max-width: 700px) {
@@ -78,6 +89,8 @@ a, a:hover {
 		overflow: auto;
 	}
 }
+
+// INSIDE CARDS
 
 header {
 	margin-bottom: 15px;
@@ -99,10 +112,6 @@ header {
 	display: none;
 }
 
-.invitations {
-
-}
-
 .topbar {
 	display: flex;
 	flex-flow: row nowrap;
@@ -121,11 +130,16 @@ header {
 	padding: 10px 15px;
 	box-sizing: border-box;
 	color: white;
-	border: 1px solid #CCCCCC;
+	border: 1px solid $border;
 }
 
 .button:hover {
 	color:white;
+}
+
+.button.maxed {
+	max-width: 150px;
+	text-align: center;
 }
 
 .primary {
@@ -230,6 +244,7 @@ header {
 }
 
 .attendee_block {
+	position: relative;
 	display: flex;
 	flex-flow: row wrap;
 	justify-content: center;
@@ -239,24 +254,100 @@ header {
 	border: 1px solid white;
 	background-color: rgba(145, 65, 125, 0.9);
 	margin: 0 10px 10px 0;
+	user-select:none;
 }
 
-.attendee_initials {
-
+.remove {
+	opacity: 0;
+	position: absolute;
+	display: table-cell;
+	width:100%;
+	height:100%;
+	top:0;
+	left:0;
+	background-color: rgba(60,60,60,0.9);
+	text-align: center;
+	vertical-align: middle;
+	cursor:pointer;
+	color: white;
+	transition: all 0.3s ease;
+	font-size: 2em;
+	line-height: 0.6;
 }
 
-.attendee_block {
-
+.attendee_block .remove:hover {
+	color: white;
+	opacity:1;
 }
 
-.attendee_initials {
 
+//CREATE MEETING
+
+.label {
+	color: #8c8c8c;
+	font-size: 0.9em;
+	margin-bottom: 5px;
 }
 
-.attendee_block {
-
+.create_meeting h3 {
+	font-weight: 600;
+	margin: 0 0 5px;
 }
 
-.attendee_initials {
+.large_card_area input,
+.large_card_area textarea {
+	display: block;
+	padding:10px;
+	box-sizing: border-box;
+	outline:0;
+	border: 1px solid $border;
+	color: $default-text;
+}
 
+.large_card_area input {
+	margin-bottom: 15px;
+}
+
+.large_card_area textarea {
+	resize: vertical;
+}
+
+.agenda_area,
+.attendee_area {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	margin-bottom: 15px;
+}
+
+.markdown_input,
+.markdown_preview_area {
+	width: 47.5%;
+	display: flex;
+	flex-flow: column nowrap;
+	align-items: stretch;
+}
+
+.markdown_input textarea {
+	min-height: 120px;
+}
+
+.markdown_preview {
+	padding: 10px;
+	box-sizing: border-box;
+	height: 100%;
+	border: 1px solid $border;
+	color: $default-text;
+	background-color: #fafafa;
+}
+
+.attendee_input,
+.attendee_added {
+	width: 47.5%;
+	display: flex;
+	flex-flow: column nowrap;
+}
+
+.attendee_added {
+	color: white;
 }
