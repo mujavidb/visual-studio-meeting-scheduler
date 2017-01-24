@@ -1,44 +1,115 @@
 @import "normalize";
 
-$background-color:#E8E8E8;
+$background:#E8E8E8;
+
+$default-text: #4c4c4c;
+$darker-text: #2c2c2c;
+
+$upcoming-event:#199DCA;
+$upcoming-event-hover:#168EB8;
+$past-event:#EB9F61;
+$past-event-hover: #E0894E;
+$event-invitation:#A0447A;
+$event-invitation-hover: #8F417F;
+
+$primary-button:#137CC9;
+$primary-button-hover:#0875AC;
+
+$border: #CCCCCC;
+
+html,body {
+	background-color: $background;
+	margin: 0;
+}
 
 html {
 	font-family: Segoe UI, sans-serif;
+	padding: 0;
+	box-sizing: border-box;
 }
 
-html,
 body {
-	background-color: $background-color;
 	padding:20px;
-	color: #4c4c4c;
+	box-sizing: border-box;
+	width: 100vw;
+	height: 100vh;
+	color: $default-text;
 	display: flex;
 	flex-flow: row nowrap;
+	align-items: flex-start;
 }
 
 a, a:hover {
-	color: #4c4c4c;
+	color: $default-text;
 	text-decoration: none;
 }
 
-.container  {
+
+// LARGE CARD LEVEL
+
+.large_card_area {
 	margin-right: 20px;
 	padding:20px;
+	box-sizing: border-box;
 	background-color: white;
 	display: flex;
 	flex-flow: column nowrap;
-	width: 600px;
+	width: 100%;
+	max-width: 500px;
+	max-height: 80vh;
 }
+
+.large_card_area:last-child {
+	margin-right: 0;
+}
+
+.large_card_area main {
+	overflow: scroll;
+	display: flex;
+	flex-flow: column nowrap;
+}
+
+.large_card_area.create_meeting {
+	max-width: 700px;
+}
+
+@media (max-width: 700px) {
+	body {
+		flex-direction: column;
+		height: 100%;
+	}
+	.large_card_area {
+		max-width: 100%;
+		margin-bottom: 20px;
+		margin-right: 0;
+		max-height: none;
+	}
+
+	.large_card_area main {
+		overflow: auto;
+	}
+}
+
+// INSIDE CARDS
 
 header {
 	margin-bottom: 15px;
 }
 
-.all_meetings {
-	
+.invitations header {
+	margin-bottom: 0;
 }
 
-.invitations {
+.all_meetings .past {
+	display: none;
+}
 
+.all_meetings.past .past {
+	display: block;
+}
+
+.all_meetings.past .upcoming {
+	display: none;
 }
 
 .topbar {
@@ -51,27 +122,32 @@ header {
 .container_title {
 	font-size: 1.4em;
 	font-weight: 600;
-	margin: 0 0 15px;
+	margin: 10px 0;
 }
 
 .button {
 	font-size: 1em;
-	box-sizing: border-box;
 	padding: 10px 15px;
+	box-sizing: border-box;
 	color: white;
-	border: 1px solid #CCCCCC;
+	border: 1px solid $border;
 }
 
 .button:hover {
 	color:white;
 }
 
+.button.maxed {
+	max-width: 150px;
+	text-align: center;
+}
+
 .primary {
-	background-color: #137CC9;
+	background-color: $primary-button;
 }
 
 .primary:hover {
-	background-color: #0875AC;
+	background-color: $primary-button-hover;
 }
 
 .content_filters {
@@ -81,33 +157,67 @@ header {
 
 .content_filters a {
 	padding: 3px 10px;
+	box-sizing: border-box;
 	border-left: 2px solid #ccc;
+	color: $default-text;
+	font-weight: 400;
 }
 
 .content_filters a:first-child {
 	border-left:none;
 	padding: 3px 10px 3px 0;
+	box-sizing: border-box;
 }
 
-.content_filters .active {
-	color: #2c2c2c;
+.all_meetings:not(.past) .upcoming_button,
+.all_meetings.past .past_button {
+	color: #1175BC;
 	font-weight: 600;
+}
+
+.meeting_card_container .meeting_card{
+	margin-bottom: 20px;
+}
+
+.meeting_card_container:last-child .meeting_card{
+	margin-bottom: 0;
 }
 
 .meeting_card {
 	display: flex;
 	flex-flow: column nowrap;
-	background-color: #199DCA;
 	color:white;
 	box-sizing: border-box;
 	padding: 20px;
-	border: 2px solid white;
+	box-sizing: border-box;
+	background-color: #9c9c9c;
 }
 
-.meeting_card:hover {
-	// background-color: #168EB8;
-	border-color: green;
+.upcoming .meeting_card {
+	background-color: $upcoming-event;
 }
+
+.upcoming .meeting_card:hover {
+	background-color: $upcoming-event-hover;
+}
+
+.past .meeting_card {
+	background-color: $past-event;
+}
+
+.past .meeting_card:hover {
+	background-color: $past-event-hover;
+}
+
+.invitations .meeting_card {
+	background-color: $event-invitation;
+}
+
+.invitations .meeting_card:hover {
+	background-color: $event-invitation-hover;
+}
+
+
 
 .meeting_title {
 	margin: 0 0 5px;
@@ -134,32 +244,110 @@ header {
 }
 
 .attendee_block {
+	position: relative;
 	display: flex;
 	flex-flow: row wrap;
 	justify-content: center;
 	align-items: center;
 	padding: 6px;
+	box-sizing: border-box;
 	border: 1px solid white;
-	background-color: purple;
-	margin-right: 10px;
+	background-color: rgba(145, 65, 125, 0.9);
+	margin: 0 10px 10px 0;
+	user-select:none;
 }
 
-.attendee_initials {
-
+.remove {
+	opacity: 0;
+	position: absolute;
+	display: table-cell;
+	width:100%;
+	height:100%;
+	top:0;
+	left:0;
+	background-color: rgba(60,60,60,0.9);
+	text-align: center;
+	vertical-align: middle;
+	cursor:pointer;
+	color: white;
+	transition: all 0.3s ease;
+	font-size: 2em;
+	line-height: 0.6;
 }
 
-.attendee_block {
-
+.attendee_block .remove:hover {
+	color: white;
+	opacity:1;
 }
 
-.attendee_initials {
 
+//CREATE MEETING
+
+.label {
+	color: #8c8c8c;
+	font-size: 0.9em;
+	margin-bottom: 5px;
 }
 
-.attendee_block {
-
+.create_meeting h3 {
+	font-weight: 600;
+	margin: 0 0 5px;
 }
 
-.attendee_initials {
+.large_card_area input,
+.large_card_area textarea {
+	display: block;
+	padding:10px;
+	box-sizing: border-box;
+	outline:0;
+	border: 1px solid $border;
+	color: $default-text;
+}
 
+.large_card_area input {
+	margin-bottom: 15px;
+}
+
+.large_card_area textarea {
+	resize: vertical;
+}
+
+.agenda_area,
+.attendee_area {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	margin-bottom: 15px;
+}
+
+.markdown_input,
+.markdown_preview_area {
+	width: 47.5%;
+	display: flex;
+	flex-flow: column nowrap;
+	align-items: stretch;
+}
+
+.markdown_input textarea {
+	min-height: 120px;
+}
+
+.markdown_preview {
+	padding: 10px;
+	box-sizing: border-box;
+	height: 100%;
+	border: 1px solid $border;
+	color: $default-text;
+	background-color: #fafafa;
+}
+
+.attendee_input,
+.attendee_added {
+	width: 47.5%;
+	display: flex;
+	flex-flow: column nowrap;
+}
+
+.attendee_added {
+	color: white;
 }
