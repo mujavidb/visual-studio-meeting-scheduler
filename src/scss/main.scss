@@ -1,0 +1,165 @@
+@import "normalize";
+
+$background-color:#E8E8E8;
+
+html {
+	font-family: Segoe UI, sans-serif;
+}
+
+html,
+body {
+	background-color: $background-color;
+	padding:20px;
+	color: #4c4c4c;
+	display: flex;
+	flex-flow: row nowrap;
+}
+
+a, a:hover {
+	color: #4c4c4c;
+	text-decoration: none;
+}
+
+.container  {
+	margin-right: 20px;
+	padding:20px;
+	background-color: white;
+	display: flex;
+	flex-flow: column nowrap;
+	width: 600px;
+}
+
+header {
+	margin-bottom: 15px;
+}
+
+.all_meetings {
+	
+}
+
+.invitations {
+
+}
+
+.topbar {
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content:space-between;
+	align-items: center;
+}
+
+.container_title {
+	font-size: 1.4em;
+	font-weight: 600;
+	margin: 0 0 15px;
+}
+
+.button {
+	font-size: 1em;
+	box-sizing: border-box;
+	padding: 10px 15px;
+	color: white;
+	border: 1px solid #CCCCCC;
+}
+
+.button:hover {
+	color:white;
+}
+
+.primary {
+	background-color: #137CC9;
+}
+
+.primary:hover {
+	background-color: #0875AC;
+}
+
+.content_filters {
+	display: flex;
+	flex-flow: row nowrap;
+}
+
+.content_filters a {
+	padding: 3px 10px;
+	border-left: 2px solid #ccc;
+}
+
+.content_filters a:first-child {
+	border-left:none;
+	padding: 3px 10px 3px 0;
+}
+
+.content_filters .active {
+	color: #2c2c2c;
+	font-weight: 600;
+}
+
+.meeting_card {
+	display: flex;
+	flex-flow: column nowrap;
+	background-color: #199DCA;
+	color:white;
+	box-sizing: border-box;
+	padding: 20px;
+	border: 2px solid white;
+}
+
+.meeting_card:hover {
+	// background-color: #168EB8;
+	border-color: green;
+}
+
+.meeting_title {
+	margin: 0 0 5px;
+}
+
+.meeting_title {
+	font-weight: 400;
+	font-size: 1.3em;
+}
+
+.meeting_datetime {
+	font-size: 1em;
+	margin:  0 0 5px;
+}
+
+.meeting_location {
+	font-size: 1em;
+	margin:  0 0 15px;
+}
+
+.attendees {
+	display: flex;
+	flex-flow: row wrap;
+}
+
+.attendee_block {
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: center;
+	align-items: center;
+	padding: 6px;
+	border: 1px solid white;
+	background-color: purple;
+	margin-right: 10px;
+}
+
+.attendee_initials {
+
+}
+
+.attendee_block {
+
+}
+
+.attendee_initials {
+
+}
+
+.attendee_block {
+
+}
+
+.attendee_initials {
+
+}
