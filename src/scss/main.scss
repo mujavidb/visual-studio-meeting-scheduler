@@ -51,19 +51,31 @@ a, a:hover {
 	flex-flow: column nowrap;
 	width: 100%;
 	max-width: 500px;
+	max-height: 80vh;
 }
 
 .large_card_area:last-child {
 	margin-right: 0;
 }
 
+.large_card_area main {
+	overflow: scroll;
+}
+
 @media (max-width: 700px) {
 	body {
 		flex-direction: column;
+		height: 100%;
 	}
 	.large_card_area {
 		max-width: 100%;
 		margin-bottom: 20px;
+		margin-right: 0;
+		max-height: none;
+	}
+
+	.large_card_area main {
+		overflow: auto;
 	}
 }
 
@@ -147,6 +159,14 @@ header {
 .all_meetings.past .past_button {
 	color: #1175BC;
 	font-weight: 600;
+}
+
+.meeting_card_container .meeting_card{
+	margin-bottom: 20px;
+}
+
+.meeting_card_container:last-child .meeting_card{
+	margin-bottom: 0;
 }
 
 .meeting_card {
