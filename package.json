@@ -1,5 +1,5 @@
 {
-	"name": "VS1 Team 8 Project",
+	"name": "visual-studio-meeting-scheduler",
 	"description": "A meeting scheduler extension for Microsoft's VSTS platform for organising meetings.",
 	"version": "1.0.0",
 	"scripts": {
