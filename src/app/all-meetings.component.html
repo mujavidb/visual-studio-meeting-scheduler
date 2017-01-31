@@ -30,5 +30,25 @@
 				</div>
 			</a>
 		</div>
+		<div class="past">
+			<a href="#" class="meeting_card_container" *ngFor="let meeting of meetings">
+				<div class="meeting_card">
+					<h3 class="meeting_title">{{ meeting.name }}</h3>
+					<p class="meeting_datetime">{{ meeting.time }}</p>
+					<p class="meeting_location">{{ meeting.location }}</p>
+					<div class="attendees">
+						<div class="attendee_block">
+							<span class="attendee_initials">MB</span>
+						</div>
+						<div class="attendee_block">
+							<span class="attendee_initials">AH</span>
+						</div>
+						<div class="attendee_block">
+							<span class="attendee_initials">KC</span>
+						</div>
+					</div>
+				</div>
+			</a>
+		</div>
 	</main>
 </section>
