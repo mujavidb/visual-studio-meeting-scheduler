@@ -1,23 +1,23 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
-import { RouterModule } from '@angular/router';
+import { BrowserModule } from '@angular/platform-browser'
+import { NgModule } from '@angular/core'
+import { FormsModule } from '@angular/forms'
+import { HttpModule } from '@angular/http'
+import { RouterModule } from '@angular/router'
 
-import { AppComponent } from './app.component';
-import { AllMeetingsComponent } from './all-meetings.component';
-import { InvitationsComponent } from './invitations.component';
-import { CreateMeetingComponent } from './create-meeting.component';
-import { DashboardComponent } from './dashboard.component';
+import { AppComponent } from './app.component'
+import { AllMeetingsComponent } from './all-meetings.component'
+import { InvitationsComponent } from './invitations.component'
+import { CreateMeetingComponent } from './create-meeting.component'
+import { DashboardComponent } from './dashboard.component'
 
 
 @NgModule({
   declarations: [
     AppComponent,
+    DashboardComponent,
     AllMeetingsComponent,
     InvitationsComponent,
-    CreateMeetingComponent,
-    DashboardComponent
+    CreateMeetingComponent
   ],
   imports: [
     BrowserModule,
@@ -25,7 +25,7 @@ import { DashboardComponent } from './dashboard.component';
     HttpModule,
     RouterModule.forRoot([
       {
-        path: 'create',
+        path: 'create-meeting',
         component: CreateMeetingComponent
       },
       {
