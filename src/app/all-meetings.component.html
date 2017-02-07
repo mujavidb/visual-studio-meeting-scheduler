@@ -1,6 +1,6 @@
 <header>
 	<div class="topbar">
-		<h2 class="container_title">All Meetings ({{ meetings.length }})</h2>
+		<h2 class="container_title">All Meetings <span *ngIf="meetings" class="badge">({{ meetings.length }})</span></h2>
 		<a routerLink="/create-meeting" class="button primary">Create Meeting</a>
 	</div>
 	<div class="content_filters">
@@ -10,7 +10,7 @@
 </header>
 <main>
 	<div class="upcoming">
-		<a routerLink="/single-meeting" class="meeting_card_container" *ngFor="let meeting of meetings">
+		<a [routerLink]="['/single-meeting', meeting.id]" class="meeting_card_container" *ngFor="let meeting of meetings">
 			<div class="meeting_card">
 				<h3 class="meeting_title">{{ meeting.name }}</h3>
 				<p class="meeting_datetime">{{ meeting.time }}</p>
