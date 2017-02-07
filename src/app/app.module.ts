@@ -31,7 +31,7 @@ import { DashboardComponent } from './dashboard.component'
         component: CreateMeetingComponent
       },
       {
-        path: 'single-meeting',
+        path: 'single-meeting/:id',
         component: SingleMeetingComponent
       },
       {

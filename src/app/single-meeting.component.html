@@ -1,26 +1,34 @@
+<div *ngIf="meeting">
 <header>
 	<div class="topbar">
-		<h2 class="container_title">Create a Meeting</h2>
+		<h2 class="container_title">{{ meeting.name }}</h2>
 	</div>
 </header>
 <main>
 
-	<h3>Title</h3>
-	<span class="meeting_title">{{ meeting.name }}</span>
+	<h3>Description</h3>
+	<span class="label">{{ meeting.description }}</span>
 	
 
 	<h3>Agenda</h3>
 	<div class="agenda_area">
 		<div class="markdown_preview_area">
 			<div class="markdown_preview">
-				{{ meeting.description }}
+				{{ meeting.agenda }}
 			</div>
 		</div>
 	</div>
 
-	<h3>Availability</h3>
-	<span class="label">Highlight the areas where you would like the meeting time to fall within.</span>
-	<div class="full_calendar_area"></div>
+	<div id="time" *ngIf="meeting.time">
+		<h3>Time</h3>
+		<span class="label">{{ meeting.time }}</span>
+	</div>
+
+	<div id="time" *ngIf="!meeting.time">
+		<h3>Availability</h3>
+		<span class="label">Highlight the areas where you would like the meeting time to fall within.</span>
+		<div class="full_calendar_area"></div>
+	</div>
 
 	<h3>Attendees</h3>
 	<div class="attendee_area">
@@ -43,5 +51,6 @@
 		</div>
 	</div>
 
-	<a routerLink="/dashboard" class="button primary maxed">Create Meeting</a>
+	<a (click)="goBack()" class="button primary maxed">Done</a>
 </main>
+</div>
