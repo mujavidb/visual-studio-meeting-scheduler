@@ -4,7 +4,7 @@
 	</div>
 </header>
 <main>
-	<a href="#" class="meeting_card_container" *ngFor="let invitation of invitations">
+	<a routerLink="/single-meeting" class="meeting_card_container" *ngFor="let invitation of invitations">
 		<div class="meeting_card">
 			<h3 class="meeting_title">{{ invitation.name }}</h3>
 			<p class="meeting_datetime">Time TBC</p>
