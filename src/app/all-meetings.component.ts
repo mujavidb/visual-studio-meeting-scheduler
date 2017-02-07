@@ -3,6 +3,7 @@ import { RouterModule }   from '@angular/router';
 import { Meeting } from './meeting';
 
 @Component({
+	host: {'class': 'large_card_area all_meetings'},
 	selector: 'all-meetings',
   	templateUrl: './all-meetings.component.html'
 })

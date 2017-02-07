@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core'
 import { Meeting } from './meeting'
 
 @Component({
+	host: {'class': 'large_card_area invitations'},
 	selector: 'invitations',
   	templateUrl: './invitations.component.html'
 })

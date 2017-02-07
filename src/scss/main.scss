@@ -34,14 +34,17 @@ body {
 	width: 100vw;
 	height: 100vh;
 	color: $default-text;
-	display: flex;
-	flex-flow: row nowrap;
-	align-items: flex-start;
 }
 
 a, a:hover {
 	color: $default-text;
 	text-decoration: none;
+}
+
+.main-container {
+	display: flex;
+	flex-flow: row nowrap;
+	align-items: flex-start;
 }
 
 
