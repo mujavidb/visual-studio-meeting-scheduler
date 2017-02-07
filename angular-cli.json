@@ -6,9 +6,9 @@
   "apps": [
     {
       "root": "src",
-      "outDir": "dist",
+      "outDir": "build",
       "assets": [
-        "assets",
+        "public/assets",
         "favicon.ico"
       ],
       "index": "index.html",
@@ -18,7 +18,7 @@
       "prefix": "app",
       "mobile": false,
       "styles": [
-        "styles.css"
+        "public/css/main.css"
       ],
       "scripts": [],
       "environments": {
@@ -30,12 +30,12 @@
   ],
   "e2e": {
     "protractor": {
-      "config": "./protractor.conf.js"
+      "config": "test/protractor.conf.js"
     }
   },
   "test": {
     "karma": {
-      "config": "./karma.conf.js"
+      "config": "test/karma.conf.js"
     }
   },
   "defaults": {
