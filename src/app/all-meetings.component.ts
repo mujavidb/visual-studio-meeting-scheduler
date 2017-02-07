@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { RouterModule }   from '@angular/router';
 import { Meeting } from './meeting';
 
@@ -10,6 +10,7 @@ import { Meeting } from './meeting';
 
 export class AllMeetingsComponent {
 	meetings: Meeting[];
+	@Output() onClickedPast = new EventEmitter<boolean>();
 
 	ngOnInit() {
 		this.meetings = [
@@ -23,5 +24,9 @@ export class AllMeetingsComponent {
 								"agenda"		: "This is what we talked about"
 							}
 						];
+	}
+
+	onClickPast(clickedPast: boolean) : void {
+		this.onClickedPast.emit(clickedPast);
 	}
 }

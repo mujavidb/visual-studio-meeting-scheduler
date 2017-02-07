@@ -4,8 +4,8 @@
 		<a routerLink="/create-meeting" class="button primary">Create Meeting</a>
 	</div>
 	<div class="content_filters">
-		<a href="#" class="upcoming_button">Upcoming</a>
-		<a href="#" class="past_button">Past</a>
+		<a class="upcoming_button" (click)="onClickPast(false)">Upcoming</a>
+		<a class="past_button" (click)="onClickPast(true)">Past</a>
 	</div>
 </header>
 <main>
