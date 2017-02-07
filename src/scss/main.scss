@@ -2,6 +2,7 @@
 
 $background:#E8E8E8;
 
+$lighter-text: #6c6c6c;
 $default-text: #4c4c4c;
 $darker-text: #2c2c2c;
 
@@ -39,6 +40,12 @@ body {
 a, a:hover {
 	color: $default-text;
 	text-decoration: none;
+}
+
+h3 {
+	font-size: 1em;
+	font-weight: 600;
+	color: $lighter-text;
 }
 
 .main-container {
@@ -222,11 +229,10 @@ header {
 
 
 
-.meeting_title {
+.all_meetings .meeting_title,
+.invitations .meeting_title {
+	color: white;
 	margin: 0 0 5px;
-}
-
-.meeting_title {
 	font-weight: 400;
 	font-size: 1.3em;
 }
@@ -292,8 +298,8 @@ header {
 	margin-bottom: 5px;
 }
 
-.create_meeting h3 {
-	font-weight: 600;
+.create_meeting h3,
+.single_meeting h3 {
 	margin: 0 0 5px;
 }
 
@@ -353,4 +359,18 @@ header {
 
 .attendee_added {
 	color: white;
+}
+
+//SINGLE MEETING
+
+.single_meeting .meeting_title {
+	font-weight: 600;
+	margin: 0 0 15px;
+	font-size: 1.3em;
+	color: $default-text;
+}
+
+.single_meeting .markdown_preview_area,
+.single_meeting .attendee_added {
+	width: 100%;
 }

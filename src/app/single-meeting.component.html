@@ -6,18 +6,14 @@
 <main>
 
 	<h3>Title</h3>
-	<input type="text" name="title" placeholder="Enter meeting title">
+	<span class="meeting_title">{{ meeting.name }}</span>
+	
 
 	<h3>Agenda</h3>
 	<div class="agenda_area">
-		<div class="markdown_input">
-			<span class="label">Markdown Editor</span>
-			<textarea name="agenda" placeholder="Enter markdown here"></textarea>
-		</div>
 		<div class="markdown_preview_area">
-			<span class="label">Text Preview</span>
 			<div class="markdown_preview">
-				
+				{{ meeting.description }}
 			</div>
 		</div>
 	</div>
@@ -28,12 +24,7 @@
 
 	<h3>Attendees</h3>
 	<div class="attendee_area">
-		<div class="attendee_input">
-			<span class="label">Add attendees to this meeting.</span>
-			<input type="text" name="title" placeholder="Enter attendee's names">
-		</div>
 		<div class="attendee_added">
-			<span class="label">Click to remove</span>
 			<div class="attendees">
 				<div class="attendee_block">
 					<span class="attendee_initials">MB</span>
@@ -52,5 +43,5 @@
 		</div>
 	</div>
 
-	<a href="#" class="button primary maxed">Create Meeting</a>
+	<a routerLink="/dashboard" class="button primary maxed">Create Meeting</a>
 </main>

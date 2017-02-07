@@ -8,6 +8,7 @@ import { AppComponent } from './app.component'
 import { AllMeetingsComponent } from './all-meetings.component'
 import { InvitationsComponent } from './invitations.component'
 import { CreateMeetingComponent } from './create-meeting.component'
+import { SingleMeetingComponent } from './single-meeting.component'
 import { DashboardComponent } from './dashboard.component'
 
 
@@ -17,7 +18,8 @@ import { DashboardComponent } from './dashboard.component'
     DashboardComponent,
     AllMeetingsComponent,
     InvitationsComponent,
-    CreateMeetingComponent
+    CreateMeetingComponent,
+    SingleMeetingComponent
   ],
   imports: [
     BrowserModule,
@@ -27,6 +29,10 @@ import { DashboardComponent } from './dashboard.component'
       {
         path: 'create-meeting',
         component: CreateMeetingComponent
+      },
+      {
+        path: 'single-meeting',
+        component: SingleMeetingComponent
       },
       {
         path: 'dashboard',
