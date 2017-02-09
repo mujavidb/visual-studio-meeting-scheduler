@@ -21,7 +21,7 @@
 
 	<div id="time" *ngIf="meeting.time">
 		<h3>Time</h3>
-		<span class="label">{{ meeting.time }}</span>
+		<span class="label">{{ meeting.time | formatTime }}</span>
 	</div>
 
 	<div id="time" *ngIf="!meeting.time">

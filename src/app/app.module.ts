@@ -11,6 +11,9 @@ import { CreateMeetingComponent } from './create-meeting.component'
 import { SingleMeetingComponent } from './single-meeting.component'
 import { DashboardComponent } from './dashboard.component'
 
+import { TimeFilterPipe } from './time-filter.pipe'
+import { FormatTimePipe } from './format-time.pipe'
+
 
 @NgModule({
   declarations: [
@@ -19,7 +22,9 @@ import { DashboardComponent } from './dashboard.component'
     AllMeetingsComponent,
     InvitationsComponent,
     CreateMeetingComponent,
-    SingleMeetingComponent
+    SingleMeetingComponent,
+    TimeFilterPipe,
+    FormatTimePipe
   ],
   imports: [
     BrowserModule,

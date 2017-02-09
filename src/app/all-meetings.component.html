@@ -10,10 +10,10 @@
 </header>
 <main>
 	<div class="upcoming">
-		<a [routerLink]="['/single-meeting', meeting.id]" class="meeting_card_container" *ngFor="let meeting of meetings">
+		<a [routerLink]="['/single-meeting', meeting.id]" class="meeting_card_container" *ngFor="let meeting of meetings | timeFilter:true">
 			<div class="meeting_card">
 				<h3 class="meeting_title">{{ meeting.name }}</h3>
-				<p class="meeting_datetime">{{ meeting.time }}</p>
+				<p class="meeting_datetime">{{ meeting.time | formatTime }}</p>
 				<p class="meeting_location">{{ meeting.location }}</p>
 				<div class="attendees">
 					<div class="attendee_block">
@@ -30,10 +30,10 @@
 		</a>
 	</div>
 	<div class="past">
-		<a routerLink="/single-meeting" class="meeting_card_container" *ngFor="let meeting of meetings">
+		<a routerLink="/single-meeting" class="meeting_card_container" *ngFor="let meeting of meetings | timeFilter:false">
 			<div class="meeting_card">
 				<h3 class="meeting_title">{{ meeting.name }}</h3>
-				<p class="meeting_datetime">{{ meeting.time }}</p>
+				<p class="meeting_datetime">{{ meeting.time | formatTime }}</p>
 				<p class="meeting_location">{{ meeting.location }}</p>
 				<div class="attendees">
 					<div class="attendee_block">
