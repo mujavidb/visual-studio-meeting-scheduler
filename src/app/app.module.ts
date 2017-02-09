@@ -5,6 +5,7 @@ import { HttpModule } from '@angular/http'
 import { RouterModule } from '@angular/router'
 
 import { CalendarComponent } from './calendar'
+
 import { AppComponent } from './app.component'
 import { AllMeetingsComponent } from './all-meetings.component'
 import { InvitationsComponent } from './invitations.component'
@@ -14,6 +15,7 @@ import { DashboardComponent } from './dashboard.component'
 
 import { TimeFilterPipe } from './time-filter.pipe'
 import { FormatTimePipe } from './format-time.pipe'
+import { MarkdownPipe } from './markdown.pipe'
 
 
 @NgModule({
@@ -26,7 +28,8 @@ import { FormatTimePipe } from './format-time.pipe'
     SingleMeetingComponent,
     CalendarComponent,
     TimeFilterPipe,
-    FormatTimePipe
+    FormatTimePipe,
+    MarkdownPipe
   ],
   imports: [
     BrowserModule,

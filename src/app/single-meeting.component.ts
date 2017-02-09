@@ -16,7 +16,7 @@ declare var $: any;
   	providers: [MeetingService]
 })
 
-export class SingleMeetingComponent implements OnInit{
+export class SingleMeetingComponent implements OnInit, AfterViewInit{
 	meeting: Meeting;
 	calendarOptions: Object;
 

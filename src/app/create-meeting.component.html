@@ -12,15 +12,14 @@
 	<div class="agenda_area">
 		<div class="markdown_input">
 			<span class="label">Markdown Editor</span>
-			<textarea name="agenda" placeholder="Enter markdown here"></textarea>
+			<textarea name="agenda" placeholder="Enter markdown here" [(ngModel)]="markdownText"></textarea>
 		</div>
 		<div class="markdown_preview_area">
 			<span class="label">Text Preview</span>
-			<div class="markdown_preview">
-				
-			</div>
+			<div [innerHTML]="markdownText | markdown"></div>
 		</div>
 	</div>
+
 
 	<h3>Availability</h3>
 	<span class="label">Highlight the areas where you would like the meeting time to fall within.</span>

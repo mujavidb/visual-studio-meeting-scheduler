@@ -7,7 +7,7 @@
 <main>
 
 	<h3>Description</h3>
-	<span class="label">{{ meeting.description }}</span>
+	<p>{{ meeting.description }}</p>
 	
 
 	<h3>Agenda</h3>
@@ -32,7 +32,7 @@
 
 	<div id="time" *ngIf="meeting.time">
 		<h3>Time</h3>
-		<span class="label">{{ meeting.time | formatTime }}</span>
+		<p>{{ meeting.time | formatTime }}</p>
 	</div>
 
 	<div id="time" *ngIf="!meeting.time">
