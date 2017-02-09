@@ -19,6 +19,17 @@
 		</div>
 	</div>
 
+	<div id="minutes" *ngIf="isPast(meeting.time)">
+	<h3>Minutes</h3>
+	<div class="agenda_area">
+		<div class="markdown_preview_area">
+			<div class="markdown_preview">
+				{{ meeting.minutes }}
+			</div>
+		</div>
+	</div>
+	</div>
+
 	<div id="time" *ngIf="meeting.time">
 		<h3>Time</h3>
 		<span class="label">{{ meeting.time | formatTime }}</span>

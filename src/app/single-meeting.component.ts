@@ -6,6 +6,8 @@ import { MeetingService } from './meeting.service';
 
 import 'rxjs/add/operator/switchMap';
 
+declare var moment: any;
+
 @Component({
 	host: {'class': 'large_card_area single_meeting'},
 	selector: 'single-meeting',
@@ -39,5 +41,9 @@ export class SingleMeetingComponent implements OnInit{
 
 	goBack(): void {
 		this.location.back();
+	}
+
+	isPast(time: string): boolean {
+		return new moment(time).isBefore(new moment());
 	}
 }

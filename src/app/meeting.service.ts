@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Meeting } from './meeting';
-import { Http } from '@angular/http';
+import { Headers, Http } from '@angular/http';
 import { MEETINGS } from './mock-meetings';
 
 @Injectable()
@@ -17,7 +17,7 @@ export class MeetingService {
   	// getMeetings(): Promise<Meeting[]> {
   	// 	return this.http.get(this.meetingsUrl)
   	// 					.toPromise()
-  	// 					.then(response => response.json() as Meeting[])
+  	// 					.then(response => response.json().data as Meeting[])
   	// 					.catch(this.handleError);
   	// }
 
