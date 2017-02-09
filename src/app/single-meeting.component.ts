@@ -27,23 +27,12 @@ export class SingleMeetingComponent implements OnInit{
 	) {}
 
 	ngOnInit(): void {
-		// this.meeting = {
-		// 	"id"			: "2",
-		// 	"name"			: "Weekly Standup",
-		// 	"time"			: "",
-		// 	"description"	: "Example description",
-		// 	"location"		: "Break room",
-		// 	"minutes"		: "This is what we talked about",
-		// 	"agenda"		: "This is what we will talk about"
-		// };
 		this.route.params
     		.switchMap((params: Params) => this.meetingService.getMeeting(params['id']))
     		.subscribe(meeting => this.meeting = meeting);
 	}
 
 	ngAfterViewInit(): void {
-		var startMom = moment('2016-12-25');
-    	var endMom = moment('2016-12-28');
 		this.calendarOptions = {
 	        header: {
 	        	left: '',
@@ -52,7 +41,7 @@ export class SingleMeetingComponent implements OnInit{
 	        },
 	        titleFormat: 'MMM D YYYY',
 	        defaultView: 'agendaWeek',
-	        defaultDate: moment('2016-12-25'),
+	        defaultDate: moment(),
 	        columnFormat: 'ddd D/M',
 	        allDaySlot: false,
 	        navLinks: true, // can click day/week names to navigate views
@@ -72,7 +61,6 @@ export class SingleMeetingComponent implements OnInit{
 				$('#calendar').fullCalendar('unselect');
 			},
 			eventClick: function(calEvent, jsEvent, view) {
-				console.log(startMom);
 				view = $('#calendar').fullCalendar('getView');
 				console.log(view);
 				$('#calendar').fullCalendar('removeEvents', calEvent._id);
