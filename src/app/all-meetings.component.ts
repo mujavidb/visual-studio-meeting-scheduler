@@ -3,6 +3,8 @@ import { RouterModule }   from '@angular/router';
 import { Meeting } from './meeting';
 import { MeetingService } from './meeting.service';
 
+declare var moment: any;
+
 @Component({
 	host: {'class': 'large_card_area all_meetings'},
 	selector: 'all-meetings',

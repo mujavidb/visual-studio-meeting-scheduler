@@ -19,15 +19,28 @@
 		</div>
 	</div>
 
+	<div id="minutes" *ngIf="isPast(meeting.time)">
+	<h3>Minutes</h3>
+	<div class="agenda_area">
+		<div class="markdown_preview_area">
+			<div class="markdown_preview">
+				{{ meeting.minutes }}
+			</div>
+		</div>
+	</div>
+	</div>
+
 	<div id="time" *ngIf="meeting.time">
 		<h3>Time</h3>
-		<span class="label">{{ meeting.time }}</span>
+		<span class="label">{{ meeting.time | formatTime }}</span>
 	</div>
 
 	<div id="time" *ngIf="!meeting.time">
 		<h3>Availability</h3>
 		<span class="label">Highlight the areas where you would like the meeting time to fall within.</span>
-		<div class="full_calendar_area"></div>
+		
+		<angular2-fullcalendar [options]="calendarOptions">Loading calendar...</angular2-fullcalendar>
+		
 	</div>
 
 	<h3>Attendees</h3>
