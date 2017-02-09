@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms'
 import { HttpModule } from '@angular/http'
 import { RouterModule } from '@angular/router'
 
+import { CalendarComponent } from './calendar'
 import { AppComponent } from './app.component'
 import { AllMeetingsComponent } from './all-meetings.component'
 import { InvitationsComponent } from './invitations.component'
@@ -23,6 +24,7 @@ import { FormatTimePipe } from './format-time.pipe'
     InvitationsComponent,
     CreateMeetingComponent,
     SingleMeetingComponent,
+    CalendarComponent,
     TimeFilterPipe,
     FormatTimePipe
   ],
