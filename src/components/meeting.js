@@ -12,7 +12,7 @@ class Meeting extends Component {
 	}
 	render(){
 		return (
-				<Link to="/view-meeting" onClick={this.updateViewMeeting} className="meeting_card_container" role="button">
+				<Link to={"/view-meeting/" + this.props.details.id} onClick={this.updateViewMeeting} className="meeting_card_container" role="button">
 					<div className="meeting_card">
 						<h3 className="meeting_title">{ this.props.details.name }</h3>
 						<p className="meeting_datetime">{ this.props.details.time}</p>
