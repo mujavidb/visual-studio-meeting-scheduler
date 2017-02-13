@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { withRouter, Link } from 'react-router'
+import moment from 'moment'
 
 class ViewMeeting extends Component {
 	constructor(props){
@@ -74,7 +75,7 @@ class ViewMeeting extends Component {
 
 						<div id="time">
 							<h3>Time</h3>
-							<span className="label">{ this.meeting.time }</span>
+							<span className="label">{ this.meeting.time ? moment(this.meeting.time).format("dddd Do MMMM HH:mm") : "Time TBC" }</span>
 						</div>
 
 						<div id="time">
