@@ -25,11 +25,11 @@ const routes = {
 		},
 		{ 
 			path: 'view-meeting', 
-			component: ViewMeeting ,
+			// component: ViewMeeting ,
 			childRoutes: [
 				{
 					path: ':id',
-					
+					component: ViewMeeting
 				}
 			]
 		},
