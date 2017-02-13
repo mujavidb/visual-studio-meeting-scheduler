@@ -1,4 +1,7 @@
 const path = require("path")
+const Router = require('react-router').Router
+const Route = require('react-router').Route
+const Link = require('react-router').Link
 
 module.exports = {
     entry: './src/index.js',

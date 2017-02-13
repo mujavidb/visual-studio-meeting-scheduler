@@ -48,6 +48,10 @@ h3 {
 	color: $lighter-text;
 }
 
+[role="button"] {
+    cursor:pointer;
+}
+
 .main-container {
 	display: flex;
 	flex-flow: row nowrap;
@@ -166,11 +170,12 @@ header {
 }
 
 .content_filters a {
+    font-weight: 600;
 	padding: 3px 10px;
+    width: 90px;
 	box-sizing: border-box;
 	border-left: 2px solid #ccc;
 	color: $default-text;
-	font-weight: 400;
 }
 
 .content_filters a:first-child {
@@ -182,7 +187,6 @@ header {
 .all_meetings:not(.past) .upcoming_button,
 .all_meetings.past .past_button {
 	color: #1175BC;
-	font-weight: 600;
 }
 
 .meeting_card_container .meeting_card{
