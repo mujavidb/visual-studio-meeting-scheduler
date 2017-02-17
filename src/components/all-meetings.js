@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router'
 import Meeting from './meeting.js'
+import moment from 'moment'
 
 class AllMeetings extends Component {
 	constructor(props){
@@ -12,6 +13,15 @@ class AllMeetings extends Component {
 	}
 	toggleMeetings(goToPast){
 		this.setState({isPast: goToPast})
+	}
+	filterUpcoming(isUpcoming){
+		return function(item) {
+			if(!item.time) return isUpcoming;
+			const now = moment();
+			const time = moment(item.time);
+			return time.isAfter(now) === isUpcoming;
+		}
+		
 	}
 	render(){
 		const meetingsClasses = "large_card_area all_meetings" + (this.state.isPast ? " past" : "")
@@ -32,10 +42,10 @@ class AllMeetings extends Component {
 				</header>
 				<main>
 					<div className="upcoming">
-						{this.props.meetings.map(item => <Meeting key={item.id} details={item} ctrl={this.props.ctrl}/>)}
+						{this.props.meetings.filter(this.filterUpcoming(true)).map(item => <Meeting key={item.id} details={item} ctrl={this.props.ctrl}/>)}
 					</div>
 					<div className="past">
-						{this.props.meetings.map(item => <Meeting key={item.id} details={item} ctrl={this.props.ctrl}/>)}
+						{this.props.meetings.filter(this.filterUpcoming(false)).map(item => <Meeting key={item.id} details={item} ctrl={this.props.ctrl}/>)}
 					</div>
 				</main>
 			</div>
