@@ -1,8 +1,19 @@
 import React, { Component } from "react"
 import { Link } from 'react-router'
 import fullcalendar from 'fullcalendar'
+import { formatMarkdown } from '../helpers/format-markdown.js'
 
 export default class CreateMeeting extends Component {
+	constructor(props) {
+		super(props);
+		this.handleChange = this.handleChange.bind(this);
+		this.state = {value: 'Enter *markdown* here'}
+	}
+
+	handleChange(event) {
+		this.setState({value: event.target.value});
+	}
+
 	render(){
 		return (
 				<div className="large_card_area create_meeting">
@@ -19,13 +30,11 @@ export default class CreateMeeting extends Component {
 						<div className="agenda_area">
 							<div className="markdown_input">
 								<span className="label">Markdown Editor</span>
-								<textarea name="agenda" placeholder="Enter markdown here"></textarea>
+								<textarea name="agenda" onChange={this.handleChange} ref="textarea" defaultValue={this.state.value}></textarea>
 							</div>
 							<div className="markdown_preview_area">
 								<span className="label">Text Preview</span>
-								<div className="markdown_preview">
-									
-								</div>
+								<div className="markdown_preview" dangerouslySetInnerHTML={formatMarkdown(this.state.value)}></div>
 							</div>
 						</div>
 
