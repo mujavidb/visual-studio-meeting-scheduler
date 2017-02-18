@@ -1,6 +1,7 @@
 import React, { Component } from "react"
 import { Link } from 'react-router'
 import fullcalendar from 'fullcalendar'
+import Calendar from './calendar.js'
 import { formatMarkdown } from '../helpers/format-markdown.js'
 
 export default class CreateMeeting extends Component {
@@ -40,7 +41,9 @@ export default class CreateMeeting extends Component {
 
 						<h3>Availability</h3>
 						<span className="label">Highlight the areas where you would like the meeting time to fall within.</span>
-						<div className="full_calendar_area"></div>
+						<div className="full_calendar_area">
+							<Calendar />
+						</div>
 
 						<h3>Attendees</h3>
 						<div className="attendee_area">
