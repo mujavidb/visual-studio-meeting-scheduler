@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import { Link } from 'react-router'
+import fullcalendar from 'fullcalendar'
 
 export default class CreateMeeting extends Component {
 	render(){
