@@ -83,7 +83,8 @@ h3 {
 	flex-flow: column nowrap;
 }
 
-.large_card_area.create_meeting {
+.large_card_area.create_meeting,
+.large_card_area.single_meeting {
 	max-width: 700px;
 }
 
