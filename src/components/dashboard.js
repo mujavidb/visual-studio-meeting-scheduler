@@ -13,7 +13,27 @@ class Dashboard extends Component {
 				"description"	: "Example description", 
 				"location"		: "MPEB 6.21, UCL", 
 				"minutes"		: "This is what we talked about", 
-				"agenda"		: "This is what we will talk about"
+				"agenda"		: "This is what we will talk about",
+				"attendees"		: [
+					{
+						"id"		: "394",
+						"availability"	: "blah",
+						"status"		: true,
+						"initials"		: "KC"
+					},
+					{
+						"id"		: "213",
+						"availability"	: "blah",
+						"status"		: true,
+						"initials"		: "MB"
+					},
+					{
+						"id"		: "3489",
+						"availability"	: "blah",
+						"status"		: true,
+						"initials"		: "AH"
+					}
+				]
 			},
 			{
 				"id"			: "2",
@@ -22,7 +42,21 @@ class Dashboard extends Component {
 				"description"	: "Example description",
 				"location"		: "Break room",
 				"minutes"		: "This is what we talked about",
-				"agenda"		: "This is what we will talk about"
+				"agenda"		: "This is what we will talk about",
+				"attendees"		: [
+					{
+						"id"		: "3489",
+						"availability"	: "blah",
+						"status"		: true,
+						"initials"		: "AH"
+					},
+					{
+						"id"		: "394",
+						"availability"	: "blah",
+						"status"		: true,
+						"initials"		: "KC"
+					}
+				]
 			},
 			{
 				"id"			: "3", 
@@ -31,26 +65,78 @@ class Dashboard extends Component {
 				"description"	: "We're going to review some sales", 
 				"location"		: "Board Room", 
 				"minutes"		: "This is what we talked about", 
-				"agenda"		: "This is what we will talk about"
+				"agenda"		: "This is what we will talk about",
+				"attendees"		: [
+					{
+						"id"		: "213",
+						"availability"	: "blah",
+						"status"		: true,
+						"initials"		: "MB"
+					},
+					{
+						"id"		: "3489",
+						"availability"	: "blah",
+						"status"		: true,
+						"initials"		: "AH"
+					},
+					{
+						"id"		: "394",
+						"availability"	: "blah",
+						"status"		: true,
+						"initials"		: "KC"
+					}
+				]
 			},
-		]
+		];
 		this.invitations = [
 			{
-				"id"			: "6", 
-				"name"			: "Fun Sales Review", 
-				"time"			: "2017-02-06T15:30:00+00:00", 
-				"description"	: "We're going to review some sales", 
-				"location"		: "Board Room", 
+				"id"			: "1", 
+				"name"			: "Plan Client Presentation", 
+				"time"			: "2017-02-15T14:30:00+00:00", 
+				"description"	: "Example description", 
+				"location"		: "MPEB 6.21, UCL", 
 				"minutes"		: "This is what we talked about", 
-				"agenda"		: "This is what we will talk about"
-			},
-		]
+				"agenda"		: "This is what we will talk about",
+				"attendees"		: [
+					{
+						"id"			: "213",
+						"availability"	: "blah",
+						"status"		: true,
+						"initials"		: "MB"
+					},
+					{
+						"id"			: "3489",
+						"availability"	: "blah",
+						"status"		: true,
+						"initials"		: "AH"
+					},
+					{
+						"id"			: "394",
+						"availability"	: "blah",
+						"status"		: true,
+						"initials"		: "KC"
+					},
+					{
+						"id"			: "894",
+						"availability"	: "blah",
+						"status"		: true,
+						"initials"		: "YF"
+					},
+					{
+						"id"			: "9694",
+						"availability"	: "blah",
+						"status"		: true,
+						"initials"		: "EH"
+					}
+				]
+			}
+		];
 	}
 	render(){
 		return (
 			<div className="main-container">
-				<AllMeetings meetings={this.meetings} ctrl={this.props.route}/>
-				<Invitations invitations={this.invitations} ctrl={this.props.route}/>
+				<AllMeetings meetings={this.meetings} />
+				<Invitations invitations={this.invitations} />
 			</div>
 			)
 	}

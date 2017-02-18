@@ -15,18 +15,14 @@ class AllMeetings extends Component {
 		this.setState({isPast: goToPast})
 	}
 	filterUpcoming(isUpcoming){
-		return function(item) {
+		return item => {
 			if(!item.time) return isUpcoming;
-			const now = moment();
-			const time = moment(item.time);
-			return time.isAfter(now) === isUpcoming;
+			return moment(item.time).isAfter(moment()) === isUpcoming;
 		}
-		
 	}
 	render(){
-		const meetingsClasses = "large_card_area all_meetings" + (this.state.isPast ? " past" : "")
 		return (
-			<div className={meetingsClasses}>
+			<div className={"large_card_area all_meetings" + (this.state.isPast ? " past" : "")}>
 				<header>
 					<div className="topbar">
 						<h2 className="container_title">
@@ -42,10 +38,21 @@ class AllMeetings extends Component {
 				</header>
 				<main>
 					<div className="upcoming">
-						{this.props.meetings.filter(this.filterUpcoming(true)).map(item => <Meeting key={item.id} details={item} ctrl={this.props.ctrl}/>)}
+						{
+							this
+							.props
+							.meetings
+							.filter(this.filterUpcoming(true))
+							.map(item => <Meeting key={item.id} details={item}/>)
+						}
 					</div>
 					<div className="past">
-						{this.props.meetings.filter(this.filterUpcoming(false)).map(item => <Meeting key={item.id} details={item} ctrl={this.props.ctrl}/>)}
+						{
+							this
+							.props
+							.meetings
+							.filter(this.filterUpcoming(false))
+							.map(item => <Meeting key={item.id} details={item}/>)}
 					</div>
 				</main>
 			</div>

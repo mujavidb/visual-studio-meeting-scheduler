@@ -1,7 +1,7 @@
 import moment from 'moment'
 
-function formatTime(time) {
+const formatToLongTime = time => {
 	return time ? moment(time).format("dddd Do MMMM HH:mm") : "Time TBC";
 }
 
-export { formatTime };
+export { formatToLongTime }
