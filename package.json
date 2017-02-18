@@ -21,5 +21,8 @@
   "babel": {
     "minified": true,
     "shouldPrintComment": false
+  },
+  "dependencies": {
+    "documentdb": "^1.10.2"
   }
 }
