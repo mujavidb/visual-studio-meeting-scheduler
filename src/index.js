@@ -42,3 +42,31 @@ const routes = (
 
 ReactDOM.render(routes, document.getElementById('root'))
 // ReactDOM.render(<Router history={browserHistory} routes={routes} />, document.getElementById('root'))
+
+
+
+// const routes = {
+// 	path: '/',
+// 	component: Container,
+// 	indexRoute: { component: Dashboard },
+// 	childRoutes: [
+// 		{ 
+// 			path: 'dashboard', 
+// 			component: Dashboard 
+// 		},
+// 		{ 
+// 			path: 'create-meeting', 
+// 			component: CreateMeeting 
+// 		},
+// 		{ 
+// 			path: 'view-meeting', 
+// 			// component: ViewMeeting ,
+// 			childRoutes: [
+// 				{
+// 					path: ':id',
+// 					component: ViewMeeting
+// 				}
+// 			]
+// 		}
+// 	]
+// }
