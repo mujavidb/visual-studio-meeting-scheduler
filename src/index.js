@@ -10,18 +10,25 @@ class MainController extends Component {
 		super()
 		this.viewMeeting = this.viewMeeting.bind(this)
 		this.createMeeting = this.createMeeting.bind(this)
+		this.dashboard = this.dashboard.bind(this)
+		this.ctrl = {
+			dashboard: this.dashboard,
+			viewMeeting: this.viewMeeting,
+			createMeeting: this.createMeeting
+		}
 		this.state = {
-			current: <Dashboard
-							viewMeeting={this.viewMeeting}
-							createMeeting={this.createMeeting} />
+			current: <Dashboard ctrl={this.ctrl} />
 		}
 	}
 	createMeeting(){
-		this.setState({current: <CreateMeeting />})
+		this.setState({current: <CreateMeeting ctrl={this.ctrl} />})
 	}
 	viewMeeting(id){
 		console.log("testing");
-		this.setState({current: <ViewMeeting id={id}/>})
+		this.setState({current: <ViewMeeting id={id} ctrl={this.ctrl} />})
+	}
+	dashboard(){
+		this.setState({current: <Dashboard ctrl={this.ctrl} />})
 	}
 	render(){
 		return this.state.current

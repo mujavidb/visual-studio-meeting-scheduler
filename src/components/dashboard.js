@@ -136,10 +136,9 @@ class Dashboard extends Component {
 		return (
 			<div className="main-container">
 				<AllMeetings meetings={this.meetings}
-							viewMeeting={this.props.viewMeeting}
-							createMeeting={this.props.createMeeting} />
+							ctrl={this.props.ctrl} />
 				<Invitations invitations={this.invitations}
-							viewMeeting={this.props.viewMeeting} />
+							ctrl={this.props.ctrl} />
 			</div>
 			)
 	}

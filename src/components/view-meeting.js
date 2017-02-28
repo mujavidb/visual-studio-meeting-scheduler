@@ -158,7 +158,7 @@ class ViewMeeting extends Component {
 								</div>
 							</div>
 						</div>
-						<a className="button primary maxed">Done</a>
+						<a onClick={()=>this.props.ctrl.dashboard()} className="button primary maxed">Done</a>
 					</main>
 				</div>
 			)

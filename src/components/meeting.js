@@ -8,7 +8,7 @@ class Meeting extends Component {
 	}
 	render(){
 		return (
-			<a onClick={()=>this.props.viewMeeting(this.props.details.id)} className="meeting_card_container" role="button">
+			<a onClick={()=>this.props.ctrl.viewMeeting(this.props.details.id)} className="meeting_card_container" role="button">
 				<div className="meeting_card">
 					<h3 className="meeting_title">{ this.props.details.name }</h3>
 					<p className="meeting_datetime">{ formatToLongTime(this.props.details.time) }</p>

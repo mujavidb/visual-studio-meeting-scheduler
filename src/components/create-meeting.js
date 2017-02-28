@@ -68,7 +68,7 @@ export default class CreateMeeting extends Component {
 								</div>
 							</div>
 						</div>
-						<a className="button primary maxed">Create Meeting</a>
+						<a onClick={()=>this.props.ctrl.dashboard()} className="button primary maxed">Create Meeting</a>
 					</main>
 				</div>
 			)
