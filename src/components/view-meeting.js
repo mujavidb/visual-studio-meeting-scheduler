@@ -1,20 +1,20 @@
 import React, { Component } from 'react'
-import { withRouter, Link } from 'react-router'
 import moment from 'moment'
 
 class ViewMeeting extends Component {
 	constructor(props){
 		super(props)
-		// In the final implementation, you would do a GET request 
+		console.log(props)
+		// In the final implementation, you would do a GET request
 		// 		to get the element with the ID === props.params.id
 		this.meetings = [
 			{
-				"id"			: "1", 
-				"name"			: "Plan Client Presentation", 
-				"time"			: "2017-02-15T14:30:00+00:00", 
-				"description"	: "Example description", 
-				"location"		: "MPEB 6.21, UCL", 
-				"minutes"		: "This is what we talked about", 
+				"id"			: "1",
+				"name"			: "Plan Client Presentation",
+				"time"			: "2017-02-15T14:30:00+00:00",
+				"description"	: "Example description",
+				"location"		: "MPEB 6.21, UCL",
+				"minutes"		: "This is what we talked about",
 				"agenda"		: "This is what we will talk about",
 				"attendees"		: [
 					{
@@ -67,12 +67,12 @@ class ViewMeeting extends Component {
 				]
 			},
 			{
-				"id"			: "3", 
-				"name"			: "Sales Review", 
-				"time"			: "2017-02-06T15:30:00+00:00", 
-				"description"	: "We're going to review some sales", 
-				"location"		: "Board Room", 
-				"minutes"		: "This is what we talked about", 
+				"id"			: "3",
+				"name"			: "Sales Review",
+				"time"			: "2017-02-06T15:30:00+00:00",
+				"description"	: "We're going to review some sales",
+				"location"		: "Board Room",
+				"minutes"		: "This is what we talked about",
 				"agenda"		: "This is what we will talk about",
 				"attendees"		: [
 					{
@@ -96,7 +96,7 @@ class ViewMeeting extends Component {
 				]
 			},
 		]
-		this.meeting = this.meetings.find((item) =>	item.id === props.params.id)
+		this.meeting = this.meetings.find((item) =>	item.id === this.props.id)
 	}
 	render(){
 		return (
@@ -109,7 +109,7 @@ class ViewMeeting extends Component {
 					<main>
 						<h3>Description</h3>
 						<span className="label">{ this.meeting.description }</span>
-						
+
 						<h3>Agenda</h3>
 						<div className="agenda_area">
 							<div className="markdown_preview_area">
@@ -149,7 +149,7 @@ class ViewMeeting extends Component {
 										.meeting
 										.attendees
 										.filter(attendee => attendee.status == true)
-										.map(item => 
+										.map(item =>
 											<div className="attendee_block" key={item.id}>
 												<span className="attendee_initials">{item.initials}</span>
 											</div>
@@ -158,11 +158,11 @@ class ViewMeeting extends Component {
 								</div>
 							</div>
 						</div>
-						<Link to="/" className="button primary maxed">Done</Link>
+						<a className="button primary maxed">Done</a>
 					</main>
 				</div>
 			)
 	}
 }
 
-export default withRouter(ViewMeeting)
+export default ViewMeeting

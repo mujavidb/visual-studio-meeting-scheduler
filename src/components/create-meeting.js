@@ -1,5 +1,4 @@
 import React, { Component } from "react"
-import { Link } from 'react-router'
 import fullcalendar from 'fullcalendar'
 import Calendar from './calendar.js'
 import { formatMarkdown } from '../helpers/format-markdown.js'
@@ -69,7 +68,7 @@ export default class CreateMeeting extends Component {
 								</div>
 							</div>
 						</div>
-						<Link to="/" className="button primary maxed">Create Meeting</Link>
+						<a className="button primary maxed">Create Meeting</a>
 					</main>
 				</div>
 			)

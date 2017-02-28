@@ -7,12 +7,12 @@ class Dashboard extends Component {
 		super(props)
 		this.meetings = [
 			{
-				"id"			: "1", 
-				"name"			: "Plan Client Presentation", 
-				"time"			: "2017-02-15T14:30:00+00:00", 
-				"description"	: "Example description", 
-				"location"		: "MPEB 6.21, UCL", 
-				"minutes"		: "This is what we talked about", 
+				"id"			: "1",
+				"name"			: "Plan Client Presentation",
+				"time"			: "2017-02-15T14:30:00+00:00",
+				"description"	: "Example description",
+				"location"		: "MPEB 6.21, UCL",
+				"minutes"		: "This is what we talked about",
 				"agenda"		: "This is what we will talk about",
 				"attendees"		: [
 					{
@@ -59,12 +59,12 @@ class Dashboard extends Component {
 				]
 			},
 			{
-				"id"			: "3", 
-				"name"			: "Sales Review", 
-				"time"			: "2017-02-06T15:30:00+00:00", 
-				"description"	: "We're going to review some sales", 
-				"location"		: "Board Room", 
-				"minutes"		: "This is what we talked about", 
+				"id"			: "3",
+				"name"			: "Sales Review",
+				"time"			: "2017-02-06T15:30:00+00:00",
+				"description"	: "We're going to review some sales",
+				"location"		: "Board Room",
+				"minutes"		: "This is what we talked about",
 				"agenda"		: "This is what we will talk about",
 				"attendees"		: [
 					{
@@ -90,12 +90,12 @@ class Dashboard extends Component {
 		];
 		this.invitations = [
 			{
-				"id"			: "1", 
-				"name"			: "Plan Client Presentation", 
-				"time"			: "2017-02-15T14:30:00+00:00", 
-				"description"	: "Example description", 
-				"location"		: "MPEB 6.21, UCL", 
-				"minutes"		: "This is what we talked about", 
+				"id"			: "1",
+				"name"			: "Plan Client Presentation",
+				"time"			: "2017-02-15T14:30:00+00:00",
+				"description"	: "Example description",
+				"location"		: "MPEB 6.21, UCL",
+				"minutes"		: "This is what we talked about",
 				"agenda"		: "This is what we will talk about",
 				"attendees"		: [
 					{
@@ -135,8 +135,11 @@ class Dashboard extends Component {
 	render(){
 		return (
 			<div className="main-container">
-				<AllMeetings meetings={this.meetings} />
-				<Invitations invitations={this.invitations} />
+				<AllMeetings meetings={this.meetings}
+							viewMeeting={this.props.viewMeeting}
+							createMeeting={this.props.createMeeting} />
+				<Invitations invitations={this.invitations}
+							viewMeeting={this.props.viewMeeting} />
 			</div>
 			)
 	}

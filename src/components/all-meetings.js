@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router'
 import Meeting from './meeting.js'
 import moment from 'moment'
 
@@ -29,7 +28,7 @@ class AllMeetings extends Component {
 							All Meetings&nbsp;
 							<span className="badge">({this.props.meetings.length})</span>
 						</h2>
-						<Link to="/create-meeting" className="button primary">Create Meeting</Link>
+						<a onClick={this.props.createMeeting} className="button primary">Create Meeting</a>
 					</div>
 					<div className="content_filters">
 						<a className="upcoming_button" onClick={()=>this.toggleMeetings(false)} role="button">Upcoming</a>
@@ -43,7 +42,7 @@ class AllMeetings extends Component {
 							.props
 							.meetings
 							.filter(this.filterUpcoming(true))
-							.map(item => <Meeting key={item.id} details={item}/>)
+							.map(item => <Meeting key={item.id} details={item} viewMeeting={this.props.viewMeeting}/>)
 						}
 					</div>
 					<div className="past">
@@ -52,7 +51,7 @@ class AllMeetings extends Component {
 							.props
 							.meetings
 							.filter(this.filterUpcoming(false))
-							.map(item => <Meeting key={item.id} details={item}/>)}
+							.map(item => <Meeting key={item.id} details={item} viewMeeting={this.props.viewMeeting}/>)}
 					</div>
 				</main>
 			</div>
