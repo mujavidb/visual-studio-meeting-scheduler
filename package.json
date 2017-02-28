@@ -36,6 +36,7 @@
     "shouldPrintComment": false
   },
   "devDependencies": {
-    "redux-devtools": "^3.3.2"
+    "redux-devtools": "^3.3.2",
+    "webpack": "^2.2.1"
   }
 }
