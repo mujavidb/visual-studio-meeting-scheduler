@@ -1,7 +1,3 @@
-//  Not sure what folder this file should be in!
-
-
-
 import moment from 'moment'
 import $ from 'jquery'
 
@@ -17,7 +13,7 @@ const calendarConfig = {
     firstDay: 1,
     columnFormat: 'ddd D/M',
     allDaySlot: false,
-    navLinks: true, // can click day/week names to navigate views
+    navLinks: false, // can click day/week names to navigate views
 	selectable: true,
 	selectHelper: true,
 	select: function(start, end) {
@@ -41,7 +37,7 @@ const calendarConfig = {
 	editable: true,
 	eventOverlap: false,
 	eventLimit: true, // allow "more" link when too many events
-    
-};
+
+}
 
 export { calendarConfig }
