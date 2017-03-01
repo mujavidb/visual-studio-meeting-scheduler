@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<head>
+    <title>Menu sample</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/main.css" />
+    <script src="sdk/scripts/VSS.SDK.js"></script>
+</head>
+<body>
+    <script type="text/javascript">
+        // Initialize the VSS sdk
+        VSS.init({
+            usePlatformScripts: true
+        });
+    </script>
+    <div class="hub-view explorer">
+        <div id="root"></div>
+        <script src="bundle.js"></script>
+    </div>
+</body>
+</html>

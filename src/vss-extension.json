@@ -1,0 +1,66 @@
+{
+    "manifestVersion": 1,
+    "id": "meeting-extension",
+    "version": "0.1.2",
+    "name": "Meetings",
+    "description": "An extension to handle meeting scheduling and management.",
+    "publisher": "alasdairhall",
+    "targets": [
+        {
+            "id": "Microsoft.VisualStudio.Services"
+            }
+        ],
+    "icons": {
+        "default": "public/images/meeting.png"
+     },
+    "contributions": [
+        {
+            "id": "project-hub-group",
+            "type": "ms.vss-web.hub-group",
+            "description": "Meetings hub group",
+            "targets": [
+                "ms.vss-web.project-hub-groups-collection"
+            ],
+            "properties": {
+                "name": "Meetings",
+                "order": 100
+            }
+        },
+        {
+            "id": "AlasdairHall.Meetings",
+            "type": "ms.vss-web.hub",
+            "description": "Meetings hub.",
+            "targets": [
+                ".project-hub-group"
+                ],
+            "properties": {
+                "name": "Meetings",
+                "order": 99,
+                "uri": "index.html"
+            }
+        }
+    ],
+    "scopes": [
+        "vso.work"
+    ],
+    "files": [
+        {
+            "path": "index.html", "addressable": true
+        },
+        {
+            "path": "index.js", "addressable": true
+        },
+        {
+            "path": "main.css", "addressable": true
+        },
+        {
+            "path": "components", "addressable": true
+        },
+        {
+            "path": "public", "addressable": true
+        },
+        {
+            "path": "sdk/scripts", "addressable": true
+        }
+    ]
+}

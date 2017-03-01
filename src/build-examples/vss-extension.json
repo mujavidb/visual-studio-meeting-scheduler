@@ -1,0 +1,66 @@
+    {
+        "manifestVersion": 1,
+        "id": "sample-extension",
+        "version": "0.1.16",
+        "name": "My first sample extension",
+        "description": "A sample Visual Studio Services extension.",
+        "publisher": "alasdairhall",
+        "targets": [
+            {
+                "id": "Microsoft.VisualStudio.Services"
+                }
+            ],
+        "icons": {
+            "default": "images/logo.png"
+         },
+        "contributions": [
+            {
+                "id": "project-hub-group",
+                "type": "ms.vss-web.hub-group",
+                "description": "Adds a hub group at the project/team-level",
+                "targets": [
+                    "ms.vss-web.project-hub-groups-collection"
+                ],
+                "properties": {
+                    "name": "Al's tab",
+                    "order": 100
+                }
+            },
+            {
+                "id": "AlasdairHall.HelloWorld",
+                "type": "ms.vss-web.hub",
+                "description": "Adds a 'Hello' hub to Al's tab.",
+                "targets": [
+                    ".project-hub-group"
+                    ],
+                "properties": {
+                    "name": "Hello from Al",
+                    "order": 99,
+                    "uri": "hello-world.html"
+                }
+            }
+        ],
+        "scopes": [
+            "vso.work"
+        ],
+        "files": [
+            {
+                "path": "hello-world.html", "addressable": true
+            },
+            {
+                "path": "bundle.js", "addressable": true
+            },
+            {
+                "path": "scripts", "addressable": true
+            },
+            {
+                "path": "sdk/scripts", "addressable": true
+            },
+            {
+                "path": "css", "addressable": true
+            },
+            {
+                "path": "images/logo.png", "addressable": true
+            }
+        ]
+    }
