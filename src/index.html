@@ -1,19 +1,16 @@
 <!doctype html>
 <html>
-	<head>
-	  	<meta charset="utf-8">
-	  	<title>Meeting App</title>
-	  	<base href="/">
-
-		<link rel='stylesheet' href='fullcalendar.css' />
-	  	<script src="jquery.min.js"></script>
-	  	<script src="moment.js"></script>
-	  	<script src="fullcalendar.min.js"></script>
-	  	<script src="marked.min.js"></script>
-
-	  	<meta name="viewport" content="width=device-width, initial-scale=1">
-	</head>
-	<body>
-	  	<app-root>Loading...</app-root>
-	</body>
+<head>
+  	<meta charset="utf-8">
+  	<meta name="viewport" content="width=device-width, initial-scale=1">
+  	<title>Meeting App</title>
+	<link rel='stylesheet' href='public/css/fullcalendar.css' />
+  	<link rel="stylesheet" type="text/css" href="public/css/main.css">
+  	<script src="/public/js/VSS.SDK.min.js"></script>
+</head>
+<body>
+  	<div id="root"></div>
+	<script type="text/javascript">VSS.init({usePlatformScripts: true});</script>
+  	<script src="/index.js"></script>
+</body>
 </html>
