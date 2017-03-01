@@ -18,23 +18,16 @@ $primary-button-hover:#0875AC;
 
 $border: #CCCCCC;
 
-html,body {
-	background-color: $background;
-	margin: 0;
-}
-
-html {
+#root {
 	font-family: Segoe UI, sans-serif;
 	padding: 0;
+	background-color: $background;
 	box-sizing: border-box;
-}
-
-body {
-	padding:20px;
-	box-sizing: border-box;
-	width: 100vw;
-	height: 100vh;
 	color: $default-text;
+	padding:20px;
+	margin: 0;
+	width: 100%;
+    height: 100%;
 }
 
 a, a:hover {
