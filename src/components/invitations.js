@@ -13,7 +13,7 @@ const Invitations = props => {
 				</div>
 			</header>
 			<main>
-				{ props.invitations.map( item => <Invitation key={item.id} details={item} />) }
+				{ props.invitations.map( item => <Invitation key={item.id} details={item} ctrl={props.ctrl}/>) }
 			</main>
 		</div>
 		)

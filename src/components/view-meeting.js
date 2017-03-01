@@ -4,7 +4,6 @@ import moment from 'moment'
 class ViewMeeting extends Component {
 	constructor(props){
 		super(props)
-		console.log(props)
 		// In the final implementation, you would do a GET request
 		// 		to get the element with the ID === props.params.id
 		this.meetings = [
@@ -97,6 +96,7 @@ class ViewMeeting extends Component {
 			},
 		]
 		this.meeting = this.meetings.find((item) =>	item.id === this.props.id)
+		console.log(this.meeting)
 	}
 	render(){
 		return (
@@ -158,7 +158,7 @@ class ViewMeeting extends Component {
 								</div>
 							</div>
 						</div>
-						<a onClick={()=>this.props.ctrl.dashboard()} className="button primary maxed">Done</a>
+						<a onClick={()=>this.props.ctrl.dashboard()} className="button primary maxed" role="button">Done</a>
 					</main>
 				</div>
 			)

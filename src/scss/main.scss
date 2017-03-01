@@ -18,6 +18,14 @@ $primary-button-hover:#0875AC;
 
 $border: #CCCCCC;
 
+html, body {
+	display: block;
+	width:100vw;
+	height:100vh;
+	margin:0;
+	padding:0;
+}
+
 #root {
 	font-family: Segoe UI, sans-serif;
 	padding: 0;
@@ -28,6 +36,7 @@ $border: #CCCCCC;
 	margin: 0;
 	width: 100%;
     height: 100%;
+	overflow: scroll;
 }
 
 a, a:hover {
@@ -63,7 +72,6 @@ h3 {
 	flex-flow: column nowrap;
 	width: 100%;
 	max-width: 500px;
-	max-height: 80vh;
 }
 
 .large_card_area:last-child {
@@ -71,12 +79,14 @@ h3 {
 }
 
 .large_card_area main {
-	overflow: scroll;
 	display: flex;
 	flex-flow: column nowrap;
 }
 
-.large_card_area.create_meeting,
+.large_card_area.create_meeting {
+	max-width: 800px;
+}
+
 .large_card_area.single_meeting {
 	max-width: 700px;
 }
@@ -201,11 +211,11 @@ header {
 	background-color: #9c9c9c;
 }
 
-.upcoming .meeting_card {
+.meeting_card {
 	background-color: $upcoming-event;
 }
 
-.upcoming .meeting_card:hover {
+.meeting_card:hover {
 	background-color: $upcoming-event-hover;
 }
 
@@ -243,6 +253,10 @@ header {
 .meeting_location {
 	font-size: 1em;
 	margin:  0 0 15px;
+}
+
+.full_calendar_area {
+	margin-bottom: 15px;
 }
 
 .attendees {
@@ -329,7 +343,7 @@ header {
 
 .markdown_input,
 .markdown_preview_area {
-	width: 47.5%;
+	width: calc(50% - 5px);
 	display: flex;
 	flex-flow: column nowrap;
 	align-items: stretch;
@@ -337,6 +351,7 @@ header {
 
 .markdown_input textarea {
 	min-height: 120px;
+	font-size: 15px;
 }
 
 .markdown_preview {
@@ -359,6 +374,34 @@ header {
 	color: white;
 }
 
+// MARKDOWN SYNTAX
+
+.markdown_preview {
+	h1 {
+		margin: 0 0 15px 0;
+		font-size: 1.6em;
+	}
+	h2 {
+		margin: 0 0 12px 0;
+		font-size: 1.4em;
+	}
+	h3 {
+		margin: 0 0 10px 0;
+		font-size: 1.2em;
+	}
+	h4 {
+		margin: 0 0 10px 0;
+		font-size: 1.1em;
+	}
+	ul{
+		margin: 0 0 10px 0;
+		padding: 0 0 0 30px;
+	}
+	p {
+		margin: 0 0 10px 0;
+	}
+}
+
 //SINGLE MEETING
 
 .single_meeting .meeting_title {
@@ -372,3 +415,6 @@ header {
 .single_meeting .attendee_added {
 	width: 100%;
 }
+
+
+@import "full-calendar-overrides";

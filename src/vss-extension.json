@@ -12,7 +12,7 @@
         ],
     "icons": {
         "default": "public/images/meeting.png"
-     },
+    },
     "contributions": [
         {
             "id": "project-hub-group",

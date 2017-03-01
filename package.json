@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "npm run dev_server & npm run watch_sass",
     "dev_server": "webpack-dev-server --hot",
-    "watch_sass": "node-sass --watch --output-style compressed --include-path scss src/scss/main.scss src/public/css/main.css"
+    "watch_sass": "node-sass --watch --output-style compressed --include-path scss src/scss/main.scss src/public/css/main.css",
+    "update_version": "awk -F'[\"]' -v OFS='\"'  '/\"version\":/{split($4,a,\".\");$4=a[1]\".\"a[2]\".\"a[3]+1};1' src/vss-extension.json > src/vss-extension.json~; mv src/vss-extension.json~ src/vss-extension.json",
+    "copy_files": "cp -R src/public src/vss-extension.json build"
   },
   "license": "MIT",
   "author": "Mujavid Bukhari, Alasdair Hall and Kelvin Chan",

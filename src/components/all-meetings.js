@@ -28,7 +28,7 @@ class AllMeetings extends Component {
 							All Meetings&nbsp;
 							<span className="badge">({this.props.meetings.length})</span>
 						</h2>
-						<a onClick={this.props.ctrl.createMeeting} className="button primary">Create Meeting</a>
+						<a onClick={this.props.ctrl.createMeeting} className="button primary" role="button">Create Meeting</a>
 					</div>
 					<div className="content_filters">
 						<a className="upcoming_button" onClick={()=>this.toggleMeetings(false)} role="button">Upcoming</a>
@@ -36,23 +36,13 @@ class AllMeetings extends Component {
 					</div>
 				</header>
 				<main>
-					<div className="upcoming">
 						{
 							this
 							.props
 							.meetings
-							.filter(this.filterUpcoming(true))
+							.filter(this.filterUpcoming(this.state.isPast))
 							.map(item => <Meeting key={item.id} details={item} ctrl={this.props.ctrl}/>)
 						}
-					</div>
-					<div className="past">
-						{
-							this
-							.props
-							.meetings
-							.filter(this.filterUpcoming(false))
-							.map(item => <Meeting key={item.id} details={item} ctrl={this.props.ctrl}/>)}
-					</div>
 				</main>
 			</div>
 			)
