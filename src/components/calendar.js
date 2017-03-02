@@ -2,15 +2,14 @@ import React, { Component } from "react"
 import fullcalendar from 'fullcalendar'
 import moment from 'moment'
 import $ from 'jquery'
-import { calendarConfig } from "../helpers/calendar-config.js"
 
 export default class Calendar extends Component {
 	constructor(props){
 		super(props);
+		this.currentID = 0;
 	}
 	componentDidMount() {
 		const { calendar } = this.refs;
-
 		var that = this;
 		$(calendar).fullCalendar({
 		    header: {
@@ -33,8 +32,10 @@ export default class Calendar extends Component {
 				var eventData = {
 					title: title,
 					start: start,
-					end: end
+					end: end,
+					id: that.currentID
 				};
+				that.currentID++;
 				that.props.onAddTimeSlot(eventData);
 				$(calendar).fullCalendar('renderEvent', eventData, true); // stick? = true
 				$(calendar).fullCalendar('unselect');
@@ -42,8 +43,9 @@ export default class Calendar extends Component {
 			},
 			eventClick: function(calEvent, jsEvent, view) {
 				view = $(calendar).fullCalendar('getView');
-				console.log(view);
+				console.log(calEvent);
 				$(calendar).fullCalendar('removeEvents', calEvent._id);
+				that.props.onRemoveTimeSlot(calEvent);
 			},
 			editable: true,
 			eventOverlap: true,
