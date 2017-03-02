@@ -7,8 +7,7 @@ export default class CreateMeeting extends Component {
 	constructor(props) {
 		super(props);
 		this.handleChange = this.handleChange.bind(this);
-		this.onAddTimeSlot = this.onAddTimeSlot.bind(this);
-		this.onRemoveTimeSlot = this.onRemoveTimeSlot.bind(this);
+		this.onChangeTimeSlots = this.onChangeTimeSlots.bind(this);
 		this.state = {
 			value: 'Enter *markdown* here',
 			timeSlots: []
@@ -19,21 +18,10 @@ export default class CreateMeeting extends Component {
 		this.setState({value: event.target.value});
 	}
 
-	onAddTimeSlot(slot){
-		let newTimeSlots = this.state.timeSlots;
-		newTimeSlots.push(slot);
+	// NEED TO GET ARRAY OF EVENTS DIRECT FROM FULL CALENDAR
+	onChangeTimeSlots(newTimeSlots){
 		this.setState({timeSlots:newTimeSlots});
-		console.log("ADD:", this.state.timeSlots);
-	}
-
-	onRemoveTimeSlot(slot){
-		let newTimeSlots = this.state.timeSlots.slice();
-		let id = slot.id;
-		newTimeSlots.filter((element) => {
-			return element.id != slot.id;	
-		});
-		this.setState({timeSlots:newTimeSlots});
-		console.log("REMOVE:", this.state.timeSlots);
+		console.log(this.state.timeSlots);
 	}
 
 	render(){
@@ -63,7 +51,7 @@ export default class CreateMeeting extends Component {
 						<h3>Availability</h3>
 						<span className="label">Highlight the areas where you would like the meeting time to fall within.</span>
 						<div className="full_calendar_area">
-							<Calendar onAddTimeSlot={this.onAddTimeSlot} onRemoveTimeSlot={this.onRemoveTimeSlot} />
+							<Calendar onChangeTimeSlots={this.onChangeTimeSlots} />
 						</div>
 
 						<h3>Attendees</h3>

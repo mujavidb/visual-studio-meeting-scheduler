@@ -32,20 +32,19 @@ export default class Calendar extends Component {
 				var eventData = {
 					title: title,
 					start: start,
-					end: end,
-					id: that.currentID
+					end: end
 				};
-				that.currentID++;
-				that.props.onAddTimeSlot(eventData);
 				$(calendar).fullCalendar('renderEvent', eventData, true); // stick? = true
+				var events = $(calendar).fullCalendar('clientEvents');
+				that.props.onChangeTimeSlots(events);
 				$(calendar).fullCalendar('unselect');
 
 			},
 			eventClick: function(calEvent, jsEvent, view) {
 				view = $(calendar).fullCalendar('getView');
-				console.log(calEvent);
 				$(calendar).fullCalendar('removeEvents', calEvent._id);
-				that.props.onRemoveTimeSlot(calEvent);
+				var events = $(calendar).fullCalendar('clientEvents');
+				that.props.onChangeTimeSlots(events);
 			},
 			editable: true,
 			eventOverlap: true,
