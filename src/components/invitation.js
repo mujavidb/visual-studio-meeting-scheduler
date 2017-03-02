@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import moment from 'moment'
-import { formatToLongTime } from '../helpers/format-time.js'
+import { formatToLongTime } from '../helpers/format-time'
+import { generateRGBColor } from '../helpers/color-generator'
 
 const Invitation = props => {
 	return (
@@ -17,7 +18,7 @@ const Invitation = props => {
 						.attendees
 						.filter(attendee => attendee.status == true)
 						.map(item =>
-							<div className="attendee_block" key={item.id}>
+							<div className="attendee_block" key={item.id} style={{backgroundColor: generateRGBColor(item.initials)}}>
 								<span className="attendee_initials">{item.initials}</span>
 							</div>
 						)

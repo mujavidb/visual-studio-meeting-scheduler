@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import moment from 'moment'
-import { formatToLongTime } from '../helpers/format-time.js'
+import { formatToLongTime } from '../helpers/format-time'
+import { generateRGBColor } from '../helpers/color-generator'
 
 class Meeting extends Component {
 	constructor(props){
@@ -21,7 +22,7 @@ class Meeting extends Component {
 							.attendees
 							.filter(attendee => attendee.status == true)
 							.map(item =>
-								<div className="attendee_block" key={item.id}>
+								<div className="attendee_block" key={item.id} style={{backgroundColor: generateRGBColor(item.initials)}}>
 									<span className="attendee_initials">{item.initials}</span>
 								</div>
 							)

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import moment from 'moment'
+import { generateRGBColor } from '../helpers/color-generator'
 
 class ViewMeeting extends Component {
 	constructor(props){
@@ -144,7 +145,7 @@ class ViewMeeting extends Component {
 										.attendees
 										.filter(attendee => attendee.status == true)
 										.map(item =>
-											<div className="attendee_block" key={item.id}>
+											<div className="attendee_block" key={item.id} style={{backgroundColor: generateRGBColor(item.initials)}}>
 												<span className="attendee_initials">{item.initials}</span>
 											</div>
 										)
