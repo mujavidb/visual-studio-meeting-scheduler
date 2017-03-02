@@ -21,12 +21,13 @@ class AllMeetings extends Component {
 	}
 	render(){
 		const allMeetings = this.props.meetings.filter(this.filterUpcoming(this.state.isPast))
+		let content
 		if (allMeetings.length > 0) {
-			const content = allMeetings.map(item => <Meeting key={item.id} details={item} ctrl={this.props.ctrl}/>)
+			content = allMeetings.map(item => <Meeting key={item.id} details={item} ctrl={this.props.ctrl}/>)
 		} else {
-			const content = (
-				<div>
-					"We have no meetings to show you"
+			content = (
+				<div className="empty_state_card">
+					{this.state.isPast ? "Your have no past meetings" : "Your have no upcoming meetings"}
 				</div>
 			)
 		}

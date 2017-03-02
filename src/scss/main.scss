@@ -256,6 +256,18 @@ header {
 	background-color: $event-invitation-hover;
 }
 
+.empty_state_card {
+	box-sizing: border-box;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	padding: 20px;
+	font-size: 20px;
+	height: 200px;
+	color: $default-text;
+	background-color: #dcdcdc;
+}
 
 
 .all_meetings .meeting_title,
