@@ -6,7 +6,7 @@ class AllMeetings extends Component {
 	constructor(props){
 		super(props)
 		this.state = {
-			isPast: false
+			isPast: this.props.isPast !== undefined ? this.props.isPast : false
 		}
 		this.toggleMeetings = this.toggleMeetings.bind(this);
 	}
@@ -20,6 +20,16 @@ class AllMeetings extends Component {
 		}
 	}
 	render(){
+		const allMeetings = this.props.meetings.filter(this.filterUpcoming(this.state.isPast))
+		if (allMeetings.length > 0) {
+			const content = allMeetings.map(item => <Meeting key={item.id} details={item} ctrl={this.props.ctrl}/>)
+		} else {
+			const content = (
+				<div>
+					"We have no meetings to show you"
+				</div>
+			)
+		}
 		return (
 			<div className={"large_card_area all_meetings" + (this.state.isPast ? " past" : "")}>
 				<header>
@@ -36,13 +46,7 @@ class AllMeetings extends Component {
 					</div>
 				</header>
 				<main>
-						{
-							this
-							.props
-							.meetings
-							.filter(this.filterUpcoming(this.state.isPast))
-							.map(item => <Meeting key={item.id} details={item} ctrl={this.props.ctrl}/>)
-						}
+					{ content }
 				</main>
 			</div>
 			)

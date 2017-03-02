@@ -87,7 +87,7 @@ class Dashboard extends Component {
 					}
 				]
 			},
-		];
+		]
 		this.invitations = [
 			{
 				"id"			: "1",
@@ -130,7 +130,7 @@ class Dashboard extends Component {
 					}
 				]
 			}
-		];
+		]
 	}
 	render(){
 		return (

@@ -119,7 +119,6 @@ class ViewMeeting extends Component {
 							</div>
 						</div>
 
-						<div id="minutes">
 						<h3>Minutes</h3>
 						<div className="agenda_area">
 							<div className="markdown_preview_area">
@@ -128,17 +127,12 @@ class ViewMeeting extends Component {
 								</div>
 							</div>
 						</div>
-						</div>
 
-						<div id="time">
-							<h3>Time</h3>
-							<span className="label">{ this.meeting.time ? moment(this.meeting.time).format("dddd Do MMMM HH:mm") : "Time TBC" }</span>
-						</div>
+						<h3>Time</h3>
+						<span className="label">{ this.meeting.time ? moment(this.meeting.time).format("dddd Do MMMM HH:mm") : "Time TBC" }</span>
 
-						<div id="time">
-							<h3>Availability</h3>
-							<span className="label">Highlight the areas where you would like the meeting time to fall within.</span>
-						</div>
+						<h3>Availability</h3>
+						<span className="label">Highlight the areas where you would like the meeting time to fall within.</span>
 
 						<h3>Attendees</h3>
 						<div className="attendee_area">
@@ -158,7 +152,9 @@ class ViewMeeting extends Component {
 								</div>
 							</div>
 						</div>
-						<a onClick={()=>this.props.ctrl.dashboard()} className="button primary maxed" role="button">Done</a>
+						<footer>
+							<a onClick={()=>this.props.ctrl.dashboard()} className="button cancel maxed" role="button">Back</a>
+						</footer>
 					</main>
 				</div>
 			)
