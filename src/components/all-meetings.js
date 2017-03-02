@@ -13,10 +13,18 @@ class AllMeetings extends Component {
 	toggleMeetings(goToPast){
 		this.setState({isPast: goToPast})
 	}
-	filterUpcoming(isUpcoming){
+	filterUpcoming(isPast){
 		return item => {
-			if(!item.time) return isUpcoming;
-			return moment(item.time).isAfter(moment()) === isUpcoming;
+			if(!item.time) return !isPast;
+			return moment(item.time).isAfter(moment()) === !isPast;
+		}
+	}
+	getMeetingList() {
+		let filteredMeetings = this.props.meetings.filter(this.filterUpcoming(this.state.isPast));
+		if(filteredMeetings.length > 0) {
+			return filteredMeetings.map(item => <Meeting key={item.id} details={item} ctrl={this.props.ctrl}/>);
+		} else {
+			return (<p>It doesn't look like there are any {this.state.isPast ? 'past' : 'upcoming'} meetings</p>);
 		}
 	}
 	render(){
@@ -37,11 +45,7 @@ class AllMeetings extends Component {
 				</header>
 				<main>
 						{
-							this
-							.props
-							.meetings
-							.filter(this.filterUpcoming(this.state.isPast))
-							.map(item => <Meeting key={item.id} details={item} ctrl={this.props.ctrl}/>)
+							this.getMeetingList()
 						}
 				</main>
 			</div>
