@@ -7,11 +7,20 @@ export default class CreateMeeting extends Component {
 	constructor(props) {
 		super(props);
 		this.handleChange = this.handleChange.bind(this);
-		this.state = {value: 'Enter *markdown* here'}
+		this.onAddTimeSlot = this.onAddTimeSlot.bind(this);
+		this.state = {
+			value: 'Enter *markdown* here',
+			timeSlots: []
+		}
 	}
 
 	handleChange(event) {
 		this.setState({value: event.target.value});
+	}
+
+	onAddTimeSlot(slot){
+		this.setState({events:this.state.timeSlots.push(slot)});
+		console.log(this.state.timeSlots)
 	}
 
 	render(){
@@ -41,7 +50,7 @@ export default class CreateMeeting extends Component {
 						<h3>Availability</h3>
 						<span className="label">Highlight the areas where you would like the meeting time to fall within.</span>
 						<div className="full_calendar_area">
-							<Calendar />
+							<Calendar onAddTimeSlot={this.onAddTimeSlot} />
 						</div>
 
 						<h3>Attendees</h3>

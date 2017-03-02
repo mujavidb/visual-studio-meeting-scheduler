@@ -5,9 +5,13 @@ import $ from 'jquery'
 import { calendarConfig } from "../helpers/calendar-config.js"
 
 export default class Calendar extends Component {
+	constructor(props){
+		super(props);
+	}
 	componentDidMount() {
 		const { calendar } = this.refs;
 
+		var that = this;
 		$(calendar).fullCalendar({
 		    header: {
 		    	left: '',
@@ -31,8 +35,10 @@ export default class Calendar extends Component {
 					start: start,
 					end: end
 				};
+				that.props.onAddTimeSlot(eventData);
 				$(calendar).fullCalendar('renderEvent', eventData, true); // stick? = true
 				$(calendar).fullCalendar('unselect');
+
 			},
 			eventClick: function(calEvent, jsEvent, view) {
 				view = $(calendar).fullCalendar('getView');
