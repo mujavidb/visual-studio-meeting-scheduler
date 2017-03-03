@@ -6,3 +6,14 @@
 ```
 npm install
 ```
+<p>To start the server with debug enabled:</p>
+```
+DEBUG=*:server node ./bin/www
+```
+<p>
+    Currently, any requests made to your local server is then made on the existing 
+    DocumentDB server already hosted on Azure. In production, the server will also
+    be hosted onto Azure (I think).
+</p>
+
+<h2>API</h2>
