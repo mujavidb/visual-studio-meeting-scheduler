@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var Collection = require('../functions/collections');
+var Meetings = require('../functions/meetings');
 
 // Create collection
 router.get('/create', function (req, res, next) {
@@ -85,7 +86,7 @@ router.post('/:documentId/meeting/create/:meetingName', function (req, res, next
     var meetingId;
 
     console.log("Calling createMeeting function");
-    Collection
+    Meetings
         .createMeeting(accountId, hostId, meetingId, meetingName, query, hostAvailability, attendees)
         .then((response) => {
             console.log('ok');
