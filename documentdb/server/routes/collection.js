@@ -33,39 +33,55 @@ router.get('/document/create/:documentId', function (req, res, next) {
         });
 })
 
-// Create meeting.
+// Create meeting. Note that documentId is the same as the VSTS accountId.
+// Middleware
+router.use('/:documentId/meeting/create/:meetingName', function (req, res, next) {
+
+    // Here will we conduct some error checking the POST body to make sure that it
+    // is correctly formed, and that it is of the expected format.
+    try {
+        JSON.parse(req.body.attendees);
+        JSON.parse(req.body.hostAvailability);
+        // JSON.parse(req.body.attendees); JSON.parse(req.body.hostAvailability);
+
+    } catch (error) {
+        res.send('Poorly-formed JSON.');
+        // res.send(error);
+    }
+
+    next();
+});
+
 router.post('/:documentId/meeting/create/:meetingName', function (req, res, next) {
-    console.log('we creating shit');
+    // console.log(testing);
 
     var query = "";
 
-
-    // Get meeting name from params, and post body 
-    var attendees = req.body.attendees;
-    var hostAvailability = req.body.hostAvailability;
+    // Data from URL params
+    var accountId = req.params.documentId;
     var meetingName = req.params.meetingName;
+
+    // Data from POST body
+    var attendees = JSON.parse(req.body.attendees);
+    var hostAvailability = JSON.parse(req.body.hostAvailability);
     var hostId = req.body.hostId;
-    
 
-    console.log(attendees);
-
-    // Data needed to create a meeting
+    // Need to check for correct structure of the POST body. If it is wrong then
+    // send some sort of error. console.log(JSON.parse(attendees)); Data needed to
+    // create a meeting Need to generate a unique meetingId.
     var meetingId
-    
-    
 
-
-
+    console.log("Calling createMeeting function");
     Collection
-    .createMeeting(hostId, meetingId, meetingName, query, hostAvailability, attendees)
-    .then((response) => {
-        console.log('ok');
-        res.send(response);
-    })
-    .catch((error) => {
-        // console.log(error);
-        res.send(error);
-    });
+        .createMeeting(accountId, hostId, meetingId, meetingName, query, hostAvailability, attendees)
+        .then((response) => {
+            console.log('ok');
+            res.send(response);
+        })
+        .catch((error) => {
+            // console.log(error);
+            res.send(error);
+        });
 });
 
 module.exports = router;
