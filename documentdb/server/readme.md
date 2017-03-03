@@ -38,3 +38,5 @@ DEBUG=*:server node ./bin/www
     ]        
 }
 ```
+
+<h3>Get all meetings of a user</h3>
