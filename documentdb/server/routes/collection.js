@@ -52,6 +52,19 @@ router.use('/:documentId/meeting/create/:meetingName', function (req, res, next)
     next();
 });
 
+router.get('/:documentId/meeting/get/:userId', function (req, res, next) {
+
+    Collection
+        .getMeetings(req.params.documentId, req.params.userId)
+        .then((response) => {
+            res.send(response);
+        })
+        .catch((error) => {
+            res.send(error);
+        })
+
+});
+
 router.post('/:documentId/meeting/create/:meetingName', function (req, res, next) {
     // console.log(testing);
 

@@ -35,6 +35,41 @@ exports.getCollection = function () {
     });
 }
 
+exports.getMeetings = function (accountId, userId) {
+    var documentUrl = `${collectionUrl}/docs/${accountId}`;
+
+    // Build query
+    var queryString = "SELECT\
+                        c.meetings as meetings\
+                       F" +
+            "ROM\
+                        AccountsCollection c\
+                       WHERE" +
+            "\
+                        c.meetings.attendees = @userId"
+
+    var query = {
+        "query": queryString,
+        "parameters": [
+            {
+                "name": "@userId",
+                "value": userId
+            }
+        ]
+    };
+
+    client
+        .queryDocuments(documentUrl, query)
+        .toArray((error, results) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(results);
+            }
+        });
+
+};
+
 exports.createMeeting = function (accountId, hostId, meetingId, meetingName, query, hostAvailability, attendeesArray) {
 
     var documentUrl = `${collectionUrl}/docs/${accountId}`
@@ -73,9 +108,12 @@ exports.createMeeting = function (accountId, hostId, meetingId, meetingName, que
                     // Now we push a new meeting to the meetings array and update document.
                     var meeting = new Meeting(hostId, meetingId, meetingName);
                     var updatedDocument = results;
+
+                    // Debug
                     console.log("WHAHTHWT");
                     console.log(results);
 
+                    // Finish building the data inside the Meetings object
                     hostAvailability.forEach(function (date) {
                         meeting.addHostAvailability(date.dateStart, date.dateEnd);
                     });
@@ -86,7 +124,6 @@ exports.createMeeting = function (accountId, hostId, meetingId, meetingName, que
 
                     // Now we have created the meeting object, under meeting.data, we can push it to
                     // the document and replace the whole document.
-
                     if (results.length == 1) {
                         updatedDocument[0]
                             .meetings
@@ -94,7 +131,6 @@ exports.createMeeting = function (accountId, hostId, meetingId, meetingName, que
                     }
 
                     console.log(updatedDocument);
-                    
 
                     client.replaceDocument(documentUrl, updatedDocument[0], (error, result) => {
                         if (error) {
