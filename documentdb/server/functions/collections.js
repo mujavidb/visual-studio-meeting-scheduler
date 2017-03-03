@@ -13,7 +13,6 @@ var collectionUrl = `${databaseUrl}/colls/${config.collection.id}`;
 // Classes
 var Meeting = require('../Classes/Meeting');
 
-
 exports.getCollection = function () {
     console.log('Getting collection:\n${config.collection.id}\n');
 
@@ -36,7 +35,9 @@ exports.getCollection = function () {
     });
 }
 
-exports.createMeeting = function (hostId, meetingId, meetingName, query, hostAvailability, attendeesArray) {
+exports.createMeeting = function (accountId, hostId, meetingId, meetingName, query, hostAvailability, attendeesArray) {
+
+    var documentUrl = `${collectionUrl}/docs/${accountId}`
 
     // First get all your meetings.
     var queryString = "SELECT\
@@ -51,46 +52,58 @@ exports.createMeeting = function (hostId, meetingId, meetingName, query, hostAva
         "parameters": [
             {
                 "name": "@hostId",
-                "value": "1234"
+                "value": hostId
             }, {
                 "name": "@accountId",
-                "value": 'test1'
+                "value": accountId
             }
         ]
     };
 
-
     return new Promise((resolve, reject) => {
-
+        console.log("returning Promise for createMeeting function");
         // First get whole document.
         client
             .queryDocuments(collectionUrl, query)
             .toArray((error, results) => {
+                console.log("Starting documentQuery");
+                if (error) {
+                    reject(error);
+                } else {
+                    // Now we push a new meeting to the meetings array and update document.
+                    var meeting = new Meeting(hostId, meetingId, meetingName);
+                    var updatedDocument = results;
+                    console.log("WHAHTHWT");
+                    console.log(results);
 
-                // Now we push a new meeting to the meetings array and update document.
-                var meeting = new Meeting(hostId, meetingId, meetingName);
-                
-                hostAvailability.forEach(function(date){
-                    meeting.addHostAvailability(date.dateStart, date.dateEnd);
-                });
+                    hostAvailability.forEach(function (date) {
+                        meeting.addHostAvailability(date.dateStart, date.dateEnd);
+                    });
 
-                attendeesArray.forEach(function(attendee) {
-                    meeting.addAttendee(attendee.id, attendee.name)
-                });
+                    attendeesArray.forEach(function (attendee) {
+                        meeting.addAttendee(attendee.id, attendee.name)
+                    });
 
-                // Now we have created the meeting object, under meeting.data, we can push it
-                // to the document and replace the whole document.
+                    // Now we have created the meeting object, under meeting.data, we can push it to
+                    // the document and replace the whole document.
 
-                results.meetings.push(meeting.data);
-                
-                client
-                    .replaceDocument(collectionUrl, results, (error, result) => {
+                    if (results.length == 1) {
+                        updatedDocument[0]
+                            .meetings
+                            .push(meeting.data);
+                    }
+
+                    console.log(updatedDocument);
+                    
+
+                    client.replaceDocument(documentUrl, updatedDocument[0], (error, result) => {
                         if (error) {
                             reject(error);
                         } else {
                             resolve(result);
                         }
                     });
+                }
 
                 // resolve(results);
             });
