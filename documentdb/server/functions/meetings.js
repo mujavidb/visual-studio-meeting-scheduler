@@ -4,7 +4,9 @@ var databaseUrl = `dbs/${config.database.id}`;
 var collectionUrl = `${databaseUrl}/colls/${config.collection.id}`;
 
 var documentClient = require('documentdb').DocumentClient;
-var client = new documentClient(config.endpoint, {"masterKey": config.primaryKey});
+var client = new documentClient(config.endpoint, {
+    "masterKey": config.primaryKey
+});
 
 var Meeting = require('../Classes/Meeting');
 
@@ -16,21 +18,19 @@ exports.createMeeting = function (accountId, hostId, meetingId, meetingName, que
     var queryString = "SELECT\
                         *\
                        FROM AccountsCollectio" +
-            "n c\
+        "n c\
                        WHERE c.id = @accountId"
 
     // Form query object.
     var query = {
         "query": queryString,
-        "parameters": [
-            {
-                "name": "@hostId",
-                "value": hostId
-            }, {
-                "name": "@accountId",
-                "value": accountId
-            }
-        ]
+        "parameters": [{
+            "name": "@hostId",
+            "value": hostId
+        }, {
+            "name": "@accountId",
+            "value": accountId
+        }]
     };
 
     return new Promise((resolve, reject) => {
@@ -84,3 +84,40 @@ exports.createMeeting = function (accountId, hostId, meetingId, meetingName, que
             });
     });
 }
+
+exports.getMeetings = function (accountId, userId) {
+    var documentUrl = `${collectionUrl}/docs/${accountId}`;
+
+    // Build query
+    var queryString = "SELECT\
+                        m AS meetings\
+                       FROM\
+                        AccountsCollection c\
+                       JOIN m IN c.meetings\
+                       JOIN a IN m.attendees\
+                       WHERE\
+                        a.id IN (@userId)";
+
+    // console.log(typeof userId);
+
+    var query = {
+        "query": queryString,
+        "parameters": [{
+            "name": "@userId",
+            "value": userId
+        }]
+    };
+    return new Promise((resolve, reject) => {
+        client
+            .queryDocuments(collectionUrl, query)
+            .toArray((error, results) => {
+                if (error) {
+                    // console.log("Something not found, not sure what");
+                    reject(error);
+                } else {
+                    resolve(results);
+                }
+            });
+
+    });
+};
