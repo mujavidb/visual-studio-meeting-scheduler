@@ -13,24 +13,21 @@ class AllMeetings extends Component {
 	toggleMeetings(goToPast){
 		this.setState({isPast: goToPast})
 	}
-	filterUpcoming(isUpcoming){
+	filterUpcoming(isPast){
 		return item => {
-			if(!item.time) return isUpcoming;
-			return moment(item.time).isAfter(moment()) === isUpcoming;
+			if(!item.time) return !isPast;
+			return moment(item.time).isAfter(moment()) === !isPast;
+		}
+	}
+	getMeetingList() {
+		const filteredMeetings = this.props.meetings.filter(this.filterUpcoming(this.state.isPast))
+		if (filteredMeetings.length > 0) {
+			return filteredMeetings.map(item => <Meeting key={item.id} details={item} ctrl={this.props.ctrl}/>)
+		} else {
+			return <div className="empty_state_card">"Your have no {this.state.isPast ? 'past' : 'upcoming'} meetings"</div>
 		}
 	}
 	render(){
-		const allMeetings = this.props.meetings.filter(this.filterUpcoming(this.state.isPast))
-		let content
-		if (allMeetings.length > 0) {
-			content = allMeetings.map(item => <Meeting key={item.id} details={item} ctrl={this.props.ctrl}/>)
-		} else {
-			content = (
-				<div className="empty_state_card">
-					{this.state.isPast ? "Your have no past meetings" : "Your have no upcoming meetings"}
-				</div>
-			)
-		}
 		return (
 			<div className={"large_card_area all_meetings" + (this.state.isPast ? " past" : "")}>
 				<header>
@@ -47,7 +44,7 @@ class AllMeetings extends Component {
 					</div>
 				</header>
 				<main>
-					{ content }
+					{ this.getMeetingList() }
 				</main>
 			</div>
 			)

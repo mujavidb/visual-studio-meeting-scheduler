@@ -55,14 +55,15 @@ export default class CreateMeeting extends Component {
 		this.getSuggestions = this.getSuggestions.bind(this)
 		this.onSuggestionsFetchRequested = this.onSuggestionsFetchRequested.bind(this)
 		this.onSuggestionsClearRequested = this.onSuggestionsClearRequested.bind(this)
-		this.onChange = this.onChange.bind(this)
+		this.onChangeTimeSlots = this.onChangeTimeSlots.bind(this);
+		this.onUpdateAttendeesInput = this.onUpdateAttendeesInput.bind(this)
 		this.state = {
 			markdown_text: 'Enter *markdown* here',
 			attendee_value: "",
 			attendees: [], //kill duplicates
-			suggestions: []
+			suggestions: [],
+			timeSlots: []
 		}
-
 		//mocks form received in
 		this.query_results = [
 			{ initials: "MB", id: "najd38j9h", name: "Mujavid Bukhari"},
@@ -106,7 +107,7 @@ export default class CreateMeeting extends Component {
 		// console.log("onSuggestionsClearRequested")
 		this.setState({ suggestions: [] })
 	}
-	onChange(event, data){
+	onUpdateAttendeesInput(event, data){
 		// console.log("onChange")
 		this.setState({ attendee_value: data.newValue })
 	}
@@ -115,11 +116,16 @@ export default class CreateMeeting extends Component {
 		this.setState({attendees: this.state.attendees.filter(a => a.id != id)})
 		e.preventDefault()
 	}
+	// NEED TO GET ARRAY OF EVENTS DIRECT FROM FULL CALENDAR
+	onChangeTimeSlots(newTimeSlots){
+		this.setState({timeSlots:newTimeSlots});
+		console.log(this.state.timeSlots);
+	}
 	render(){
 		const inputProps = {
 			className: "attendee_input_field",
 			placeholder: "Enter attendee name",
-			onChange: this.onChange,
+			onChange: this.onUpdateAttendeesInput,
 			value: this.state.attendee_value
 		}
 		return (
@@ -148,7 +154,7 @@ export default class CreateMeeting extends Component {
 						<h3>Availability</h3>
 						<span className="label">Highlight the areas where you would like the meeting time to fall within.</span>
 						<div className="full_calendar_area">
-							<Calendar />
+							<Calendar onChangeTimeSlots={this.onChangeTimeSlots} />
 						</div>
 
 						<h3>Attendees</h3>
