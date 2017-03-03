@@ -17,3 +17,23 @@ DEBUG=*:server node ./bin/www
 </p>
 
 <h2>API</h2>
+
+<h3>Create a meeting</h3>
+<p>create a POST request on </p>
+
+```json
+{
+    "hostId": "123456789"",
+    "hostAvailability": [
+        {
+            dateStart: DateObject
+        }
+    ],
+    "attendees": [
+        {
+            "id": "118118118",
+            "name": "Kelvin Chan"
+        }
+    ]        
+}
+```
