@@ -33,13 +33,31 @@ router.get('/document/create/:documentId', function (req, res, next) {
         });
 })
 
-router.get('/:documentId/meeting/create/:meetingId', function (req, res, next) {
+// Create meeting.
+router.post('/:documentId/meeting/create/:meetingName', function (req, res, next) {
     console.log('we creating shit');
 
     var query = "";
 
+
+    // Get meeting name from params, and post body 
+    var attendees = req.body.attendees;
+    var hostAvailability = req.body.hostAvailability;
+    var meetingName = req.params.meetingName;
+    var hostId = req.body.hostId;
+    
+
+    console.log(attendees);
+
+    // Data needed to create a meeting
+    var meetingId
+    
+    
+
+
+
     Collection
-    .createMeeting('test', query)
+    .createMeeting(hostId, meetingId, meetingName, query, hostAvailability, attendees)
     .then((response) => {
         console.log('ok');
         res.send(response);

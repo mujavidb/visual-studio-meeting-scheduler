@@ -10,6 +10,10 @@ var HttpStatusCodes = {
 var databaseUrl = `dbs/${config.database.id}`;
 var collectionUrl = `${databaseUrl}/colls/${config.collection.id}`;
 
+// Classes
+var Meeting = require('../Classes/Meeting');
+
+
 exports.getCollection = function () {
     console.log('Getting collection:\n${config.collection.id}\n');
 
@@ -32,52 +36,63 @@ exports.getCollection = function () {
     });
 }
 
-exports.createMeeting = function (meetingName, query) {
+exports.createMeeting = function (hostId, meetingId, meetingName, query, hostAvailability, attendeesArray) {
 
-    // var documentUrl = `${collectionUrl}/docs/${accountId}`; var documentUrl =
-    // `${collectionUrl}/docs/tester`; "query": "SELECT * FROM meetings m WHERE
-    // m.hostId = @hostId",
-    
+    // First get all your meetings.
     var queryString = "SELECT\
-                        m as meetings\
-                       FROM AccountsCollection c\
-                       JOIN m IN c.meetings\
-                       WHERE c.id = @accountId AND m.hostId = @hostId";
-// queryString =  "SELECT c.id AS accountId, m AS meetings FROM AccountsCollection c JOIN m IN c.meetings WHERE  c.id = @accountId m.hostId = 1234";
+                        *\
+                       FROM AccountsCollectio" +
+            "n c\
+                       WHERE c.id = @accountId"
 
-    var query1 = {
+    // Form query object.
+    var query = {
         "query": queryString,
         "parameters": [
             {
                 "name": "@hostId",
                 "value": "1234"
-            },
-            {
+            }, {
                 "name": "@accountId",
                 "value": 'test1'
             }
         ]
     };
 
-    // console.log(documentUrl);
 
     return new Promise((resolve, reject) => {
 
+        // First get whole document.
         client
-            .queryDocuments(collectionUrl, query1)
+            .queryDocuments(collectionUrl, query)
             .toArray((error, results) => {
 
-                // if (error) 
-                //     reject(error)
-                // else {
-                //     for (var queryResult of results) {
-                //         let resultString = JSON.stringify(queryResult);
-                //         console.log(`\tQuery returned ${resultString}`);
-                //     }
-                //     console.log();
-                //     resolve(results);
-                // }
-                resolve(results);
+                // Now we push a new meeting to the meetings array and update document.
+                var meeting = new Meeting(hostId, meetingId, meetingName);
+                
+                hostAvailability.forEach(function(date){
+                    meeting.addHostAvailability(date.dateStart, date.dateEnd);
+                });
+
+                attendeesArray.forEach(function(attendee) {
+                    meeting.addAttendee(attendee.id, attendee.name)
+                });
+
+                // Now we have created the meeting object, under meeting.data, we can push it
+                // to the document and replace the whole document.
+
+                results.meetings.push(meeting.data);
+                
+                client
+                    .replaceDocument(collectionUrl, results, (error, result) => {
+                        if (error) {
+                            reject(error);
+                        } else {
+                            resolve(result);
+                        }
+                    });
+
+                // resolve(results);
             });
 
         // resolve(asdas);
@@ -137,8 +152,7 @@ exports.createDocument = function (accountId) {
                         ]
                     }
                 ]
-            },
-            {
+            }, {
                 "hostId": "4321",
                 "meetingId": "4321",
                 "meetingName": "Birthday!",
