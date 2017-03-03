@@ -41,11 +41,9 @@ exports.getMeetings = function (accountId, userId) {
     // Build query
     var queryString = "SELECT\
                         c.meetings as meetings\
-                       F" +
-            "ROM\
+                       FROM\
                         AccountsCollection c\
-                       WHERE" +
-            "\
+                       WHERE\
                         c.meetings.attendees = @userId"
 
     var query = {
@@ -58,16 +56,19 @@ exports.getMeetings = function (accountId, userId) {
         ]
     };
 
-    client
-        .queryDocuments(documentUrl, query)
-        .toArray((error, results) => {
-            if (error) {
-                reject(error);
-            } else {
-                resolve(results);
-            }
-        });
+    return new Promise((resolve, reject) => {
+        client
+            .queryDocuments(collectionUrl, query)
+            .toArray((error, results) => {
+                if (error) {
+                    console.log("Something not found, not sure what");
+                    reject(error);
+                } else {
+                    resolve(results);
+                }
+            });
 
+    });
 };
 
 exports.createMeeting = function (accountId, hostId, meetingId, meetingName, query, hostAvailability, attendeesArray) {
