@@ -82,7 +82,7 @@ router.post('/:documentId/meeting/create/:meetingName', function (req, res, next
     // Need to check for correct structure of the POST body. If it is wrong then
     // send some sort of error. console.log(JSON.parse(attendees)); Data needed to
     // create a meeting Need to generate a unique meetingId.
-    var meetingId
+    var meetingId;
 
     console.log("Calling createMeeting function");
     Collection
