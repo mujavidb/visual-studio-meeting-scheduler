@@ -34,9 +34,14 @@ export default class Calendar extends Component {
 					start: start,
 					end: end
 				};
-				$(calendar).fullCalendar('renderEvent', eventData, true); // stick? = true
-				var events = $(calendar).fullCalendar('clientEvents');
-				that.props.onChangeTimeSlots(events);
+				if(!start.isBefore(moment())) {
+					$(calendar).fullCalendar('renderEvent', eventData, true); // stick? = true
+					var events = $(calendar).fullCalendar('clientEvents');
+					that.props.onChangeTimeSlots(events);
+				} else {
+					alert("No events in the past!");
+				}
+				
 				$(calendar).fullCalendar('unselect');
 
 			},
