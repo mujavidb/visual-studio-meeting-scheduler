@@ -1,7 +1,9 @@
 var config = require('../config');
 
 var documentClient = require('documentdb').DocumentClient;
-var client = new documentClient(config.endpoint, {"masterKey": config.primaryKey});
+var client = new documentClient(config.endpoint, {
+    "masterKey": config.primaryKey
+});
 
 var url = require('url');
 
@@ -36,48 +38,6 @@ exports.getCollection = function () {
     });
 }
 
-exports.getMeetings = function (accountId, userId) {
-    var documentUrl = `${collectionUrl}/docs/${accountId}`;
-
-    // Build query
-    var queryString = "SELECT\
-                        m AS meetings\
-                       FROM\
-    " +
-            "                    AccountsCollection c\
-                       JOIN m IN c.mee" +
-            "tings\
-                       JOIN a IN m.attendees\
-                       WHER" +
-            "E\
-                        a.id IN (@userId)";
-
-    // console.log(typeof userId);
-
-    var query = {
-        "query": queryString,
-        "parameters": [
-            {
-                "name": "@userId",
-                "value": userId
-            }
-        ]
-    };
-
-    return new Promise((resolve, reject) => {
-        client
-            .queryDocuments(collectionUrl, query)
-            .toArray((error, results) => {
-                if (error) {
-                    // console.log("Something not found, not sure what");
-                    reject(error);
-                } else {
-                    resolve(results);
-                }
-            });
-
-    });
-};
 
 
 
@@ -89,95 +49,77 @@ exports.createDocument = function (accountId) {
 
     var data = {
         "id": accountId,
-        "meetings": [
-            {
-                "hostId": "1234",
-                "meetingId": "4321",
-                "meetingName": "Birthday!",
-                "hostAvailability": [
-                    {
-                        "dateStart": "01/12/2017",
-                        "dateEnd": "00:00"
-                    }, {
-                        "dateStart": "01/12/2017",
-                        "dateEnd": "00:00"
-                    }
-                ],
-                "finalDate": "some date object here",
-                "attendees": [
-                    {
-                        "id": "asqwe12d",
-                        "response": 1,
-                        "name": "Kelvin",
-                        "availableTimes": [
-                            {
-                                "dateStart": "01/12/2017",
-                                "dateEnd": "00:00"
-                            }, {
-                                "dateStart": "01/12/2017",
-                                "dateEnd": "00:00"
-                            }
-                        ]
-                    }, {
-                        "id": "asqwe12d",
-                        "response": 1,
-                        "name": "Kelvin",
-                        "availableTimes": [
-                            {
-                                "dateStart": "01/12/2017",
-                                "dateEnd": "00:00"
-                            }, {
-                                "dateStart": "01/12/2017",
-                                "dateEnd": "00:00"
-                            }
-                        ]
-                    }
-                ]
+        "meetings": [{
+            "hostId": "1234",
+            "meetingId": "4321",
+            "meetingName": "Birthday!",
+            "hostAvailability": [{
+                "dateStart": "01/12/2017",
+                "dateEnd": "00:00"
             }, {
-                "hostId": "4321",
-                "meetingId": "4321",
-                "meetingName": "Birthday!",
-                "hostAvailability": [
-                    {
-                        "dateStart": "01/12/2017",
-                        "dateEnd": "00:00"
-                    }, {
-                        "dateStart": "01/12/2017",
-                        "dateEnd": "00:00"
-                    }
-                ],
-                "finalDate": "some date object here",
-                "attendees": [
-                    {
-                        "id": "asqwe12d",
-                        "response": 1,
-                        "name": "Kelvin",
-                        "availableTimes": [
-                            {
-                                "dateStart": "01/12/2017",
-                                "dateEnd": "00:00"
-                            }, {
-                                "dateStart": "01/12/2017",
-                                "dateEnd": "00:00"
-                            }
-                        ]
-                    }, {
-                        "id": "asqwe12d",
-                        "response": 1,
-                        "name": "Kelvin",
-                        "availableTimes": [
-                            {
-                                "dateStart": "01/12/2017",
-                                "dateEnd": "00:00"
-                            }, {
-                                "dateStart": "01/12/2017",
-                                "dateEnd": "00:00"
-                            }
-                        ]
-                    }
-                ]
-            }
-        ]
+                "dateStart": "01/12/2017",
+                "dateEnd": "00:00"
+            }],
+            "finalDate": "some date object here",
+            "attendees": [{
+                "id": "asqwe12d",
+                "response": 1,
+                "name": "Kelvin",
+                "availableTimes": [{
+                    "dateStart": "01/12/2017",
+                    "dateEnd": "00:00"
+                }, {
+                    "dateStart": "01/12/2017",
+                    "dateEnd": "00:00"
+                }]
+            }, {
+                "id": "asqwe12d",
+                "response": 1,
+                "name": "Kelvin",
+                "availableTimes": [{
+                    "dateStart": "01/12/2017",
+                    "dateEnd": "00:00"
+                }, {
+                    "dateStart": "01/12/2017",
+                    "dateEnd": "00:00"
+                }]
+            }]
+        }, {
+            "hostId": "4321",
+            "meetingId": "4321",
+            "meetingName": "Birthday!",
+            "hostAvailability": [{
+                "dateStart": "01/12/2017",
+                "dateEnd": "00:00"
+            }, {
+                "dateStart": "01/12/2017",
+                "dateEnd": "00:00"
+            }],
+            "finalDate": "some date object here",
+            "attendees": [{
+                "id": "asqwe12d",
+                "response": 1,
+                "name": "Kelvin",
+                "availableTimes": [{
+                    "dateStart": "01/12/2017",
+                    "dateEnd": "00:00"
+                }, {
+                    "dateStart": "01/12/2017",
+                    "dateEnd": "00:00"
+                }]
+            }, {
+                "id": "asqwe12d",
+                "response": 1,
+                "name": "Kelvin",
+                "availableTimes": [{
+                    "dateStart": "01/12/2017",
+                    "dateEnd": "00:00"
+                }, {
+                    "dateStart": "01/12/2017",
+                    "dateEnd": "00:00"
+                }]
+            }]
+        }]
 
     }
 
