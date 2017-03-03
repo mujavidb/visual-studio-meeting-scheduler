@@ -1,20 +1,127 @@
 import React, { Component } from "react"
 import fullcalendar from 'fullcalendar'
-import Calendar from './calendar.js'
-import { formatMarkdown } from '../helpers/format-markdown.js'
+import Calendar from './calendar'
+import Autosuggest from 'react-autosuggest';
+import { formatMarkdown } from '../helpers/format-markdown'
+import { getAttendeeColor } from '../helpers/color-generator'
+
+const theme = {
+	container: {
+		position: 'relative'
+	},
+	input: {
+		width: "100%"
+	},
+	inputFocused: {
+		outline: 'none'
+	},
+	inputOpen: {
+		borderBottomLeftRadius: 0,
+		borderBottomRightRadius: 0
+	},
+	suggestionsContainer: {
+		display: 'none'
+	},
+	suggestionsContainerOpen: {
+		display: 'block',
+		boxSizing: "border-box",
+		position: 'absolute',
+		bottom: 54,
+		width: "100%",
+		zIndex: 2,
+		border: '1px solid #CCC',
+		backgroundColor: '#FFF',
+	},
+	suggestionsList: {
+		margin: 0,
+		padding: 0,
+		listStyleType: 'none'
+	},
+	suggestion: {
+		cursor: 'pointer',
+		padding: '10px'
+	},
+	suggestionHighlighted: {
+		backgroundColor: '#DDD'
+	}
+}
 
 export default class CreateMeeting extends Component {
-	constructor(props) {
-		super(props);
-		this.handleChange = this.handleChange.bind(this);
-		this.state = {value: 'Enter *markdown* here'}
-	}
+	constructor(props){
+		super(props)
+		this.updateMarkdown = this.updateMarkdown.bind(this)
+		this.onSuggestionSelected = this.onSuggestionSelected.bind(this)
+		this.deleteAttendee = this.deleteAttendee.bind(this)
+		this.getSuggestions = this.getSuggestions.bind(this)
+		this.onSuggestionsFetchRequested = this.onSuggestionsFetchRequested.bind(this)
+		this.onSuggestionsClearRequested = this.onSuggestionsClearRequested.bind(this)
+		this.onChange = this.onChange.bind(this)
+		this.state = {
+			markdown_text: 'Enter *markdown* here',
+			attendee_value: "",
+			attendees: [], //kill duplicates
+			suggestions: []
+		}
 
-	handleChange(event) {
-		this.setState({value: event.target.value});
-	}
+		//mocks form received in
+		this.query_results = [
+			{ initials: "MB", id: "najd38j9h", name: "Mujavid Bukhari"},
+			{ initials: "AL", id: "kjsadlj23", name: "Alasdair Hall"},
+			{ initials: "KC", id: "mjniojin2", name: "Kelvin Chan"},
+			{ initials: "ES", id: "9jn9n34f9", name: "Eric Schmidt"},
+			{ initials: "FP", id: "mlksandhg", name: "Faiz Punakkath"},
+			{ initials: "YM", id: "934i029jd", name: "Yousef Mahmood"}
+		]
 
+		//mocks form passed to selector
+		this.suggestions = this.query_results.map(a => { return { id: a.id, name: a.name } })
+	}
+	updateMarkdown(event){
+		this.setState({markdown_text: event.target.value});
+	}
+	onSuggestionSelected(event, { data }){
+		// console.log("onSuggestionSelected")
+		const newAttendee = this.query_results.find(a => a.name === this.state.attendee_value)
+		if (newAttendee != undefined && this.state.attendees.filter(a=>a.id == newAttendee.id).length == 0) {
+			this.setState({
+				attendees: [...this.state.attendees, newAttendee],
+				attendee_value: "",
+				suggestions: []
+			})
+		} else {
+			this.setState({ suggestions: [] })
+		}
+	}
+	getSuggestions(value){
+		// console.log("getSuggestions")
+		const inputValue = value.trim().toLowerCase()
+		const re = new RegExp(`${inputValue}`)
+		return inputValue === "" ? [] : this.suggestions.filter(a => re.test(a.name.toLowerCase()))
+	}
+	onSuggestionsFetchRequested({ value }){
+		// console.log("onSuggestionsFetchRequested")
+		this.setState({ suggestions: this.getSuggestions(value) })
+	}
+	onSuggestionsClearRequested(){
+		// console.log("onSuggestionsClearRequested")
+		this.setState({ suggestions: [] })
+	}
+	onChange(event, data){
+		// console.log("onChange")
+		this.setState({ attendee_value: data.newValue })
+	}
+	deleteAttendee(e, data){
+		const id = e.currentTarget.parentNode.getAttribute("id")
+		this.setState({attendees: this.state.attendees.filter(a => a.id != id)})
+		e.preventDefault()
+	}
 	render(){
+		const inputProps = {
+			className: "attendee_input_field",
+			placeholder: "Enter attendee name",
+			onChange: this.onChange,
+			value: this.state.attendee_value
+		}
 		return (
 				<div className="large_card_area create_meeting">
 					<header>
@@ -30,11 +137,11 @@ export default class CreateMeeting extends Component {
 						<div className="agenda_area">
 							<div className="markdown_input">
 								<span className="label">Markdown Editor</span>
-								<textarea name="agenda" onChange={this.handleChange} ref="textarea" defaultValue={this.state.value}></textarea>
+								<textarea name="agenda" onChange={this.updateMarkdown} ref="textarea" defaultValue={this.state.markdown_text}></textarea>
 							</div>
 							<div className="markdown_preview_area">
 								<span className="label">Text Preview</span>
-								<div className="markdown_preview" dangerouslySetInnerHTML={formatMarkdown(this.state.value)}></div>
+								<div className="markdown_preview" dangerouslySetInnerHTML={formatMarkdown(this.state.markdown_text)}></div>
 							</div>
 						</div>
 
@@ -48,23 +155,27 @@ export default class CreateMeeting extends Component {
 						<div className="attendee_area">
 							<div className="attendee_input">
 								<span className="label">Add attendees to this meeting.</span>
-								<input type="text" name="title" placeholder="Enter attendee's names" />
+								<Autosuggest
+									suggestions={this.state.suggestions}
+									onSuggestionSelected={this.onSuggestionSelected}
+									onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
+									onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+									getSuggestionValue={suggestion => suggestion.name}
+									renderSuggestion={suggestion => <span>{suggestion.name}</span>}
+									inputProps={inputProps}
+									theme={theme}/>
 							</div>
 							<div className="attendee_added">
 								<span className="label">Click to remove</span>
 								<div className="attendees">
-									<div className="attendee_block">
-										<span className="attendee_initials">MB</span>
-										<a href="#" className="remove">&#10799;</a>
-									</div>
-									<div className="attendee_block">
-										<span className="attendee_initials">AH</span>
-										<a href="#" className="remove">&#10799;</a>
-									</div>
-									<div className="attendee_block">
-										<span className="attendee_initials">KC</span>
-										<a href="#" className="remove">&#10799;</a>
-									</div>
+									{
+										this.state.attendees.map(attendee =>
+											<div className="attendee_block" key={attendee.id} id={attendee.id} style={getAttendeeColor(attendee)}>
+												<span className="attendee_initials">{attendee.initials}</span>
+												<a onClick={this.deleteAttendee} className="remove">&#10799;</a>
+											</div>
+										)
+									}
 								</div>
 							</div>
 						</div>

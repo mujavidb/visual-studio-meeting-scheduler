@@ -6,4 +6,8 @@ const generateRGBColor = inputString => {
 	//TODO: Mute saturation of colors
 	return `#${(hash & 0xFFFFFF).toString(16).toUpperCase()}`
 }
-export { generateRGBColor }
+
+const getAttendeeColor = attendee => {
+	return {backgroundColor: generateRGBColor(attendee.initials)}
+}
+export { generateRGBColor, getAttendeeColor }

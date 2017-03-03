@@ -96,7 +96,7 @@ class ViewMeeting extends Component {
 				]
 			},
 		]
-		this.meeting = this.meetings.find((item) =>	item.id === this.props.id)
+		this.meeting = this.meetings.find(item => item.id === this.props.id)
 		console.log(this.meeting)
 	}
 	render(){
@@ -144,9 +144,9 @@ class ViewMeeting extends Component {
 										.meeting
 										.attendees
 										.filter(attendee => attendee.status == true)
-										.map(item =>
-											<div className="attendee_block" key={item.id} style={{backgroundColor: generateRGBColor(item.initials)}}>
-												<span className="attendee_initials">{item.initials}</span>
+										.map(attendee =>
+											<div className="attendee_block" key={attendee.id} style={{backgroundColor: generateRGBColor(attendee.initials)}}>
+												<span className="attendee_initials">{attendee.initials}</span>
 											</div>
 										)
 									}
