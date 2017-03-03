@@ -55,7 +55,7 @@ router.use('/:documentId/meeting/create/:meetingName', function (req, res, next)
 
 router.get('/:documentId/meeting/get/:userId', function (req, res, next) {
 
-    Collection
+    Meetings
         .getMeetings(req.params.documentId, req.params.userId)
         .then((response) => {
             res.send(response);
