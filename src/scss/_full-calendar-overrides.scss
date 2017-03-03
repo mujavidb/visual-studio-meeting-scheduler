@@ -1,7 +1,7 @@
 //Global scope override
 #root .full_calendar_area {
 	.fc-toolbar.fc-header-toolbar {
-		display: none;
+		display: block;
 	}
 	thead th {
 		vertical-align: middle;

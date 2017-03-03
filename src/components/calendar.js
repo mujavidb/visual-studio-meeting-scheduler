@@ -14,15 +14,15 @@ export default class Calendar extends Component {
 		$(calendar).fullCalendar({
 		    header: {
 		    	left: '',
-				center: 'title',
-				right: ''
+				center: '',
+				right: 'prev,next today'
 		    },
 		    titleFormat: 'MMM D YYYY',
 		    defaultView: 'agendaWeek',
 		    defaultDate: moment(),
 		    firstDay: 1,
 		    scrollTime: '08:00:00',
-		    columnFormat: 'ddd D/M',
+		    columnFormat: 'ddd D MMM',
 		    allDaySlot: false,
 		    navLinks: false, // can click day/week names to navigate views
 			selectable: true,
@@ -49,7 +49,6 @@ export default class Calendar extends Component {
 			editable: true,
 			eventOverlap: true,
 			eventLimit: true, // allow "more" link when too many events
-
 		});
 	}
 
