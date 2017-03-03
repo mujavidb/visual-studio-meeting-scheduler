@@ -152,7 +152,7 @@ export default class CreateMeeting extends Component {
 						</div>
 
 						<h3>Availability</h3>
-						<span className="label">Highlight the areas where you would like the meeting time to fall within.</span>
+						<span className="label">Highlight the times you would like to suggest for this meeting.</span>
 						<div className="full_calendar_area">
 							<Calendar onChangeTimeSlots={this.onChangeTimeSlots} />
 						</div>
@@ -172,7 +172,9 @@ export default class CreateMeeting extends Component {
 									theme={theme}/>
 							</div>
 							<div className="attendee_added">
-								<span className="label">Click to remove</span>
+								{
+									this.state.attendees.length > 0 ? <span className="label">Click to remove</span> : ""
+								}
 								<div className="attendees">
 									{
 										this.state.attendees.map(attendee =>
