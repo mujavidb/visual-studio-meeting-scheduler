@@ -21,12 +21,13 @@ DEBUG=*:server node ./bin/www
 <h3>Create a meeting</h3>
 <p>create a POST request on </p>
 
-```json
+```
 {
     "hostId": "123456789"",
     "hostAvailability": [
         {
-            dateStart: DateObject
+            "dateStart": 1,
+            "dateEnd": 1
         }
     ],
     "attendees": [
