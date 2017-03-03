@@ -118,8 +118,8 @@ export default class CreateMeeting extends Component {
 	}
 	// NEED TO GET ARRAY OF EVENTS DIRECT FROM FULL CALENDAR
 	onChangeTimeSlots(newTimeSlots){
-		this.setState({timeSlots:newTimeSlots});
-		console.log(this.state.timeSlots);
+		this.setState({timeSlots:newTimeSlots})
+		console.log(this.state.timeSlots)
 	}
 	render(){
 		const inputProps = {
