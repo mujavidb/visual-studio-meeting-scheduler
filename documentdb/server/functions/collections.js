@@ -1,8 +1,9 @@
-var documentClient = require('documentdb').DocumentClient;
 var config = require('../config');
-var url = require('url');
 
+var documentClient = require('documentdb').DocumentClient;
 var client = new documentClient(config.endpoint, {"masterKey": config.primaryKey});
+
+var url = require('url');
 
 var HttpStatusCodes = {
     NOTFOUND: 404
@@ -40,11 +41,18 @@ exports.getMeetings = function (accountId, userId) {
 
     // Build query
     var queryString = "SELECT\
-                        c.meetings as meetings\
+                        m AS meetings\
                        FROM\
-                        AccountsCollection c\
-                       WHERE\
-                        c.meetings.attendees = @userId"
+    " +
+            "                    AccountsCollection c\
+                       JOIN m IN c.mee" +
+            "tings\
+                       JOIN a IN m.attendees\
+                       WHER" +
+            "E\
+                        a.id IN (@userId)";
+
+    // console.log(typeof userId);
 
     var query = {
         "query": queryString,
@@ -61,7 +69,7 @@ exports.getMeetings = function (accountId, userId) {
             .queryDocuments(collectionUrl, query)
             .toArray((error, results) => {
                 if (error) {
-                    console.log("Something not found, not sure what");
+                    // console.log("Something not found, not sure what");
                     reject(error);
                 } else {
                     resolve(results);
@@ -97,49 +105,52 @@ exports.createMeeting = function (accountId, hostId, meetingId, meetingName, que
     };
 
     return new Promise((resolve, reject) => {
-        console.log("returning Promise for createMeeting function");
-        // First get whole document.
+        // console.log("returning Promise for createMeeting function"); First get whole
+        // document.
         client
             .queryDocuments(collectionUrl, query)
             .toArray((error, results) => {
-                console.log("Starting documentQuery");
+                // console.log("Starting documentQuery");
                 if (error) {
                     reject(error);
                 } else {
                     // Now we push a new meeting to the meetings array and update document.
-                    var meeting = new Meeting(hostId, meetingId, meetingName);
-                    var updatedDocument = results;
+                    var meeting = new Meeting(hostId, meetingName);
 
-                    // Debug
-                    console.log("WHAHTHWT");
-                    console.log(results);
+                    // First step is to generate a unique meetingID, after that do the rest
+                    meeting
+                        .generateMeetingId()
+                        .then((result) => {
+                            var updatedDocument = results;
 
-                    // Finish building the data inside the Meetings object
-                    hostAvailability.forEach(function (date) {
-                        meeting.addHostAvailability(date.dateStart, date.dateEnd);
-                    });
+                            // Finish building the data inside the Meetings object
+                            hostAvailability.forEach(function (date) {
+                                meeting.addHostAvailability(date.dateStart, date.dateEnd);
+                            });
 
-                    attendeesArray.forEach(function (attendee) {
-                        meeting.addAttendee(attendee.id, attendee.name)
-                    });
+                            attendeesArray.forEach(function (attendee) {
+                                meeting.addAttendee(attendee.id, attendee.name)
+                            });
 
-                    // Now we have created the meeting object, under meeting.data, we can push it to
-                    // the document and replace the whole document.
-                    if (results.length == 1) {
-                        updatedDocument[0]
-                            .meetings
-                            .push(meeting.data);
-                    }
+                            // Now we have created the meeting object, under meeting.data, we can push it to
+                            // the document and replace the whole document.
+                            if (results.length == 1) {
+                                updatedDocument[0]
+                                    .meetings
+                                    .push(meeting.data);
+                            }
 
-                    console.log(updatedDocument);
+                            console.log(updatedDocument);
 
-                    client.replaceDocument(documentUrl, updatedDocument[0], (error, result) => {
-                        if (error) {
-                            reject(error);
-                        } else {
-                            resolve(result);
-                        }
-                    });
+                            client.replaceDocument(documentUrl, updatedDocument[0], (error, result) => {
+                                if (error) {
+                                    reject(error);
+                                } else {
+                                    resolve(result);
+                                }
+                            });
+                        });
+
                 }
 
                 // resolve(results);
