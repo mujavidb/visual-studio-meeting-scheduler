@@ -68,6 +68,7 @@ localhost:3000/collection/ProperTestDocument/meeting/create/EatingChocolate
 ```
 'localhost:3000/:documentId/meeting/get/:userId'
 ```
+<p>UNDER-DEVELOPMENT: I still have a few query things I need to mess around with before I'm happy with this</p>
 
 <h3>Add attendees to a meeting</h3>
 <p>Make a POST request on:</p>
