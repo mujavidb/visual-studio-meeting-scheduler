@@ -53,6 +53,8 @@ router.use('/:documentId/meeting/create/:meetingName', function (req, res, next)
     next();
 });
 
+
+// GET all your meetings
 router.get('/:documentId/meeting/get/:userId', function (req, res, next) {
 
     Meetings
@@ -65,6 +67,26 @@ router.get('/:documentId/meeting/get/:userId', function (req, res, next) {
         })
 
 });
+
+// Add Attendees to meeting
+router.post('/:documentId/:meetingId/attendees/add', function(req,res,next) {
+    var accountId = req.params.documentId;
+    var meetingId = req.params.meetingId;
+
+    attendees = JSON.parse(req.body.attendees);
+
+    console.log(attendees);
+
+    Meetings.addAttendees(accountId, meetingId, attendees)
+    .then((result) => {
+        res.send(result);
+    })
+    .catch((error) => {
+        res.send(error);
+    })
+});
+
+
 
 router.post('/:documentId/meeting/create/:meetingName', function (req, res, next) {
     // console.log(testing);
