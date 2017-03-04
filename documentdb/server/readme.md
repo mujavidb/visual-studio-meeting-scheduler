@@ -21,7 +21,9 @@ DEBUG=*:server node ./bin/www
 <h3>Create a Document</h3>
 <p>
     In our system, every VSTS Account has it's own document, so if a VSTS account hasn't used the extension before
-    you will have to create a Document for that account using this API call
+    you will have to create a Document for that account using this API call.
+
+    IMPORTANT: Make sure the accountID you use to create this is the account-id of the VSTS account!!
 </p>
 <p>Make a GET request on</p>
 ```
