@@ -121,3 +121,24 @@ exports.getMeetings = function (accountId, userId) {
 
     });
 };
+
+exports.addAttendees = function (accountId, meetingId, attendees) {
+    // execute the stored procedure
+    return new Promise((resolve, reject) => {
+        client.executeStoredProcedure(`${collectionUrl}/sprocs/addAttendees`, [accountId, meetingId, attendees],
+            function (error, response) {
+                console.log("execute");
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(response);
+                }
+
+            });
+
+    })
+
+}
+
+
+
