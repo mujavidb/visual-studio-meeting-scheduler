@@ -6,12 +6,12 @@ import { generateRGBColor } from '../helpers/color-generator'
 //API: check if user has permission
 //API: pull all attendee details
 
-class ViewMeeting extends Component {
+class RespondInvitation extends Component {
 	constructor(props){
 		super(props)
 		// In the final implementation, you would do a GET request
 		// 		to get the element with the ID === props.params.id
-		this.meetings = [
+		this.invitations = [
 			{
 				"id"			: "1",
 				"name"			: "Plan Client Presentation",
@@ -22,104 +22,58 @@ class ViewMeeting extends Component {
 				"agenda"		: "This is what we will talk about",
 				"attendees"		: [
 					{
-						"id"		: "213",
+						"id"			: "213",
 						"availability"	: "blah",
 						"status"		: true,
 						"initials"		: "MB"
 					},
 					{
-						"id"		: "3489",
+						"id"			: "3489",
 						"availability"	: "blah",
 						"status"		: true,
 						"initials"		: "AH"
 					},
 					{
-						"id"		: "394",
+						"id"			: "394",
 						"availability"	: "blah",
 						"status"		: true,
 						"initials"		: "KC"
+					},
+					{
+						"id"			: "894",
+						"availability"	: "blah",
+						"status"		: true,
+						"initials"		: "YF"
+					},
+					{
+						"id"			: "9694",
+						"availability"	: "blah",
+						"status"		: true,
+						"initials"		: "EH"
 					}
 				]
-			},
-			{
-				"id"			: "2",
-				"name"			: "Weekly Standup",
-				"time"			: "",
-				"description"	: "Example description",
-				"location"		: "Break room",
-				"minutes"		: "This is what we talked about",
-				"agenda"		: "This is what we will talk about",
-				"attendees"		: [
-					{
-						"id"		: "213",
-						"availability"	: "blah",
-						"status"		: true,
-						"initials"		: "MB"
-					},
-					{
-						"id"		: "3489",
-						"availability"	: "blah",
-						"status"		: true,
-						"initials"		: "AH"
-					},
-					{
-						"id"		: "394",
-						"availability"	: "blah",
-						"status"		: true,
-						"initials"		: "KC"
-					}
-				]
-			},
-			{
-				"id"			: "3",
-				"name"			: "Sales Review",
-				"time"			: "2017-02-06T15:30:00+00:00",
-				"description"	: "We're going to review some sales",
-				"location"		: "Board Room",
-				"minutes"		: "This is what we talked about",
-				"agenda"		: "This is what we will talk about",
-				"attendees"		: [
-					{
-						"id"		: "213",
-						"availability"	: "blah",
-						"status"		: true,
-						"initials"		: "MB"
-					},
-					{
-						"id"		: "3489",
-						"availability"	: "blah",
-						"status"		: true,
-						"initials"		: "AH"
-					},
-					{
-						"id"		: "394",
-						"availability"	: "blah",
-						"status"		: true,
-						"initials"		: "KC"
-					}
-				]
-			},
+			}
 		]
-		this.meeting = this.meetings.find(item => item.id === this.props.id)
-		console.log(this.meeting)
+		this.invitation = this.invitations[0]
+		console.log(this.invitation);
 	}
 	render(){
 		return (
 				<div className="large_card_area single_meeting">
 					<header>
 						<div className="topbar">
-							<h2 className="container_title">{ this.meeting.name }</h2>
+							<h2 className="container_title">{ this.invitation.name }</h2>
 						</div>
 					</header>
 					<main>
 						<h3>Description</h3>
-						<span className="label">{ this.meeting.description }</span>
+						<span className="label">{ this.invitation.description }</span>
 
 						<h3>Agenda</h3>
 						<div className="agenda_area">
 							<div className="markdown_preview_area">
 								<div className="markdown_preview">
-									{ this.meeting.agenda }
+									{ this.invitation.agenda }
 								</div>
 							</div>
 						</div>
@@ -128,13 +82,13 @@ class ViewMeeting extends Component {
 						<div className="agenda_area">
 							<div className="markdown_preview_area">
 								<div className="markdown_preview">
-									{ this.meeting.minutes }
+									{ this.invitation.minutes }
 								</div>
 							</div>
 						</div>
 
 						<h3>Time</h3>
-						<span className="label">{ this.meeting.time ? moment(this.meeting.time).format("dddd Do MMMM HH:mm") : "Time TBC" }</span>
+						<span className="label">{ this.invitation.time ? moment(this.invitation.time).format("dddd Do MMMM HH:mm") : "Time TBC" }</span>
 
 						<h3>Availability</h3>
 						<span className="label">Highlight the areas where you would like the meeting time to fall within.</span>
@@ -145,7 +99,7 @@ class ViewMeeting extends Component {
 								<div className="attendees">
 									{
 										this
-										.meeting
+										.invitation
 										.attendees
 										.filter(attendee => attendee.status == true)
 										.map(attendee =>
@@ -166,4 +120,4 @@ class ViewMeeting extends Component {
 	}
 }
 
-export default ViewMeeting
+export default RespondInvitation

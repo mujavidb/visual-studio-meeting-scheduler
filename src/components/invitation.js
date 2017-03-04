@@ -6,7 +6,7 @@ import { generateRGBColor } from '../helpers/color-generator'
 const Invitation = props => {
 	return (
 		//TODO: Route this to seperate invitation view
-		<a className="meeting_card_container" role="button" onClick={()=>props.ctrl.viewMeeting(props.details.id)}>
+		<a className="meeting_card_container" role="button" onClick={()=>props.ctrl.respondInvitation(props.details.id)}>
 			<div className="meeting_card">
 				<h3 className="meeting_title">{ props.details.name }</h3>
 				<p className="meeting_datetime">{ formatToLongTime(props.details.time) }</p>

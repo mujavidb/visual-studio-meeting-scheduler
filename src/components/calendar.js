@@ -55,7 +55,12 @@ export default class Calendar extends Component {
 
 	render() {
 		return (
-			<div ref="calendar"></div>
+			<div>
+				<span className="label">Highlight the times you would like to suggest for this meeting.</span>
+				<div className="full_calendar_area">
+					<div ref="calendar"></div>
+				</div>
+			</div>
 		);
 	}
 }
