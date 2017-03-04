@@ -6,6 +6,7 @@ import { generateRGBColor } from '../helpers/color-generator'
 //API: check if user has permission
 //API: pull all attendee details
 
+
 class RespondInvitation extends Component {
 	constructor(props){
 		super(props)
@@ -55,7 +56,6 @@ class RespondInvitation extends Component {
 			}
 		]
 		this.invitation = this.invitations[0]
-		console.log(this.invitation);
 	}
 	render(){
 		return (

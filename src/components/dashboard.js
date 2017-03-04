@@ -2,6 +2,10 @@ import React, { Component } from "react"
 import Invitations from './invitations.js'
 import AllMeetings from './all-meetings.js'
 
+//API: OAuth
+//API: pull user details
+//API: pull all events
+
 class Dashboard extends Component {
 	constructor(props){
 		super(props)
