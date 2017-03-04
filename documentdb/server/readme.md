@@ -1,5 +1,4 @@
 <h1>How To Use Kelvin's API??!?!?!</h1>
-
 <h2>Installation</h2>
 <p>Firstly, you need to install the packages that is required for the server to run.</p>
 
@@ -16,7 +15,25 @@ DEBUG=*:server node ./bin/www
     be hosted onto Azure (I think).
 </p>
 
+
 <h2>API</h2>
+
+<h3>Create a Document</h3>
+<p>
+    In our system, every VSTS Account has it's own document, so if a VSTS account hasn't used the extension before
+    you will have to create a Document for that account using this API call
+</p>
+<p>Make a GET request on</p>
+```
+localhost:3000/document/create/:documentId
+```
+<p>For example:</p>
+```
+localhost:3000/document/create/sajdhjqwe-id-2
+```
+<p>At the moment this is a GET request, and is subject to change, though is a low priority<p>
+
+
 
 <h3>Create a meeting</h3>
 <p>create a POST request on </p>
@@ -53,4 +70,30 @@ localhost:3000/collection/ProperTestDocument/meeting/create/EatingChocolate
 ```
 
 <h3>Add attendees to a meeting</h3>
-<p>Make a POST request on 
+<p>Make a POST request on:</p>
+```
+localhost:3000/:documentId/:meetingId/attendees/add
+```
+<p>For example</p>
+```
+localhost:3000/my-document-id/my-meeting-id/attendees/add
+```
+<p>The POST body is as follows:</p>
+```
+{
+    "attendees": [
+        {
+            "id": "user-id-here",
+            "response": 0,
+            "name": "user's name here",
+            "availableTimes":[
+                {
+                    "dateStart": "some-date-object/string here",
+                    "dateEnd": "some-date-object/string here"
+                }
+            ]
+        }
+    ]
+}
+```
+<p>
