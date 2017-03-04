@@ -20,7 +20,14 @@ DEBUG=*:server node ./bin/www
 
 <h3>Create a meeting</h3>
 <p>create a POST request on </p>
-
+```
+localhost:3000/:documentId/meeting/create/:meetingName
+```
+<p>For example:</p>
+```
+localhost:3000/collection/ProperTestDocument/meeting/create/EatingChocolate
+```
+<p>The body of the POST request is as follows:</p>
 ```
 {
     "hostId": "123456789"",
@@ -40,3 +47,10 @@ DEBUG=*:server node ./bin/www
 ```
 
 <h3>Get all meetings of a user</h3>
+<p>Make a GET request on</p>
+```
+'localhost:3000/:documentId/meeting/get/:userId'
+```
+
+<h3>Add attendees to a meeting</h3>
+<p>Make a POST request on 
