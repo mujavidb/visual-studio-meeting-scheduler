@@ -62,8 +62,28 @@ h3 {
 	align-items: flex-start;
 }
 
+.loading-container {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	flex-flow: column nowrap;
+	height: 100%;
+	font-size: 20px;
+}
+
 
 // LARGE CARD LEVEL
+
+@keyframes fadeInUp {
+	from {
+		opacity: 0;
+		transform: translateY(20px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
 
 .large_card_area {
 	margin-right: 20px;
@@ -74,6 +94,8 @@ h3 {
 	flex-flow: column nowrap;
 	width: 100%;
 	max-width: 500px;
+	animation: fadeInUp 0.5s ease;
+	animation-fill-mode: forwards;
 }
 
 .large_card_area:last-child {
@@ -87,10 +109,12 @@ h3 {
 
 .large_card_area.create_meeting {
 	max-width: 800px;
+	animation-duration: 0.3s;
 }
 
 .large_card_area.single_meeting {
 	max-width: 700px;
+	animation-duration: 0.3s;
 }
 
 @media (max-width: 700px) {
@@ -143,6 +167,18 @@ header {
 	font-size: 1.4em;
 	font-weight: 600;
 	margin: 10px 0;
+	cursor: default;
+}
+
+.badge {
+    text-align: center;
+    background-color: $lighter-text;
+    color: white;
+    border-radius: 7px;
+    margin: 5px;
+    font-size: 17px;
+    padding: 2px 9px;
+	cursor: default;
 }
 
 .single_meeting footer,
@@ -212,6 +248,11 @@ header {
 .all_meetings:not(.past) .upcoming_button,
 .all_meetings.past .past_button {
 	color: #1175BC;
+}
+
+.meeting_card_container {
+	animation: fadeInUp 0.3s ease;
+	animation-fill-mode: forwards;
 }
 
 .meeting_card_container .meeting_card{
@@ -447,6 +488,41 @@ header {
 .single_meeting .markdown_preview_area,
 .single_meeting .attendee_added {
 	width: 100%;
+}
+
+// Loader image
+
+.loader-box {
+	width: 40px;
+	height: 40px;
+	margin: 20px 0;
+}
+.loader-cube {
+	width: 50%;
+	height: 50%;
+	background-color: #333;
+	float: left;
+	animation: loader-cubeGridScaleDelay 1.3s infinite ease-in-out;
+	animation-delay: 0.3s;
+}
+.loader-cube:nth-child(2) {
+	animation-delay: 0.5s;
+}
+.loader-cube:nth-child(3) {
+	animation-delay: 0.1s;
+}
+.loader-cube:nth-child(4) {
+	animation-delay: 0.3s;
+}
+
+@-webkit-keyframes loader-cubeGridScaleDelay {
+	0%, 70%, 100% {transform: scale3D(1, 1, 1);}
+	35% {transform: scale3D(0, 0, 1);}
+}
+
+@keyframes loader-cubeGridScaleDelay {
+	0%, 70%, 100% { transform: scale3D(1, 1, 1);}
+	35% { transform: scale3D(0, 0, 1);}
 }
 
 @import "full-calendar-overrides";

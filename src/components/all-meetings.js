@@ -14,9 +14,9 @@ class AllMeetings extends Component {
 		this.setState({isPast: goToPast})
 	}
 	filterUpcoming(isPast){
-		return item => {
-			if(!item.time) return !isPast;
-			return moment(item.time).isAfter(moment()) === !isPast;
+		return meeting => {
+			if(!meeting.time) return !isPast;
+			return moment(meeting.time).isAfter(moment()) === !isPast;
 		}
 	}
 	getMeetingList() {
@@ -24,7 +24,11 @@ class AllMeetings extends Component {
 		if (filteredMeetings.length > 0) {
 			return filteredMeetings.map(item => <Meeting key={item.id} details={item} ctrl={this.props.ctrl}/>)
 		} else {
-			return <div className="empty_state_card">"Your have no {this.state.isPast ? 'past' : 'upcoming'} meetings"</div>
+			return (
+				<div className="empty_state_card">
+					You currently have no {this.state.isPast ? 'past' : 'upcoming'} meetings.
+				</div>
+			)
 		}
 	}
 	render(){
@@ -34,7 +38,7 @@ class AllMeetings extends Component {
 					<div className="topbar">
 						<h2 className="container_title">
 							All Meetings&nbsp;
-							<span className="badge">({this.props.meetings.length})</span>
+							<span className="badge">{this.props.meetings.length}</span>
 						</h2>
 						<a onClick={this.props.ctrl.createMeeting} className="button primary" role="button">Create Meeting</a>
 					</div>

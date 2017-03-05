@@ -2,14 +2,13 @@ import React, { Component } from 'react'
 import Invitation from './invitation.js'
 
 const Invitations = props => {
-	const allInvitations = props.invitations
 	let content
-	if (allInvitations.length > 0) {
-		content = allInvitations.map( item => <Invitation key={item.id} details={item} ctrl={props.ctrl}/>)
+	if (props.invitations.length > 0) {
+		content = props.invitations.map( item => <Invitation key={item.id} details={item} ctrl={props.ctrl}/>)
 	} else {
 		content = (
 			<div className="empty_state_card">
-				"You currently have no invitations."
+				"You currently have no meeting invitations."
 			</div>
 		)
 	}
@@ -19,12 +18,12 @@ const Invitations = props => {
 				<div className="topbar">
 					<h2 className="container_title">
 						Invitations&nbsp;
-						<span className="badge">({props.invitations.length})</span>
+						<span className="badge">{props.invitations.length}</span>
 					</h2>
 				</div>
 			</header>
 			<main>
-				{ props.invitations.map( item => <Invitation key={item.id} details={item} ctrl={props.ctrl}/>) }
+				{ content }
 			</main>
 		</div>
 		)

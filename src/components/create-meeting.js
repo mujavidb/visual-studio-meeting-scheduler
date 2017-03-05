@@ -29,7 +29,7 @@ export default class CreateMeeting extends Component {
 			{ initials: "YM", id: "934i029jd", name: "Yousef Mahmood"}
 		]
 		//mocks form passed to selector
-		this.suggestions = this.query_results.map(a => { return { id: a.id, name: a.name } })
+		this.suggestions = this.query_results.map(a => ({ id: a.id, name: a.name }))
 	}
 	updateMarkdown(text){
 		this.setState({markdown_text: text})
