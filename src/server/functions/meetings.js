@@ -131,6 +131,15 @@ exports.getMeetings = function (accountId, userId) {
                        WHERE\
                         a.id IN (@userId)";
 
+    var queryString = "SELECT\
+                        m AS meetings\
+                       FROM\
+                        AccountsCollection c\
+                       JOIN m IN c.meetings\
+                       JOIN a IN m.attendees\
+                       WHERE ARRAY_CONTAINS(m.attendees, @userId)";
+                        
+
     // console.log(typeof userId);
 
     var query = {
