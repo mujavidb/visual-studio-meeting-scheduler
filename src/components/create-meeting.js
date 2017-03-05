@@ -12,7 +12,7 @@ export default class CreateMeeting extends Component {
 	constructor(props){
 		super(props)
 		this.updateMarkdown = this.updateMarkdown.bind(this)
-		this.onChangeTimeSlots = this.onChangeTimeSlots.bind(this)
+		this.updateTimeSlots = this.updateTimeSlots.bind(this)
 		this.updateAttendees = this.updateAttendees.bind(this)
 		this.state = {
 			markdown_text: 'Enter *markdown* here',
@@ -34,10 +34,9 @@ export default class CreateMeeting extends Component {
 	updateMarkdown(text){
 		this.setState({markdown_text: text})
 	}
-	// NEED TO GET ARRAY OF EVENTS DIRECT FROM FULL CALENDAR
-	onChangeTimeSlots(newTimeSlots){
+	updateTimeSlots(newTimeSlots){
+		console.log(newTimeSlots)
 		this.setState({timeSlots:newTimeSlots})
-		console.log(this.state.timeSlots)
 	}
 	updateAttendees(attendees){
 		this.setState({attendees: attendees})
@@ -60,7 +59,7 @@ export default class CreateMeeting extends Component {
 
 						<h3>Availability</h3>
 						<Calendar
-							onChangeTimeSlots={this.onChangeTimeSlots} />
+							onChangeTimeSlots={this.updateTimeSlots} />
 
 						<h3>Attendees</h3>
 						<AutosuggestUser

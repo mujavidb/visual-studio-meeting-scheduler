@@ -3,6 +3,12 @@ import fullcalendar from 'fullcalendar'
 import moment from 'moment'
 import $ from 'jquery'
 
+//TODO: Add ability to load in meetings
+//TODO: Add handles to move between dates
+//TODO: Find way to highlight meetings in other weeks to user
+//TODO: Find ways to show all meetings to a user and
+//		have them select the most favourable
+
 export default class Calendar extends Component {
 	constructor(props){
 		super(props);
@@ -10,7 +16,7 @@ export default class Calendar extends Component {
 	}
 	componentDidMount() {
 		const { calendar } = this.refs;
-		var that = this;
+		const _this = this;
 		$(calendar).fullCalendar({
 		    header: {
 		    	left: '',
@@ -28,29 +34,29 @@ export default class Calendar extends Component {
 			selectable: true,
 			selectHelper: true,
 			select: function(start, end) {
-				var title = "Meeting";
-				var eventData = {
+				const title = "Meeting";
+				const eventData = {
 					title: title,
 					start: start,
 					end: end
 				};
 				$(calendar).fullCalendar('renderEvent', eventData, true); // stick? = true
-				var events = $(calendar).fullCalendar('clientEvents');
-				that.props.onChangeTimeSlots(events);
+				const events = $(calendar).fullCalendar('clientEvents');
+				_this.props.onChangeTimeSlots(events);
 				$(calendar).fullCalendar('unselect');
 
 			},
 			eventClick: function(calEvent, jsEvent, view) {
-				view = $(calendar).fullCalendar('getView');
-				$(calendar).fullCalendar('removeEvents', calEvent._id);
-				var events = $(calendar).fullCalendar('clientEvents');
-				that.props.onChangeTimeSlots(events);
+				view = $(calendar).fullCalendar('getView')
+				$(calendar).fullCalendar('removeEvents', calEvent._id)
+				const events = $(calendar).fullCalendar('clientEvents')
+				_this.props.onChangeTimeSlots(events)
 			},
 			editable: true,
 			eventOverlap: true,
 			eventLimit: true, // allow "more" link when too many events
 
-		});
+		})
 	}
 
 	render() {
