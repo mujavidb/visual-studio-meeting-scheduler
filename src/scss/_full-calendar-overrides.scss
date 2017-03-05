@@ -1,0 +1,17 @@
+//Global scope override
+#root .full_calendar_area {
+	.fc-toolbar.fc-header-toolbar {
+		display: none;
+	}
+	thead th {
+		vertical-align: middle;
+		height: 38px;
+		font-weight: 600;
+	}
+	tbody td {
+		font-size: 14px;
+	}
+	td.fc-today {
+		background-color: #e3f1fc;
+	}
+}

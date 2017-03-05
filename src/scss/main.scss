@@ -2,6 +2,7 @@
 
 $background:#E8E8E8;
 
+$lighter-text: #6c6c6c;
 $default-text: #4c4c4c;
 $darker-text: #2c2c2c;
 
@@ -17,31 +18,46 @@ $primary-button-hover:#0875AC;
 
 $border: #CCCCCC;
 
-html,body {
-	background-color: $background;
-	margin: 0;
+html, body {
+	display: block;
+	width:100vw;
+	height:100vh;
+	margin:0;
+	padding:0;
 }
 
-html {
+#root {
 	font-family: Segoe UI, sans-serif;
 	padding: 0;
+	background-color: $background;
 	box-sizing: border-box;
-}
-
-body {
-	padding:20px;
-	box-sizing: border-box;
-	width: 100vw;
-	height: 100vh;
 	color: $default-text;
-	display: flex;
-	flex-flow: row nowrap;
-	align-items: flex-start;
+	padding:20px;
+	margin: 0;
+	width: 100%;
+    height: 100%;
+	overflow: scroll;
 }
 
 a, a:hover {
 	color: $default-text;
 	text-decoration: none;
+}
+
+h3 {
+	font-size: 1em;
+	font-weight: 600;
+	color: $lighter-text;
+}
+
+[role="button"] {
+    cursor:pointer;
+}
+
+.main-container {
+	display: flex;
+	flex-flow: row nowrap;
+	align-items: flex-start;
 }
 
 
@@ -56,7 +72,6 @@ a, a:hover {
 	flex-flow: column nowrap;
 	width: 100%;
 	max-width: 500px;
-	max-height: 80vh;
 }
 
 .large_card_area:last-child {
@@ -64,12 +79,15 @@ a, a:hover {
 }
 
 .large_card_area main {
-	overflow: scroll;
 	display: flex;
 	flex-flow: column nowrap;
 }
 
 .large_card_area.create_meeting {
+	max-width: 800px;
+}
+
+.large_card_area.single_meeting {
 	max-width: 700px;
 }
 
@@ -156,11 +174,12 @@ header {
 }
 
 .content_filters a {
+    font-weight: 600;
 	padding: 3px 10px;
+    width: 90px;
 	box-sizing: border-box;
 	border-left: 2px solid #ccc;
 	color: $default-text;
-	font-weight: 400;
 }
 
 .content_filters a:first-child {
@@ -172,7 +191,6 @@ header {
 .all_meetings:not(.past) .upcoming_button,
 .all_meetings.past .past_button {
 	color: #1175BC;
-	font-weight: 600;
 }
 
 .meeting_card_container .meeting_card{
@@ -193,11 +211,11 @@ header {
 	background-color: #9c9c9c;
 }
 
-.upcoming .meeting_card {
+.meeting_card {
 	background-color: $upcoming-event;
 }
 
-.upcoming .meeting_card:hover {
+.meeting_card:hover {
 	background-color: $upcoming-event-hover;
 }
 
@@ -219,11 +237,10 @@ header {
 
 
 
-.meeting_title {
+.all_meetings .meeting_title,
+.invitations .meeting_title {
+	color: white;
 	margin: 0 0 5px;
-}
-
-.meeting_title {
 	font-weight: 400;
 	font-size: 1.3em;
 }
@@ -236,6 +253,10 @@ header {
 .meeting_location {
 	font-size: 1em;
 	margin:  0 0 15px;
+}
+
+.full_calendar_area {
+	margin-bottom: 15px;
 }
 
 .attendees {
@@ -289,8 +310,8 @@ header {
 	margin-bottom: 5px;
 }
 
-.create_meeting h3 {
-	font-weight: 600;
+.create_meeting h3,
+.single_meeting h3 {
 	margin: 0 0 5px;
 }
 
@@ -322,7 +343,7 @@ header {
 
 .markdown_input,
 .markdown_preview_area {
-	width: 47.5%;
+	width: calc(50% - 5px);
 	display: flex;
 	flex-flow: column nowrap;
 	align-items: stretch;
@@ -330,6 +351,7 @@ header {
 
 .markdown_input textarea {
 	min-height: 120px;
+	font-size: 15px;
 }
 
 .markdown_preview {
@@ -351,3 +373,48 @@ header {
 .attendee_added {
 	color: white;
 }
+
+// MARKDOWN SYNTAX
+
+.markdown_preview {
+	h1 {
+		margin: 0 0 15px 0;
+		font-size: 1.6em;
+	}
+	h2 {
+		margin: 0 0 12px 0;
+		font-size: 1.4em;
+	}
+	h3 {
+		margin: 0 0 10px 0;
+		font-size: 1.2em;
+	}
+	h4 {
+		margin: 0 0 10px 0;
+		font-size: 1.1em;
+	}
+	ul{
+		margin: 0 0 10px 0;
+		padding: 0 0 0 30px;
+	}
+	p {
+		margin: 0 0 10px 0;
+	}
+}
+
+//SINGLE MEETING
+
+.single_meeting .meeting_title {
+	font-weight: 600;
+	margin: 0 0 15px;
+	font-size: 1.3em;
+	color: $default-text;
+}
+
+.single_meeting .markdown_preview_area,
+.single_meeting .attendee_added {
+	width: 100%;
+}
+
+
+@import "full-calendar-overrides";
