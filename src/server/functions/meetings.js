@@ -32,10 +32,12 @@ exports.createMeeting = function (accountId, hostId, meetingId, meetingName, que
             "value": accountId
         }]
     };
-
+     
     return new Promise((resolve, reject) => {
         // console.log("returning Promise for createMeeting function"); First get whole
         // document.
+
+        // client.executeStoredProcedure()
         client
             .queryDocuments(collectionUrl, query)
             .toArray((error, results) => {
@@ -84,6 +86,37 @@ exports.createMeeting = function (accountId, hostId, meetingId, meetingName, que
             });
     });
 }
+
+
+exports.getMeeting = function (accountId, meetingId) {
+
+    var queryString = 
+    "SELECT\
+    m AS meeting\
+    FROM\
+    AccountsCollection c\
+    JOIN m IN c.meetings\
+    WHERE\
+    m.meetingId = @meetingId "; 
+
+    var query = {
+        "query": queryString,
+        "parameters": [{
+            "name": "@meetingId",
+            "value": meetingId
+        }]
+    };
+    return new Promise((resolve, reject) => {
+        client.queryDocuments(collectionUrl, query)
+            .toArray((error, results) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(results);
+                }
+            });
+    });
+};
 
 exports.getMeetings = function (accountId, userId) {
     var documentUrl = `${collectionUrl}/docs/${accountId}`;
@@ -139,6 +172,3 @@ exports.addAttendees = function (accountId, meetingId, attendees) {
     })
 
 }
-
-
-

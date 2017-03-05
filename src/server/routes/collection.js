@@ -68,6 +68,20 @@ router.get('/:documentId/meeting/get/:userId', function (req, res, next) {
 
 });
 
+// Get an individual meeting
+router.get('/:documentId/:meetingId/get', function(req, res, next) {
+
+    Meetings
+    .getMeeting(req.params.documentId, req.params.meetingId)
+    .then((response) => {
+        res.send(response);
+    })
+    .catch((error) => {
+        res.send(error);
+    });
+});
+
+
 // Add Attendees to meeting
 router.post('/:documentId/:meetingId/attendees/add', function(req,res,next) {
     var accountId = req.params.documentId;
