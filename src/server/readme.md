@@ -100,3 +100,13 @@ localhost:3000/my-document-id/my-meeting-id/attendees/add
 }
 ```
 <p>
+
+<h3>Get a single meeting using meetingId</h3>
+<p>Make a GET request on:</p>
+```
+localhost:3000/collection/my-document-id/meeting-id/get
+```
+</p>For example:</p>
+```
+localhost:3000/collection/ProperTestDocument/DdVqhdEV5gVuj/get
+```
