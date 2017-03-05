@@ -12,6 +12,10 @@ config.collection = {
     "id": "AccountsCollection"
 };
 
+config.meetingsCollection = {
+    "id": "MeetingsCollection"
+}
+
 config.documents = {
    "Account12oi31oi2j31":      {
          "tsAccountId":"12oi31oi2j31",
