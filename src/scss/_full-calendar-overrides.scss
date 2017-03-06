@@ -14,4 +14,23 @@
 	td.fc-today {
 		background-color: #e3f1fc;
 	}
+	.fc-ltr .fc-time-grid .fc-event-container {
+		margin: 0 1px 0 1px;
+	}
+	.fc-time-grid-event .fc-time {
+		box-sizing: border-box;
+		margin-top: 4px;
+		width: 100%;
+		padding: 0;
+		text-align: center;
+	}
+	.fc-time-grid-event .fc-title {
+		padding: 2px 0 0 0;
+		text-align: center;
+	}
+	.fc-event {
+		background-color: #0a71bd;
+		border-color: #75c2d8;
+		border-radius: 0;
+	}
 }

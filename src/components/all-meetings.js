@@ -6,17 +6,29 @@ class AllMeetings extends Component {
 	constructor(props){
 		super(props)
 		this.state = {
-			isPast: false
+			isPast: this.props.isPast !== undefined ? this.props.isPast : false
 		}
 		this.toggleMeetings = this.toggleMeetings.bind(this);
 	}
 	toggleMeetings(goToPast){
 		this.setState({isPast: goToPast})
 	}
-	filterUpcoming(isUpcoming){
-		return item => {
-			if(!item.time) return isUpcoming;
-			return moment(item.time).isAfter(moment()) === isUpcoming;
+	filterUpcoming(isPast){
+		return meeting => {
+			if(!meeting.time) return !isPast;
+			return moment(meeting.time).isAfter(moment()) === !isPast;
+		}
+	}
+	getMeetingList() {
+		const filteredMeetings = this.props.meetings.filter(this.filterUpcoming(this.state.isPast))
+		if (filteredMeetings.length > 0) {
+			return filteredMeetings.map(item => <Meeting key={item.id} details={item} ctrl={this.props.ctrl}/>)
+		} else {
+			return (
+				<div className="empty_state_card">
+					You currently have no {this.state.isPast ? 'past' : 'upcoming'} meetings.
+				</div>
+			)
 		}
 	}
 	render(){
@@ -25,8 +37,7 @@ class AllMeetings extends Component {
 				<header>
 					<div className="topbar">
 						<h2 className="container_title">
-							All Meetings&nbsp;
-							<span className="badge">({this.props.meetings.length})</span>
+							All Meetings
 						</h2>
 						<a onClick={this.props.ctrl.createMeeting} className="button primary" role="button">Create Meeting</a>
 					</div>
@@ -36,13 +47,7 @@ class AllMeetings extends Component {
 					</div>
 				</header>
 				<main>
-						{
-							this
-							.props
-							.meetings
-							.filter(this.filterUpcoming(this.state.isPast))
-							.map(item => <Meeting key={item.id} details={item} ctrl={this.props.ctrl}/>)
-						}
+					{ this.getMeetingList() }
 				</main>
 			</div>
 			)

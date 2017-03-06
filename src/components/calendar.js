@@ -2,18 +2,71 @@ import React, { Component } from "react"
 import fullcalendar from 'fullcalendar'
 import moment from 'moment'
 import $ from 'jquery'
-import { calendarConfig } from "../helpers/calendar-config.js"
+
+//TODO: Add ability to load in meetings
+//TODO: Add handles to move between dates
+//TODO: Find way to highlight meetings in other weeks to user
+//TODO: Find ways to show all meetings to a user and
+//		have them select the most favourable
 
 export default class Calendar extends Component {
+	constructor(props){
+		super(props);
+		this.currentID = 0;
+	}
 	componentDidMount() {
 		const { calendar } = this.refs;
+		const _this = this;
+		$(calendar).fullCalendar({
+		    header: {
+		    	left: '',
+				center: 'title',
+				right: ''
+		    },
+		    titleFormat: 'MMM D YYYY',
+		    defaultView: 'agendaWeek',
+		    defaultDate: moment(),
+		    firstDay: 1,
+		    scrollTime: '08:00:00',
+		    columnFormat: 'ddd D/M',
+		    allDaySlot: false,
+		    navLinks: false, // can click day/week names to navigate views
+			selectable: true,
+			selectHelper: true,
+			select: function(start, end) {
+				const title = "Meeting";
+				const eventData = {
+					title: title,
+					start: start,
+					end: end
+				};
+				$(calendar).fullCalendar('renderEvent', eventData, true); // stick? = true
+				const events = $(calendar).fullCalendar('clientEvents');
+				_this.props.onChangeTimeSlots(events);
+				$(calendar).fullCalendar('unselect');
 
-		$(calendar).fullCalendar(calendarConfig);
+			},
+			eventClick: function(calEvent, jsEvent, view) {
+				view = $(calendar).fullCalendar('getView')
+				$(calendar).fullCalendar('removeEvents', calEvent._id)
+				const events = $(calendar).fullCalendar('clientEvents')
+				_this.props.onChangeTimeSlots(events)
+			},
+			editable: true,
+			eventOverlap: true,
+			eventLimit: true, // allow "more" link when too many events
+
+		})
 	}
 
 	render() {
 		return (
-			<div ref="calendar"></div>
+			<div>
+				<span className="label">Highlight the times you would like to suggest for this meeting.</span>
+				<div className="full_calendar_area">
+					<div ref="calendar"></div>
+				</div>
+			</div>
 		);
 	}
 }

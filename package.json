@@ -5,15 +5,23 @@
   "scripts": {
     "dev": "npm run dev_server & npm run watch_sass",
     "dev_server": "webpack-dev-server --hot",
-    "watch_sass": "node-sass --watch --output-style compressed --include-path scss src/scss/main.scss src/public/css/main.css",
-    "update_version": "awk -F'[\"]' -v OFS='\"'  '/\"version\":/{split($4,a,\".\");$4=a[1]\".\"a[2]\".\"a[3]+1};1' src/vss-extension.json > src/vss-extension.json~; mv src/vss-extension.json~ src/vss-extension.json",
-    "copy_files": "cp -R src/public src/vss-extension.json build"
+    "watch_sass": "node-sass --watch --output-style compressed --include-path scss src/scss/main.scss src/assets/css/main.css",
+
+    "build": "npm run sass; npm run autoprefix; npm run version; npm run clean_copy; npm run webpack; npm run extension",
+    "sass": "node-sass --output-style compressed --include-path scss src/scss/main.scss src/assets/css/main.css",
+    "autoprefix": "postcss --use autoprefixer src/assets/css/main.css -d src/assets/css/",
+    "version": "awk -F'[\"]' -v OFS='\"'  '/\"version\":/{split($4,a,\".\");$4=a[1]\".\"a[2]\".\"a[3]+1};1' src/vss-extension.json > src/vss-extension.json~; mv src/vss-extension.json~ src/vss-extension.json",
+    "clean_copy": "rm -rf build; mkdir build; cp -R src/assets src/vss-extension.json src/index.html build",
+    "webpack": "webpack -p --config webpack.production.config.js",
+    "extension": "tfx extension create --manifest-globs vss-extension.json --root build --output-path build --share-with vs1team8",
+    "publish": "tfx extension publish --manifest-globs vss-extension.json --root build --output-path build --share-with vs1team8"
   },
   "license": "MIT",
   "author": "Mujavid Bukhari, Alasdair Hall and Kelvin Chan",
   "private": true,
   "dependencies": {
     "autoprefixer": "^6.3.6",
+    "postcss-cli": "^2.5.2",
     "babel-core": "^6.22.1",
     "babel-loader": "^6.2.10",
     "babel-preset-es2015": "^6.22.0",
@@ -26,19 +34,21 @@
     "moment": "^2.17.1",
     "node-sass": "^3.13.1",
     "react": "^15.4.2",
+    "react-autosuggest": "^9.0.0",
     "react-dom": "^15.4.2",
+    "react-redux": "^5.0.3",
+    "redux": "^3.6.0",
     "remarkable": "^1.7.1",
     "style-loader": "^0.13.1",
-    "url-loader": "^0.5.7",
-    "webpack": "^2.2.0",
-    "webpack-dev-server": "^2.3.0"
+    "url-loader": "^0.5.7"
+  },
+  "devDependencies": {
+    "webpack-merge": "^3.0.0",
+    "webpack-dev-server": "^2.3.0",
+    "webpack": "^2.2.1"
   },
   "babel": {
     "minified": true,
     "shouldPrintComment": false
-  },
-  "devDependencies": {
-    "redux-devtools": "^3.3.2",
-    "webpack": "^2.2.1"
   }
 }

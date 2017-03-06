@@ -13,10 +13,12 @@ $past-event-hover: #E0894E;
 $event-invitation:#A0447A;
 $event-invitation-hover: #8F417F;
 
-$primary-button:#137CC9;
+$primary-button:#106EBE;
 $primary-button-hover:#0875AC;
+$muted-button: $lighter-text;
+$muted-button-hover: $default-text;
 
-$border: #CCCCCC;
+$border: #DADADA;
 
 html, body {
 	display: block;
@@ -60,8 +62,28 @@ h3 {
 	align-items: flex-start;
 }
 
+.loading-container {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	flex-flow: column nowrap;
+	height: 100%;
+	font-size: 20px;
+}
+
 
 // LARGE CARD LEVEL
+
+@keyframes fadeInUp {
+	from {
+		opacity: 0;
+		transform: translateY(20px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
 
 .large_card_area {
 	margin-right: 20px;
@@ -72,6 +94,8 @@ h3 {
 	flex-flow: column nowrap;
 	width: 100%;
 	max-width: 500px;
+	animation: fadeInUp 0.5s ease;
+	animation-fill-mode: forwards;
 }
 
 .large_card_area:last-child {
@@ -85,10 +109,12 @@ h3 {
 
 .large_card_area.create_meeting {
 	max-width: 800px;
+	animation-duration: 0.3s;
 }
 
 .large_card_area.single_meeting {
 	max-width: 700px;
+	animation-duration: 0.3s;
 }
 
 @media (max-width: 700px) {
@@ -141,6 +167,14 @@ header {
 	font-size: 1.4em;
 	font-weight: 600;
 	margin: 10px 0;
+	cursor: default;
+}
+
+.single_meeting footer,
+.create_meeting footer{
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: space-between;
 }
 
 .button {
@@ -148,7 +182,8 @@ header {
 	padding: 10px 15px;
 	box-sizing: border-box;
 	color: white;
-	border: 1px solid $border;
+	border: none;
+	outline: none;
 }
 
 .button:hover {
@@ -156,7 +191,7 @@ header {
 }
 
 .button.maxed {
-	max-width: 150px;
+	min-width: 150px;
 	text-align: center;
 }
 
@@ -166,6 +201,18 @@ header {
 
 .primary:hover {
 	background-color: $primary-button-hover;
+}
+
+.cancel {
+	background-color: $muted-button;
+}
+
+.cancel:hover {
+	background-color: $muted-button-hover;
+}
+
+.cancel + .primary {
+	align-self: flex-end;
 }
 
 .content_filters {
@@ -191,6 +238,11 @@ header {
 .all_meetings:not(.past) .upcoming_button,
 .all_meetings.past .past_button {
 	color: #1175BC;
+}
+
+.meeting_card_container {
+	animation: fadeInUp 0.3s ease;
+	animation-fill-mode: forwards;
 }
 
 .meeting_card_container .meeting_card{
@@ -235,6 +287,18 @@ header {
 	background-color: $event-invitation-hover;
 }
 
+.empty_state_card {
+	box-sizing: border-box;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	padding: 20px;
+	font-size: 20px;
+	height: 200px;
+	color: $default-text;
+	background-color: #dcdcdc;
+}
 
 
 .all_meetings .meeting_title,
@@ -253,10 +317,6 @@ header {
 .meeting_location {
 	font-size: 1em;
 	margin:  0 0 15px;
-}
-
-.full_calendar_area {
-	margin-bottom: 15px;
 }
 
 .attendees {
@@ -307,12 +367,31 @@ header {
 .label {
 	color: #8c8c8c;
 	font-size: 0.9em;
-	margin-bottom: 5px;
+	margin-bottom: 10px;
 }
 
 .create_meeting h3,
 .single_meeting h3 {
 	margin: 0 0 5px;
+}
+
+.create_meeting section,
+.single_meeting section {
+	display: flex;
+	flex-direction: column;
+	margin: 0 0 15px 0;
+}
+
+.error_list {
+	padding: 10px;
+	margin:0;
+	list-style: none;
+	background-color: #FF8080;
+	color: white;
+}
+
+.error_list li {
+	margin-bottom: 4px;
 }
 
 .large_card_area input,
@@ -323,10 +402,7 @@ header {
 	outline:0;
 	border: 1px solid $border;
 	color: $default-text;
-}
-
-.large_card_area input {
-	margin-bottom: 15px;
+	margin-bottom: 0;
 }
 
 .large_card_area textarea {
@@ -338,7 +414,6 @@ header {
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
-	margin-bottom: 15px;
 }
 
 .markdown_input,
@@ -416,5 +491,39 @@ header {
 	width: 100%;
 }
 
+// Loader image
+
+.loader-box {
+	width: 40px;
+	height: 40px;
+	margin: 20px 0;
+}
+.loader-cube {
+	width: 50%;
+	height: 50%;
+	background-color: #333;
+	float: left;
+	animation: loader-cubeGridScaleDelay 1.2s infinite ease-in-out;
+	animation-delay: 0.25s;
+}
+.loader-cube:nth-child(2) {
+	animation-delay: 0.4s;
+}
+.loader-cube:nth-child(3) {
+	animation-delay: 0.1s;
+}
+.loader-cube:nth-child(4) {
+	animation-delay: 0.25s;
+}
+
+@-webkit-keyframes loader-cubeGridScaleDelay {
+	0%, 70%, 100% {transform: scale3D(1, 1, 1);}
+	35% {transform: scale3D(0, 0, 1);}
+}
+
+@keyframes loader-cubeGridScaleDelay {
+	0%, 70%, 100% { transform: scale3D(1, 1, 1);}
+	35% { transform: scale3D(0, 0, 1);}
+}
 
 @import "full-calendar-overrides";
