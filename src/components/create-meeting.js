@@ -8,6 +8,9 @@ import MarkdownEditor from './markdown-editor'
 //API: get users in project
 //API: Send all users
 
+//FIX: Autosuggest on click
+//FIX: Autosuggest on type, hide irrelevant
+
 export default class CreateMeeting extends Component {
 	constructor(props){
 		super(props)
