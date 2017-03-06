@@ -37,3 +37,7 @@ testem.log
 .DS_Store
 Thumbs.db
 
+node_modules/
+bower_components/
+.vscode
+
