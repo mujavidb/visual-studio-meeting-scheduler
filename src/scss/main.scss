@@ -13,12 +13,12 @@ $past-event-hover: #E0894E;
 $event-invitation:#A0447A;
 $event-invitation-hover: #8F417F;
 
-$primary-button:#137CC9;
+$primary-button:#106EBE;
 $primary-button-hover:#0875AC;
 $muted-button: $lighter-text;
 $muted-button-hover: $default-text;
 
-$border: #CCCCCC;
+$border: #DADADA;
 
 html, body {
 	display: block;
@@ -170,17 +170,6 @@ header {
 	cursor: default;
 }
 
-.badge {
-    text-align: center;
-    background-color: $lighter-text;
-    color: white;
-    border-radius: 7px;
-    margin: 5px;
-    font-size: 17px;
-    padding: 2px 9px;
-	cursor: default;
-}
-
 .single_meeting footer,
 .create_meeting footer{
 	display: flex;
@@ -193,7 +182,8 @@ header {
 	padding: 10px 15px;
 	box-sizing: border-box;
 	color: white;
-	border: 1px solid $border;
+	border: none;
+	outline: none;
 }
 
 .button:hover {
@@ -329,10 +319,6 @@ header {
 	margin:  0 0 15px;
 }
 
-.full_calendar_area {
-	margin-bottom: 15px;
-}
-
 .attendees {
 	display: flex;
 	flex-flow: row wrap;
@@ -381,12 +367,31 @@ header {
 .label {
 	color: #8c8c8c;
 	font-size: 0.9em;
-	margin-bottom: 5px;
+	margin-bottom: 10px;
 }
 
 .create_meeting h3,
 .single_meeting h3 {
 	margin: 0 0 5px;
+}
+
+.create_meeting section,
+.single_meeting section {
+	display: flex;
+	flex-direction: column;
+	margin: 0 0 15px 0;
+}
+
+.error_list {
+	padding: 10px;
+	margin:0;
+	list-style: none;
+	background-color: #FF8080;
+	color: white;
+}
+
+.error_list li {
+	margin-bottom: 4px;
 }
 
 .large_card_area input,
@@ -397,10 +402,7 @@ header {
 	outline:0;
 	border: 1px solid $border;
 	color: $default-text;
-}
-
-.large_card_area input {
-	margin-bottom: 15px;
+	margin-bottom: 0;
 }
 
 .large_card_area textarea {
@@ -412,7 +414,6 @@ header {
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
-	margin-bottom: 15px;
 }
 
 .markdown_input,
@@ -502,17 +503,17 @@ header {
 	height: 50%;
 	background-color: #333;
 	float: left;
-	animation: loader-cubeGridScaleDelay 1.3s infinite ease-in-out;
-	animation-delay: 0.3s;
+	animation: loader-cubeGridScaleDelay 1.2s infinite ease-in-out;
+	animation-delay: 0.25s;
 }
 .loader-cube:nth-child(2) {
-	animation-delay: 0.5s;
+	animation-delay: 0.4s;
 }
 .loader-cube:nth-child(3) {
 	animation-delay: 0.1s;
 }
 .loader-cube:nth-child(4) {
-	animation-delay: 0.3s;
+	animation-delay: 0.25s;
 }
 
 @-webkit-keyframes loader-cubeGridScaleDelay {

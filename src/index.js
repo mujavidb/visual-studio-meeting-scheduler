@@ -1,10 +1,10 @@
 import React, { Component } from "react"
 import ReactDOM from "react-dom"
 
-import Dashboard from './components/dashboard'
-import CreateMeeting from './components/create-meeting'
-import ViewMeeting from './components/view-meeting'
-import RespondInvitation from './components/respond-invitation'
+import Dashboard from './pages/dashboard'
+import CreateMeeting from './pages/create-meeting'
+import ViewMeeting from './pages/view-meeting'
+import RespondInvitation from './pages/respond-invitation'
 
 class MainController extends Component {
 	constructor(){
@@ -16,7 +16,8 @@ class MainController extends Component {
 			respondInvitation: id => this.setState({current: <RespondInvitation ctrl={this.ctrl} />})
 		}
 		this.state = {
-			current: <Dashboard ctrl={this.ctrl} />
+			// current: <Dashboard ctrl={this.ctrl} />
+			current: <CreateMeeting ctrl={this.ctrl} />
 		}
 	}
 	render(){

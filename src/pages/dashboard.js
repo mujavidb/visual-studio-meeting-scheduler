@@ -1,7 +1,7 @@
 import React, { Component } from "react"
-import Invitations from './all-invitations'
-import AllMeetings from './all-meetings'
-import LoadingImage from './loading-image'
+import Invitations from '../components/all-invitations'
+import AllMeetings from '../components/all-meetings'
+import LoadingImage from '../components/loading-image'
 
 //API: OAuth
 //API: get user id
@@ -174,7 +174,7 @@ class Dashboard extends Component {
 				]
 			}
 		]
-		setTimeout(()=> this.setState({meetings: meetings, loading: false}), 2000)
+		setTimeout(()=> this.setState({meetings: meetings, loading: false}), 300)
 	}
 	render(){
 		let content

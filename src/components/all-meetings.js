@@ -37,8 +37,7 @@ class AllMeetings extends Component {
 				<header>
 					<div className="topbar">
 						<h2 className="container_title">
-							All Meetings&nbsp;
-							<span className="badge">{this.props.meetings.length}</span>
+							All Meetings
 						</h2>
 						<a onClick={this.props.ctrl.createMeeting} className="button primary" role="button">Create Meeting</a>
 					</div>

@@ -11,7 +11,7 @@
     "sass": "node-sass --output-style compressed --include-path scss src/scss/main.scss src/assets/css/main.css",
     "autoprefix": "postcss --use autoprefixer src/assets/css/main.css -d src/assets/css/",
     "version": "awk -F'[\"]' -v OFS='\"'  '/\"version\":/{split($4,a,\".\");$4=a[1]\".\"a[2]\".\"a[3]+1};1' src/vss-extension.json > src/vss-extension.json~; mv src/vss-extension.json~ src/vss-extension.json",
-    "clean_copy": "rm -rf build; mkdir build; cp -R src/assets src/vss-extension.json src/dashboard.html build",
+    "clean_copy": "rm -rf build; mkdir build; cp -R src/assets src/vss-extension.json src/index.html build",
     "webpack": "webpack -p --config webpack.production.config.js",
     "extension": "tfx extension create --manifest-globs vss-extension.json --root build --output-path build --share-with vs1team8",
     "publish": "tfx extension publish --manifest-globs vss-extension.json --root build --output-path build --share-with vs1team8"
@@ -40,12 +40,11 @@
     "redux": "^3.6.0",
     "remarkable": "^1.7.1",
     "style-loader": "^0.13.1",
-    "url-loader": "^0.5.7",
-    "webpack": "^2.2.0",
-    "webpack-dev-server": "^2.3.0",
-    "webpack-merge": "^3.0.0"
+    "url-loader": "^0.5.7"
   },
   "devDependencies": {
+    "webpack-merge": "^3.0.0",
+    "webpack-dev-server": "^2.3.0",
     "webpack": "^2.2.1"
   },
   "babel": {

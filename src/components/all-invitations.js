@@ -17,8 +17,7 @@ const Invitations = props => {
 			<header>
 				<div className="topbar">
 					<h2 className="container_title">
-						Invitations&nbsp;
-						<span className="badge">{props.invitations.length}</span>
+						Invitations
 					</h2>
 				</div>
 			</header>
