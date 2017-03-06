@@ -121,47 +121,20 @@ exports.getMeeting = function (accountId, meetingId) {
 exports.getMeetings = function (accountId, userId) {
     var documentUrl = `${collectionUrl}/docs/${accountId}`;
 
-    // Build query
-    var queryString = "SELECT\
-                        m AS meetings\
-                       FROM\
-                        AccountsCollection c\
-                       JOIN m IN c.meetings\
-                       JOIN a IN m.attendees\
-                       WHERE\
-                        a.id IN (@userId)";
-
-    var queryString = "SELECT\
-                        m AS meetings\
-                       FROM\
-                        AccountsCollection c\
-                       JOIN m IN c.meetings\
-                       JOIN a IN m.attendees\
-                       WHERE ARRAY_CONTAINS(m.attendees, @userId)";
-                        
-
-    // console.log(typeof userId);
-
-    var query = {
-        "query": queryString,
-        "parameters": [{
-            "name": "@userId",
-            "value": userId
-        }]
-    };
     return new Promise((resolve, reject) => {
-        client
-            .queryDocuments(collectionUrl, query)
-            .toArray((error, results) => {
+        client.executeStoredProcedure(`${collectionUrl}/sprocs/getMeetings`, [accountId, userId],
+            function (error, response) {
+                console.log("execute");
                 if (error) {
-                    // console.log("Something not found, not sure what");
                     reject(error);
                 } else {
-                    resolve(results);
+                    resolve(response);
                 }
+
             });
 
     });
+
 };
 
 exports.addAttendees = function (accountId, meetingId, attendees) {
@@ -178,6 +151,6 @@ exports.addAttendees = function (accountId, meetingId, attendees) {
 
             });
 
-    })
+    });
 
 }
