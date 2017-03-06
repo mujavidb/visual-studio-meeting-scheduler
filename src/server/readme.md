@@ -27,11 +27,11 @@ DEBUG=*:server node ./bin/www
 </p>
 <p>Make a GET request on</p>
 ```
-localhost:3000/document/create/:documentId
+localhost:3000/collection/document/create/:documentId
 ```
 <p>For example:</p>
 ```
-localhost:3000/document/create/sajdhjqwe-id-2
+localhost:3000/collection/document/create/sajdhjqwe-id-2
 ```
 <p>At the moment this is a GET request, and is subject to change, though is a low priority<p>
 
@@ -68,18 +68,18 @@ localhost:3000/collection/ProperTestDocument/meeting/create/EatingChocolate
 <h3>Get all meetings of a user</h3>
 <p>Make a GET request on</p>
 ```
-'localhost:3000/:documentId/meeting/get/:userId'
+'localhost:3000/collection/:documentId/meeting/get/:userId'
 ```
 <p>UNDER-DEVELOPMENT: I still have a few query things I need to mess around with before I'm happy with this</p>
 
 <h3>Add attendees to a meeting</h3>
 <p>Make a POST request on:</p>
 ```
-localhost:3000/:documentId/:meetingId/attendees/add
+localhost:3000/collection/:documentId/:meetingId/attendees/add
 ```
 <p>For example</p>
 ```
-localhost:3000/my-document-id/my-meeting-id/attendees/add
+localhost:3000/collection/my-document-id/my-meeting-id/attendees/add
 ```
 <p>The POST body is as follows:</p>
 ```
