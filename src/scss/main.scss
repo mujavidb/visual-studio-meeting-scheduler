@@ -327,15 +327,19 @@ header {
 .attendee_block {
 	position: relative;
 	display: flex;
-	flex-flow: row wrap;
 	justify-content: center;
 	align-items: center;
-	padding: 6px;
+	width: 40px;
+	height: 40px;
 	box-sizing: border-box;
 	border: 1px solid white;
 	background-color: rgba(145, 65, 125, 0.9);
 	margin: 0 10px 10px 0;
 	user-select:none;
+}
+
+.attendee_details {
+	font-size: 15px;
 }
 
 .remove {
@@ -353,7 +357,7 @@ header {
 	color: white;
 	transition: all 0.3s ease;
 	font-size: 2em;
-	line-height: 0.6;
+	line-height: 0.75;
 }
 
 .attendee_block .remove:hover {
@@ -503,7 +507,7 @@ header {
 	height: 50%;
 	background-color: #333;
 	float: left;
-	animation: loader-cubeGridScaleDelay 1.2s infinite ease-in-out;
+	animation: cubeScale 1.2s infinite ease-in-out;
 	animation-delay: 0.25s;
 }
 .loader-cube:nth-child(2) {
@@ -516,12 +520,7 @@ header {
 	animation-delay: 0.25s;
 }
 
-@-webkit-keyframes loader-cubeGridScaleDelay {
-	0%, 70%, 100% {transform: scale3D(1, 1, 1);}
-	35% {transform: scale3D(0, 0, 1);}
-}
-
-@keyframes loader-cubeGridScaleDelay {
+@keyframes cubeScale {
 	0%, 70%, 100% { transform: scale3D(1, 1, 1);}
 	35% { transform: scale3D(0, 0, 1);}
 }

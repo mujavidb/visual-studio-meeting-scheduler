@@ -25,6 +25,8 @@ export default class CreateMeeting extends Component {
 			errors: [],
 			formSubmitted: false
 		}
+		this.accountID = "funfun123123"
+		this.userID = "lovebug321321"
 		this._titleInput = {}
 		//mocks form received in
 		this.query_results = [
@@ -35,8 +37,6 @@ export default class CreateMeeting extends Component {
 			{ initials: "FP", id: "mlksandhg", name: "Faiz Punakkath"},
 			{ initials: "YM", id: "934i029jd", name: "Yousef Mahmood"}
 		]
-		//mocks form passed to selector
-		this.suggestions = this.query_results.map(a => ({ id: a.id, name: a.name }))
 	}
 	updateMarkdown(text){
 		this.setState({markdown_text: text})
@@ -79,7 +79,7 @@ export default class CreateMeeting extends Component {
 				"attendees": [this.state.attendees.map(a=>({ id: a.id, name: a.name }))]
 			}
 			console.log(data)
-			const request = XMLHttpRequest()
+			const request = new XMLHttpRequest()
 			request.open('POST', `http://localhost:3000/meeting/get/${this.props.userID}`, true)
 			request.setRequestHeader("Content-Type", "application/json")
 			request.onreadystatechange = () => {
@@ -143,7 +143,6 @@ export default class CreateMeeting extends Component {
 							<h3>Attendees</h3>
 							<AutosuggestUser
 								originalData={this.query_results}
-								suggestions={this.suggestions}
 								update={this.updateAttendees}/>
 						</section>
 

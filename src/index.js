@@ -16,8 +16,8 @@ class MainController extends Component {
 			respondInvitation: id => this.setState({current: <RespondInvitation ctrl={this.ctrl} />})
 		}
 		this.state = {
-			// current: <Dashboard ctrl={this.ctrl} />
-			current: <CreateMeeting ctrl={this.ctrl} />
+			current: <Dashboard ctrl={this.ctrl} />
+			// current: <CreateMeeting ctrl={this.ctrl} />
 		}
 	}
 	render(){

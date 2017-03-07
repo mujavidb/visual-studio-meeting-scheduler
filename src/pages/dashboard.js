@@ -174,7 +174,7 @@ class Dashboard extends Component {
 				]
 			}
 		]
-		setTimeout(()=> this.setState({meetings: meetings, loading: false}), 300)
+		setTimeout(()=> this.setState({meetings: meetings, loading: false}), 2000)
 	}
 	render(){
 		let content

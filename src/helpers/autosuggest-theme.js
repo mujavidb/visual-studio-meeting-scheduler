@@ -20,7 +20,7 @@ export default {
 		display: 'block',
 		boxSizing: "border-box",
 		position: 'absolute',
-		bottom: 54,
+		top: "calc(100% - 1px)",
 		width: "100%",
 		zIndex: 2,
 		border: '1px solid #CCC',

@@ -12,11 +12,12 @@ export default class AutosuggestUser extends Component {
 		this.onSuggestionsFetchRequested = this.onSuggestionsFetchRequested.bind(this)
 		this.onSuggestionsClearRequested = this.onSuggestionsClearRequested.bind(this)
 		this.onUpdateAttendeesInput = this.onUpdateAttendeesInput.bind(this)
+		this.data = this.props.originalData.map(a => ({ id: a.id, name: a.name }))
 
 		this.state = {
 			attendee_value: "",
-			attendees: [], //kill duplicates
-			suggestions: []
+			attendees: [],
+			suggestions: this.data
 		}
 	}
 	onSuggestionSelected(event, { data }){
@@ -30,13 +31,13 @@ export default class AutosuggestUser extends Component {
 			})
 			this.props.update(newAttendees)
 		} else {
-			this.setState({ suggestions: [] })
+			this.setState({ suggestions: [], attendee_value: ""})
 		}
 	}
 	getSuggestions(value){
 		const inputValue = value.trim().toLowerCase()
 		const re = new RegExp(`${inputValue}`)
-		return inputValue === "" ? [] : this.props.suggestions.filter(a => re.test(a.name.toLowerCase()))
+		return inputValue === "" ? [] : this.props.originalData.filter(a => re.test(a.name.toLowerCase()))
 	}
 	onSuggestionsFetchRequested({ value }){
 		this.setState({ suggestions: this.getSuggestions(value) })
@@ -66,7 +67,7 @@ export default class AutosuggestUser extends Component {
 				<div className="attendee_input">
 					<span className="label">Add attendees to this meeting.</span>
 					<Autosuggest
-						suggestions={this.props.suggestions}
+						suggestions={this.state.suggestions}
 						onSuggestionSelected={this.onSuggestionSelected}
 						onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
 						onSuggestionsClearRequested={this.onSuggestionsClearRequested}

@@ -112,51 +112,66 @@ class ViewMeeting extends Component {
 						</div>
 					</header>
 					<main>
-						<h3>Description</h3>
-						<span className="label">{ this.meeting.description }</span>
+						<section>
+							<h3>Description</h3>
+							<span className="label">{ this.meeting.description }</span>
+						</section>
 
-						<h3>Agenda</h3>
-						<div className="agenda_area">
-							<div className="markdown_preview_area">
-								<div className="markdown_preview">
-									{ this.meeting.agenda }
+						<section>
+							<h3>Agenda</h3>
+							<div className="agenda_area">
+								<div className="markdown_preview_area">
+									<div className="markdown_preview">
+										{ this.meeting.agenda }
+									</div>
 								</div>
 							</div>
-						</div>
+						</section>
 
-						<h3>Minutes</h3>
-						<div className="agenda_area">
-							<div className="markdown_preview_area">
-								<div className="markdown_preview">
-									{ this.meeting.minutes }
+						<section>
+							<h3>Minutes</h3>
+							<div className="agenda_area">
+								<div className="markdown_preview_area">
+									<div className="markdown_preview">
+										{ this.meeting.minutes }
+									</div>
 								</div>
 							</div>
-						</div>
+						</section>
 
-						<h3>Time</h3>
-						<span className="label">{ this.meeting.time ? moment(this.meeting.time).format("dddd Do MMMM HH:mm") : "Time TBC" }</span>
+						<section>
+							<h3>Time</h3>
+							<span className="label">
+								{ this.meeting.time ? moment(this.meeting.time).format("dddd Do MMMM HH:mm") : "Time TBC" }
+							</span>
+						</section>
 
-						<h3>Availability</h3>
-						<span className="label">Highlight the areas where you would like the meeting time to fall within.</span>
+						<section>
+							<h3>Availability</h3>
+							<span className="label">Highlight the areas where you would like the meeting time to fall within.</span>
+						</section>
 
-						<h3>Attendees</h3>
-						<div className="attendee_area">
-							<div className="attendee_added">
-								<div className="attendees">
-									{
-										this
-										.meeting
-										.attendees
-										.filter(attendee => attendee.status == true)
-										.map(attendee =>
-											<div className="attendee_block" key={attendee.id} style={{backgroundColor: generateRGBColor(attendee.initials)}}>
-												<span className="attendee_initials">{attendee.initials}</span>
-											</div>
-										)
-									}
+						<section>
+							<h3>Attendees</h3>
+							<div className="attendee_area">
+								<div className="attendee_added">
+									<div className="attendees">
+										{
+											this
+											.meeting
+											.attendees
+											.filter(attendee => attendee.status == true)
+											.map(attendee =>
+												<div className="attendee_block" key={attendee.id} style={{backgroundColor: generateRGBColor(attendee.initials)}}>
+													<span className="attendee_initials">{attendee.initials}</span>
+												</div>
+											)
+										}
+									</div>
 								</div>
 							</div>
-						</div>
+						</section>
+
 						<footer>
 							<a onClick={()=>this.props.ctrl.dashboard()} className="button cancel maxed" role="button">Back</a>
 						</footer>
