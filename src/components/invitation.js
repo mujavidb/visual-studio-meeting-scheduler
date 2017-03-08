@@ -16,12 +16,20 @@ const Invitation = props => {
 						props
 						.details
 						.attendees
-						.filter(attendee => attendee.status == true)
-						.map(item =>
-							<div className="attendee_block" key={item.id} style={{backgroundColor: generateRGBColor(item.initials)}}>
-								<span className="attendee_initials">{item.initials}</span>
-							</div>
-						)
+						.sort((a,b)=> a === true ? 0 : 1)
+						.map(attendee => {
+							const classes = `attendee_block ${attendee.status == "" ? "unresponsive" : "responsive"}`
+							const blockTitle = `${attendee.initials} has ${attendee.status == "" ? "not yet" : ""} responded`
+							return (
+								<div
+									key={attendee.id}
+									className={classes}
+									title={blockTitle}
+									style={{backgroundColor: generateRGBColor(attendee.initials)}} >
+									<span className="attendee_initials">{attendee.initials}</span>
+								</div>
+							)
+						})
 					}
 				</div>
 			</div>

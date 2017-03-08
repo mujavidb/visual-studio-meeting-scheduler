@@ -73,7 +73,7 @@ export default class RespondCalendar extends Component {
 	render() {
 		return (
 			<div>
-				<span className="label">Click a proposed time slot to mark it as possible. You can select multiple events.</span>
+				<span className="label">Click a proposed time slot to mark it as possible. You can select multiple slots.</span>
 				<div className="full_calendar_area">
 					<div ref="calendar"></div>
 				</div>

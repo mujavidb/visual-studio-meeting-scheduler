@@ -11,6 +11,7 @@ import MarkdownRenderer from '../components/markdown-renderer'
 class RespondInvitation extends Component {
 	constructor(props){
 		super(props)
+		this.onSubmit = this.onSubmit.bind(this)
 		this.updateSelectedTimeSlots = this.updateSelectedTimeSlots.bind(this)
 		this.state = {
 			selected: []
@@ -69,6 +70,9 @@ class RespondInvitation extends Component {
 	updateSelectedTimeSlots(updatedSlots){
 		this.setState({selected: updatedSlots})
 	}
+	onSubmit(){
+
+	}
 	render(){
 		return (
 			<div className="large_card_area single_meeting">
@@ -116,7 +120,8 @@ class RespondInvitation extends Component {
 					</section>
 
 					<footer>
-						<a onClick={()=>this.props.ctrl.dashboard()} className="button cancel maxed" role="button">Back</a>
+						<button onClick={this.props.ctrl.dashboard} className="button cancel maxed">Back</button>
+						<button onClick={this.onSubmit} className="button primary maxed">Submit Availability</button>
 					</footer>
 				</main>
 			</div>

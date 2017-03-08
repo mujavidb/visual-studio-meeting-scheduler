@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import moment from 'moment'
 import { generateRGBColor } from '../helpers/color-generator'
+import MarkdownRenderer from '../components/markdown-renderer'
+import { formatToLongTime } from '../helpers/format-time'
 
 //API: pull event details
 //API: check if user has permission
@@ -24,7 +26,7 @@ class ViewMeeting extends Component {
 					{
 						"id"		: "213",
 						"availability"	: "blah",
-						"status"		: true,
+						"status"		: false,
 						"initials"		: "MB"
 					},
 					{
@@ -101,55 +103,35 @@ class ViewMeeting extends Component {
 			},
 		]
 		this.meeting = this.meetings.find(item => item.id === this.props.id)
-		console.log(this.meeting)
 	}
 	render(){
+		const meetingTime = this.meeting.time ? moment(this.meeting.time).format("ddd Do MMM, h:mma") : "Time TBC"
+		const meetingTimeTitle = this.meeting.time ? moment(this.meeting.time).format("dddd Do MMMM YYYY, h:mma") : "Time TBC"
+		const minutes = this.meeting.minutes == "" ? ""
+												   : (
+													<section>
+														<h3>Minutes</h3>
+														<MarkdownRenderer
+															content={this.meeting.minutes}/>
+													</section>
+												   )
 		return (
 				<div className="large_card_area single_meeting">
 					<header>
 						<div className="topbar">
 							<h2 className="container_title">{ this.meeting.name }</h2>
+							<h2 className="container_date" title={meetingTimeTitle}>{ meetingTime }</h2>
 						</div>
 					</header>
 					<main>
-						<section>
-							<h3>Description</h3>
-							<span className="label">{ this.meeting.description }</span>
-						</section>
 
 						<section>
 							<h3>Agenda</h3>
-							<div className="agenda_area">
-								<div className="markdown_preview_area">
-									<div className="markdown_preview">
-										{ this.meeting.agenda }
-									</div>
-								</div>
-							</div>
+							<MarkdownRenderer
+								content={this.meeting.agenda}/>
 						</section>
 
-						<section>
-							<h3>Minutes</h3>
-							<div className="agenda_area">
-								<div className="markdown_preview_area">
-									<div className="markdown_preview">
-										{ this.meeting.minutes }
-									</div>
-								</div>
-							</div>
-						</section>
-
-						<section>
-							<h3>Time</h3>
-							<span className="label">
-								{ this.meeting.time ? moment(this.meeting.time).format("dddd Do MMMM HH:mm") : "Time TBC" }
-							</span>
-						</section>
-
-						<section>
-							<h3>Availability</h3>
-							<span className="label">Highlight the areas where you would like the meeting time to fall within.</span>
-						</section>
+						{ minutes }
 
 						<section>
 							<h3>Attendees</h3>
@@ -160,12 +142,20 @@ class ViewMeeting extends Component {
 											this
 											.meeting
 											.attendees
-											.filter(attendee => attendee.status == true)
-											.map(attendee =>
-												<div className="attendee_block" key={attendee.id} style={{backgroundColor: generateRGBColor(attendee.initials)}}>
-													<span className="attendee_initials">{attendee.initials}</span>
-												</div>
-											)
+											.sort((a,b)=> a === true ? 0 : 1)
+											.map(attendee => {
+												const classes = `attendee_block ${attendee.status == "" ? "unresponsive" : "responsive"}`
+												const blockTitle = `${attendee.initials} has ${attendee.status == "" ? "not yet" : ""} responded`
+												return (
+													<div
+														key={attendee.id}
+														className={classes}
+														title={blockTitle}
+														style={{backgroundColor: generateRGBColor(attendee.initials)}} >
+														<span className="attendee_initials">{attendee.initials}</span>
+													</div>
+												)
+											})
 										}
 									</div>
 								</div>

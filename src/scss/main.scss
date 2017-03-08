@@ -162,14 +162,21 @@ header {
 	display: flex;
 	flex-flow: row nowrap;
 	justify-content:space-between;
-	align-items: center;
+	align-items: baseline;
 }
 
-.container_title {
+.container_title,
+.container_date {
 	font-size: 1.4em;
 	font-weight: 600;
 	margin: 10px 0;
 	cursor: default;
+}
+
+.container_date {
+	font-size: 1em;
+	flex-basis: 200px;
+	text-align: right;
 }
 
 .single_meeting,
@@ -198,7 +205,7 @@ header {
 
 .button {
 	font-size: 1em;
-	padding: 10px 15px;
+	padding: 15px;
 	box-sizing: border-box;
 	color: white;
 	border: none;
@@ -359,6 +366,10 @@ header {
 
 .attendee_details {
 	font-size: 15px;
+}
+
+.attendee_block.unresponsive {
+	opacity: 0.6;
 }
 
 .remove {
