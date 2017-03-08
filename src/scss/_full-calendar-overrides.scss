@@ -32,5 +32,11 @@
 		background-color: #0a71bd;
 		border-color: #75c2d8;
 		border-radius: 0;
+		transition: all 0.3s ease;
+		cursor: pointer;
+	}
+	.fc-event.selected {
+		background-color: #0DAD76;
+		border-color: #6FE4C1;
 	}
 }

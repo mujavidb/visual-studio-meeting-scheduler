@@ -11,13 +11,13 @@ class MainController extends Component {
 		super()
 		this.ctrl = {
 			dashboard: () => this.setState({current: <Dashboard ctrl={this.ctrl} />}),
-			viewMeeting: id => this.setState({current: <ViewMeeting id={id} ctrl={this.ctrl} />}),
 			createMeeting: () => this.setState({current: <CreateMeeting ctrl={this.ctrl} />}),
+			viewMeeting: id => this.setState({current: <ViewMeeting id={id} ctrl={this.ctrl} />}),
 			respondInvitation: id => this.setState({current: <RespondInvitation ctrl={this.ctrl} />})
 		}
 		this.state = {
-			current: <Dashboard ctrl={this.ctrl} />
-			// current: <CreateMeeting ctrl={this.ctrl} />
+			// current: <Dashboard ctrl={this.ctrl} />
+			current: <RespondInvitation ctrl={this.ctrl} />
 		}
 	}
 	render(){

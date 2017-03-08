@@ -6,7 +6,6 @@
     "dev": "npm run dev_server & npm run watch_sass",
     "dev_server": "webpack-dev-server --hot",
     "watch_sass": "node-sass --watch --output-style compressed --include-path scss src/scss/main.scss src/assets/css/main.css",
-
     "build": "npm run sass; npm run autoprefix; npm run version; npm run clean_copy; npm run webpack; npm run extension",
     "sass": "node-sass --output-style compressed --include-path scss src/scss/main.scss src/assets/css/main.css",
     "autoprefix": "postcss --use autoprefixer src/assets/css/main.css -d src/assets/css/",
@@ -21,7 +20,6 @@
   "private": true,
   "dependencies": {
     "autoprefixer": "^6.3.6",
-    "postcss-cli": "^2.5.2",
     "babel-core": "^6.22.1",
     "babel-loader": "^6.2.10",
     "babel-preset-es2015": "^6.22.0",
@@ -32,7 +30,9 @@
     "jquery": "^3.1.1",
     "marked": "^0.3.6",
     "moment": "^2.17.1",
+    "moment-timezone": "^0.5.11",
     "node-sass": "^3.13.1",
+    "postcss-cli": "^2.5.2",
     "react": "^15.4.2",
     "react-autosuggest": "^9.0.0",
     "react-dom": "^15.4.2",

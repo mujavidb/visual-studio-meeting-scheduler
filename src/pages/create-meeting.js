@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import Calendar from '../components/calendar'
+import CreateCalendar from '../components/create-calendar'
 import AutosuggestUser from '../components/autosuggest-user'
 import MarkdownEditor from '../components/markdown-editor'
 
@@ -137,7 +137,7 @@ export default class CreateMeeting extends Component {
 
 						<section>
 							<h3>Availability</h3>
-							<Calendar
+							<CreateCalendar
 								onChangeTimeSlots={this.updateTimeSlots}/>
 						</section>
 
