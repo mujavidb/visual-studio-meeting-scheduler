@@ -6,12 +6,12 @@ import theme from '../helpers/autosuggest-theme'
 export default class AutosuggestUser extends Component {
 	constructor(props){
 		super(props)
-		this.onSuggestionSelected = this.onSuggestionSelected.bind(this)
-		this.deleteAttendee = this.deleteAttendee.bind(this)
 		this.getSuggestions = this.getSuggestions.bind(this)
+		this.deleteAttendee = this.deleteAttendee.bind(this)
 		this.onSuggestionsFetchRequested = this.onSuggestionsFetchRequested.bind(this)
 		this.onSuggestionsClearRequested = this.onSuggestionsClearRequested.bind(this)
 		this.onUpdateAttendeesInput = this.onUpdateAttendeesInput.bind(this)
+		this.onSuggestionSelected = this.onSuggestionSelected.bind(this)
 		this.data = this.props.originalData.map(a => ({ id: a.id, name: a.name }))
 
 		this.state = {
@@ -20,7 +20,7 @@ export default class AutosuggestUser extends Component {
 			suggestions: this.data
 		}
 	}
-	onSuggestionSelected(event, { data }){
+	onSuggestionSelected(event, others){
 		const newAttendee = this.props.originalData.find(a => a.name === this.state.attendee_value)
 		if (newAttendee != undefined && this.state.attendees.filter(a=>a.id == newAttendee.id).length == 0) {
 			const newAttendees = [...this.state.attendees, newAttendee]
@@ -45,8 +45,21 @@ export default class AutosuggestUser extends Component {
 	onSuggestionsClearRequested(){
 		this.setState({ suggestions: [] })
 	}
-	onUpdateAttendeesInput(event, data){
-		this.setState({ attendee_value: data.newValue })
+	onUpdateAttendeesInput(event, {newValue, method}){
+		if (method == "click") {
+
+			//setting click state is a hack to trigger componentDidUpdate
+			//and run onSuggestionSelected() which doesn't usually run on click event
+			this.setState({ attendee_value: newValue, click: true })
+		} else {
+			this.setState({ attendee_value: newValue })
+		}
+	}
+	componentDidUpdate(){
+		if (this.state.click) {
+			this.onSuggestionSelected()
+			this.setState({ click: false })
+		}
 	}
 	deleteAttendee(e, data){
 		const id = e.currentTarget.parentNode.getAttribute("id")

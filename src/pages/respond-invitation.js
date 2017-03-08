@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import moment from 'moment'
 import { generateRGBColor } from '../helpers/color-generator'
 import RespondCalendar from '../components/respond-calendar'
+import MarkdownRenderer from '../components/markdown-renderer'
 
 //API: pull event details
 //API: check if user has permission
@@ -80,13 +81,8 @@ class RespondInvitation extends Component {
 
 					<section>
 						<h3>Agenda</h3>
-						<div className="agenda_area">
-							<div className="markdown_preview_area">
-								<div className="markdown_preview">
-									{ this.invitation.agenda }
-								</div>
-							</div>
-						</div>
+						<MarkdownRenderer
+							content={this.invitation.agenda}/>
 					</section>
 
 					<section>

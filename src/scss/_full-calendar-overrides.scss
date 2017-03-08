@@ -29,10 +29,10 @@
 		text-align: center;
 	}
 	.fc-event {
-		background-color: #0a71bd;
+		background-color: $vs-blue;
 		border-color: #75c2d8;
 		border-radius: 0;
-		transition: all 0.3s ease;
+		transition: all 0.1s ease;
 		cursor: pointer;
 	}
 	.fc-event.selected {

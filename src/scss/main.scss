@@ -13,7 +13,9 @@ $past-event-hover: #E0894E;
 $event-invitation:#A0447A;
 $event-invitation-hover: #8F417F;
 
-$primary-button:#106EBE;
+$vs-blue: #106EBE;
+
+$primary-button: $vs-blue;
 $primary-button-hover:#0875AC;
 $muted-button: $lighter-text;
 $muted-button-hover: $default-text;
@@ -168,6 +170,23 @@ header {
 	font-weight: 600;
 	margin: 10px 0;
 	cursor: default;
+}
+
+.single_meeting,
+.create_meeting {
+	padding: 0;
+}
+
+.single_meeting header,
+.create_meeting header {
+	padding: 20px 20px 5px;
+    background-color: $vs-blue;
+    color: white;
+}
+
+.single_meeting main,
+.create_meeting main{
+	padding: 0 20px 20px;
 }
 
 .single_meeting footer,
@@ -369,9 +388,10 @@ header {
 //CREATE MEETING
 
 .label {
+	display: block;
 	color: #8c8c8c;
 	font-size: 0.9em;
-	margin-bottom: 10px;
+	margin-bottom: 8px;
 }
 
 .create_meeting h3,
@@ -433,20 +453,15 @@ header {
 	font-size: 15px;
 }
 
-.markdown_preview {
-	padding: 10px;
-	box-sizing: border-box;
-	height: 100%;
-	border: 1px solid $border;
-	color: $default-text;
-	background-color: #fafafa;
-}
-
 .attendee_input,
 .attendee_added {
 	width: 47.5%;
 	display: flex;
 	flex-flow: column nowrap;
+}
+
+.attendee_input > div {
+	margin-bottom: 10px;
 }
 
 .attendee_added {
@@ -456,6 +471,14 @@ header {
 // MARKDOWN SYNTAX
 
 .markdown_preview {
+
+	padding: 10px;
+	box-sizing: border-box;
+	height: 100%;
+	border: 1px solid $border;
+	color: $default-text;
+	background-color: #fafafa;
+
 	h1 {
 		margin: 0 0 15px 0;
 		font-size: 1.6em;
@@ -478,6 +501,10 @@ header {
 	}
 	p {
 		margin: 0 0 10px 0;
+	}
+
+	p:last-child {
+		margin: 0;
 	}
 }
 
