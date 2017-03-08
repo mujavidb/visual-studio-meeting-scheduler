@@ -75,23 +75,25 @@ export default class CreateMeeting extends Component {
 		if (this.validateInput()){
 			const data = {
 				"hostId": "1234567891234",
-				"hostAvailability": [this.state.timeSlots.map(a=>({ dateStart: a, dateEnd: a }))],
+				"meetingName": this._titleInput.value,
+				"hostAvailability": [this.state.timeSlots.map(a=>({start: a.start.toLocaleString(), end: a.end.toLocaleString()}))],
 				"attendees": [this.state.attendees.map(a=>({ id: a.id, name: a.name }))]
 			}
+			console.log("Sending Data")
 			console.log(data)
-			const request = new XMLHttpRequest()
-			request.open('POST', `http://localhost:3000/meeting/get/${this.props.userID}`, true)
-			request.setRequestHeader("Content-Type", "application/json")
-			request.onreadystatechange = () => {
-				if (request.readystate === XMLHttpRequest.DONE){
-					if (request.status == 200) {
+			// const request = new XMLHttpRequest()
+			// request.open('POST', `http://localhost:3000/meeting/get/${this.props.userID}`, true)
+			// request.setRequestHeader("Content-Type", "application/json")
+			// request.onreadystatechange = () => {
+			// 	if (request.readystate === XMLHttpRequest.DONE){
+			// 		if (request.status == 200) {
 
-					} else {
-						console.log("Oops, there's a problemo")
-					}
-				}
-			}
-			request.send(data)
+			// 		} else {
+			// 			console.log("Oops, there's a problemo")
+			// 		}
+			// 	}
+			// }
+			// request.send(data)
 		}
 	}
 	componentDidMount(){

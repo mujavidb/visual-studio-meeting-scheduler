@@ -33,17 +33,16 @@ export default class Calendar extends Component {
 		    navLinks: false, // can click day/week names to navigate views
 			selectable: true,
 			selectHelper: true,
+			slotLabelFormat: "h(:mm)a",
 			select: function(start, end) {
-				const title = "Meeting";
 				const eventData = {
-					title: title,
 					start: start,
 					end: end
-				};
-				$(calendar).fullCalendar('renderEvent', eventData, true); // stick? = true
-				const events = $(calendar).fullCalendar('clientEvents');
-				_this.props.onChangeTimeSlots(events);
-				$(calendar).fullCalendar('unselect');
+				}
+				$(calendar).fullCalendar('renderEvent', eventData, true) // stick? = true
+				const events = $(calendar).fullCalendar('clientEvents')
+				_this.props.onChangeTimeSlots(events)
+				$(calendar).fullCalendar('unselect')
 
 			},
 			eventClick: function(calEvent, jsEvent, view) {
@@ -54,8 +53,7 @@ export default class Calendar extends Component {
 			},
 			editable: true,
 			eventOverlap: true,
-			eventLimit: true, // allow "more" link when too many events
-
+			eventLimit: true // allow "more" link when too many events
 		})
 	}
 
