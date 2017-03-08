@@ -28,6 +28,8 @@ export default class CreateMeeting extends Component {
 		this.accountID = "funfun123123"
 		this.userID = "lovebug321321"
 		this._titleInput = {}
+		this._locationInput = {}
+
 		//mocks form received in
 		this.query_results = [
 			{ initials: "MB", id: "najd38j9h", name: "Mujavid Bukhari"},
@@ -39,27 +41,21 @@ export default class CreateMeeting extends Component {
 		]
 	}
 	updateMarkdown(text){
-		this.setState({markdown_text: text})
-		if (this.state.formSubmitted) {
-			this.validateInput()
-		}
+		this.setState({markdown_text: text, updated: true})
 	}
 	updateTimeSlots(newTimeSlots){
-		this.setState({timeSlots:newTimeSlots})
-		if (this.state.formSubmitted) {
-			this.validateInput()
-		}
+		this.setState({timeSlots:newTimeSlots, updated: true})
 	}
 	updateAttendees(attendees){
-		this.setState({attendees: attendees})
-		if (this.state.formSubmitted) {
-			this.validateInput()
-		}
+		this.setState({attendees: attendees, updated: true})
 	}
 	validateInput(){
 		const errors = []
 		if (this._titleInput.value === "") {
 			errors.push("You need to add a title.")
+		}
+		if (this._locationInput.value === "") {
+			errors.push("You need to add a location.")
 		}
 		if (this.state.timeSlots.length === 0){
 			errors.push("You need to select some availability slots on the calendar.")
@@ -67,7 +63,7 @@ export default class CreateMeeting extends Component {
 		if (this.state.attendees.length === 0){
 			errors.push("You need to add attendees to the meeting.")
 		}
-		this.setState({errors: errors})
+		this.setState({errors: errors, updated: false})
 		return errors.length === 0 ? true : false
 	}
 	onSubmit(){
@@ -99,6 +95,11 @@ export default class CreateMeeting extends Component {
 	componentDidMount(){
 		this._titleInput.focus()
 	}
+	componentDidUpdate(){
+		if (this.state.formSubmitted && this.state.updated) {
+			this.validateInput()
+		}
+	}
 	render(){
 		let errors
 		if (this.state.errors.length > 0){
@@ -117,15 +118,22 @@ export default class CreateMeeting extends Component {
 							<h2 className="container_title">Create a Meeting</h2>
 						</div>
 					</header>
-					{ errors }
 					<main>
 						<section>
 							<h3>Title</h3>
 							<input
 								ref={x=>this._titleInput = x}
 								type="text"
-								name="title"
 								placeholder="Enter meeting title"
+								onChange={()=>this.state.formSubmitted ? this.validateInput() : ""}/>
+						</section>
+
+						<section>
+							<h3>Location</h3>
+							<input
+								ref={x=>this._locationInput = x}
+								type="text"
+								placeholder="Enter meeting location"
 								onChange={()=>this.state.formSubmitted ? this.validateInput() : ""}/>
 						</section>
 
@@ -147,7 +155,7 @@ export default class CreateMeeting extends Component {
 								originalData={this.query_results}
 								update={this.updateAttendees}/>
 						</section>
-
+						{ errors }
 						<footer>
 							<button onClick={this.props.ctrl.dashboard} className="button cancel maxed">Cancel</button>
 							<button onClick={this.onSubmit} className="button primary maxed">Create Meeting</button>
