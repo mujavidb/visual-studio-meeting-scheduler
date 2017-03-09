@@ -42,8 +42,8 @@ router.use('/:documentId/meeting/create', function (req, res, next) {
     // is correctly formed, and that it is of the expected format.
     try {
         // JSON.parse(req.body.meetingName);
-        JSON.parse(req.body.attendees);
-        JSON.parse(req.body.hostAvailability);
+        // JSON.parse(req.body.attendees);
+        // JSON.parse(req.body.hostAvailability);
         // JSON.parse(req.body.attendees); JSON.parse(req.body.hostAvailability);
 
     } catch (error) {
@@ -120,7 +120,7 @@ router.post('/:documentId/meeting/create', function (req, res, next) {
     // Need to check for correct structure of the POST body. If it is wrong then
     // send some sort of error. console.log(JSON.parse(attendees)); Data needed to
     // create a meeting Need to generate a unique meetingId.
-    var meetingId = "1";
+    var meetingId;
 
     console.log("Calling createMeeting function");
     Meetings

@@ -82,7 +82,7 @@ export default class CreateMeeting extends Component {
 			axios({
 				method: 'post',
 				url: `http://localhost:3000/${this.accountID}/meeting/create`,
-				data: JSON.stringify(data),
+				data: data,
 				withCredentials: true
 			})
 			.then(function (response) {
