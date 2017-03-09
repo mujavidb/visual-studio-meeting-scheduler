@@ -108,13 +108,17 @@ router.post('/:documentId/meeting/create', function (req, res, next) {
 
     var query = "";
 
+    
+
+    console.log(req.body.meetingName);
+
     // Data from URL params
     var accountId = req.params.documentId;
     var meetingName = req.body.meetingName;
 
     // Data from POST body
-    var attendees = JSON.parse(req.body.attendees);
-    var hostAvailability = JSON.parse(req.body.hostAvailability);
+    var attendees = req.body.attendees;
+    var hostAvailability = req.body.hostAvailability;
     var hostId = req.body.hostId;
 
     // Need to check for correct structure of the POST body. If it is wrong then
