@@ -40,15 +40,16 @@ localhost:3000/collection/document/create/sajdhjqwe-id-2
 <h3>Create a meeting</h3>
 <p>create a POST request on </p>
 ```
-localhost:3000/:documentId/meeting/create/:meetingName
+localhost:3000/:documentId/meeting/create
 ```
 <p>For example:</p>
 ```
-localhost:3000/collection/ProperTestDocument/meeting/create/EatingChocolate
+localhost:3000/ProperTestDocument/meeting/create/EatingChocolate
 ```
 <p>The body of the POST request is as follows:</p>
 ```
 {
+    "meetingName": "Happy Birthday To the Ground!",
     "hostId": "123456789"",
     "hostAvailability": [
         {
@@ -75,11 +76,11 @@ localhost:3000/collection/ProperTestDocument/meeting/create/EatingChocolate
 <h3>Add attendees to a meeting</h3>
 <p>Make a POST request on:</p>
 ```
-localhost:3000/collection/:documentId/:meetingId/attendees/add
+localhost:3000/:documentId/:meetingId/attendees/add
 ```
 <p>For example</p>
 ```
-localhost:3000/collection/my-document-id/my-meeting-id/attendees/add
+localhost:3000/my-document-id/my-meeting-id/attendees/add
 ```
 <p>The POST body is as follows:</p>
 ```
@@ -104,9 +105,9 @@ localhost:3000/collection/my-document-id/my-meeting-id/attendees/add
 <h3>Get a single meeting using meetingId</h3>
 <p>Make a GET request on:</p>
 ```
-localhost:3000/collection/my-document-id/meeting-id/get
+localhost:3000/my-document-id/meeting-id/get
 ```
 </p>For example:</p>
 ```
-localhost:3000/collection/ProperTestDocument/DdVqhdEV5gVuj/get
+localhost:3000/ProperTestDocument/DdVqhdEV5gVuj/get
 ```
