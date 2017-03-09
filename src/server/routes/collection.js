@@ -42,8 +42,8 @@ router.use('/:documentId/meeting/create', function (req, res, next) {
     // is correctly formed, and that it is of the expected format.
     try {
         // JSON.parse(req.body.meetingName);
-        JSON.parse(req.body.attendees);
-        JSON.parse(req.body.hostAvailability);
+        // JSON.parse(req.body.attendees);
+        // JSON.parse(req.body.hostAvailability);
         // JSON.parse(req.body.attendees); JSON.parse(req.body.hostAvailability);
 
     } catch (error) {
