@@ -42,7 +42,7 @@ export default class CreateCalendar extends Component {
 				if(!start.isBefore(moment())) {
 					$(calendar).fullCalendar('renderEvent', eventData, true); // stick? = true
 					var events = $(calendar).fullCalendar('clientEvents');
-					that.props.onChangeTimeSlots(events);
+					_this.props.onChangeTimeSlots(events);
 				} else {
 					alert("No events in the past!");
 				}

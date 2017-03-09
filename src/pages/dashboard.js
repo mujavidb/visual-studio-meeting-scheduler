@@ -2,6 +2,7 @@ import React, { Component } from "react"
 import Invitations from '../components/all-invitations'
 import AllMeetings from '../components/all-meetings'
 import LoadingImage from '../components/loading-image'
+import axios from 'axios'
 
 //API: OAuth
 //API: get user id
@@ -20,7 +21,8 @@ class Dashboard extends Component {
 		}
 	}
 	componentDidMount(){
-		this.verifyOAuth()
+		this.verifyOAuth();
+		this.getAllMeetings();
 	}
 	verifyOAuth(){
 		//TODO: update for OAuth
@@ -30,7 +32,23 @@ class Dashboard extends Component {
 	getUserID(){
 		//TODO: update to get user id
 		this.setState({userID: "womuheyifb"})
-		this.getAllEvents()
+		// this.getAllEvents()
+	}
+	getAllMeetings(){
+		console.log("Get all meetings is running");
+		let that = this;
+		axios({
+			method: 'get',
+			url: `http://localhost:3000/collection/document/create/funfun123123`,
+			withCredentials: true
+		})
+		.then(function (response) {
+			that.setState({meetings: response.data.meetings, loading: false})
+			console.log(response);
+		})
+		.catch(function (error) {
+			console.log(error);
+		});
 	}
 	getAllEvents(){
 		// const request = XMLHttpRequest()

@@ -102,14 +102,14 @@ router.post('/:documentId/:meetingId/attendees/add', function(req,res,next) {
 
 
 
-router.post('/:documentId/meeting/create/:meetingName', function (req, res, next) {
+router.post('/:documentId/meeting/create', function (req, res, next) {
     // console.log(testing);
 
     var query = "";
 
     // Data from URL params
     var accountId = req.params.documentId;
-    var meetingName = req.params.meetingName;
+    var meetingName = req.body.meetingName;
 
     // Data from POST body
     var attendees = JSON.parse(req.body.attendees);

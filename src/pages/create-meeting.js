@@ -2,6 +2,7 @@ import React, { Component } from "react"
 import CreateCalendar from '../components/create-calendar'
 import AutosuggestUser from '../components/autosuggest-user'
 import MarkdownEditor from '../components/markdown-editor'
+import axios from 'axios'
 
 //API: OAuth
 //API: get user id
@@ -90,6 +91,18 @@ export default class CreateMeeting extends Component {
 			// 	}
 			// }
 			// request.send(data)
+			axios({
+				method: 'post',
+				url: `http://localhost:3000/${this.accountID}/meeting/create`,
+				data: data,
+				withCredentials: true
+			})
+			.then(function (response) {
+			    console.log(response);
+			})
+			.catch(function (error) {
+			    console.log(error);
+			});
 		}
 	}
 	componentDidMount(){
