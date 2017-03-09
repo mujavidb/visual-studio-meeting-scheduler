@@ -41,6 +41,7 @@ router.use('/:documentId/meeting/create', function (req, res, next) {
     // Here will we conduct some error checking the POST body to make sure that it
     // is correctly formed, and that it is of the expected format.
     try {
+        // JSON.parse(req.body.meetingName);
         JSON.parse(req.body.attendees);
         JSON.parse(req.body.hostAvailability);
         // JSON.parse(req.body.attendees); JSON.parse(req.body.hostAvailability);
