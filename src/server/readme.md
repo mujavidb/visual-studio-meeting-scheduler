@@ -27,11 +27,11 @@ DEBUG=*:server node ./bin/www
 </p>
 <p>Make a GET request on</p>
 ```
-localhost:3000/collection/document/create/:documentId
+localhost:3000/document/create/:documentId
 ```
 <p>For example:</p>
 ```
-localhost:3000/collection/document/create/sajdhjqwe-id-2
+localhost:3000/document/create/sajdhjqwe-id-2
 ```
 <p>At the moment this is a GET request, and is subject to change, though is a low priority<p>
 
@@ -69,7 +69,7 @@ localhost:3000/ProperTestDocument/meeting/create/EatingChocolate
 <h3>Get all meetings of a user</h3>
 <p>Make a GET request on</p>
 ```
-'localhost:3000/collection/:documentId/meeting/get/:userId'
+'localhost:3000/:documentId/meeting/get/:userId'
 ```
 <p>UNDER-DEVELOPMENT: I still have a few query things I need to mess around with before I'm happy with this</p>
 
