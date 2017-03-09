@@ -39,7 +39,7 @@ class Dashboard extends Component {
 		let that = this;
 		axios({
 			method: 'get',
-			url: `http://localhost:3000/collection/document/create/funfun123123`,
+			url: `http://localhost:3000/document/create/funfun123123`,
 			withCredentials: true
 		})
 		.then(function (response) {

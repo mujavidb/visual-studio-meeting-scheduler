@@ -36,7 +36,7 @@ router.get('/document/create/:documentId', function (req, res, next) {
 
 // Create meeting. Note that documentId is the same as the VSTS accountId.
 // Middleware
-router.use('/:documentId/meeting/create/:meetingName', function (req, res, next) {
+router.use('/:documentId/meeting/create', function (req, res, next) {
 
     // Here will we conduct some error checking the POST body to make sure that it
     // is correctly formed, and that it is of the expected format.
@@ -119,7 +119,7 @@ router.post('/:documentId/meeting/create', function (req, res, next) {
     // Need to check for correct structure of the POST body. If it is wrong then
     // send some sort of error. console.log(JSON.parse(attendees)); Data needed to
     // create a meeting Need to generate a unique meetingId.
-    var meetingId;
+    var meetingId = "1";
 
     console.log("Calling createMeeting function");
     Meetings

@@ -73,11 +73,24 @@ export default class CreateMeeting extends Component {
 			const data = {
 				"hostId": "1234567891234",
 				"meetingName": this._titleInput.value,
-				"hostAvailability": [this.state.timeSlots.map(a=>({start: a.start.toLocaleString(), end: a.end.toLocaleString()}))],
-				"attendees": [this.state.attendees.map(a=>({ id: a.id, name: a.name }))]
+				"hostAvailability": this.state.timeSlots.map(a=>({start: a.start.toLocaleString(), end: a.end.toLocaleString()})),
+				"attendees": this.state.attendees.map(a=>({ id: a.id, name: a.name }))
 			}
 			console.log("Sending Data")
 			console.log(data)
+			
+			axios({
+				method: 'post',
+				url: `http://localhost:3000/${this.accountID}/meeting/create`,
+				data: JSON.stringify(data),
+				withCredentials: true
+			})
+			.then(function (response) {
+			    console.log(response);
+			})
+			.catch(function (error) {
+			    console.log(error);
+			});
 			// const request = new XMLHttpRequest()
 			// request.open('POST', `http://localhost:3000/meeting/get/${this.props.userID}`, true)
 			// request.setRequestHeader("Content-Type", "application/json")
@@ -92,18 +105,6 @@ export default class CreateMeeting extends Component {
 			// }
 			// request.send(data)
 			//
-			axios({
-				method: 'post',
-				url: `http://localhost:3000/${this.accountID}/meeting/create`,
-				data: data,
-				withCredentials: true
-			})
-			.then(function (response) {
-			    console.log(response);
-			})
-			.catch(function (error) {
-			    console.log(error);
-			});
 		}
 	}
 	componentDidMount(){
