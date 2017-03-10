@@ -69,16 +69,18 @@ export default class CreateMeeting extends Component {
 	}
 	onSubmit(){
 		this.setState({formSubmitted: true})
+		
 		if (this.validateInput()){
 			const data = {
 				"hostId": "1234567891234",
 				"meetingName": this._titleInput.value,
-				"hostAvailability": this.state.timeSlots.map(a=>({start: a.start.toLocaleString(), end: a.end.toLocaleString()})),
+				"hostAvailability": this.state.timeSlots.map(a=>({start: a.start.toString(), end: a.end.toString()})),
+				"meetingLocation": this._locationInput.value,
 				"attendees": this.state.attendees.map(a=>({ id: a.id, name: a.name }))
 			}
 			console.log("Sending Data")
 			console.log(data)
-			
+			let _this = this;
 			axios({
 				method: 'post',
 				url: `http://localhost:3000/${this.accountID}/meeting/create`,
@@ -87,6 +89,7 @@ export default class CreateMeeting extends Component {
 			})
 			.then(function (response) {
 			    console.log(response);
+			    _this.props.ctrl.dashboard.call();
 			})
 			.catch(function (error) {
 			    console.log(error);

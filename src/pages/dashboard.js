@@ -31,12 +31,13 @@ class Dashboard extends Component {
 	}
 	getUserID(){
 		//TODO: update to get user id
-		this.setState({userID: "womuheyifb"})
+		this.setState({userID: "kjsadlj23"})
 		// this.getAllEvents()
 	}
 	getAllMeetings(){
 		console.log("Get all meetings is running");
 		let that = this;
+		axios.defaults.headers.post['Content-Type'] = 'application/json';
 		axios({
 			method: 'get',
 			url: `http://localhost:3000/document/create/funfun123123`,
@@ -194,6 +195,10 @@ class Dashboard extends Component {
 		]
 		setTimeout(()=> this.setState({meetings: meetings, loading: false}), 500)
 	}
+	isInvitationFilter(meeting){
+		console.log(meeting);
+		return true;
+	}
 	render(){
 		let content
 		if (this.state.loading == true) {
@@ -207,7 +212,7 @@ class Dashboard extends Component {
 			content = (
 				<div className="main-container">
 					<AllMeetings
-						meetings={this.state.meetings.filter(a => a.status === true)}
+						meetings={this.state.meetings.filter(a => this.isInvitationFilter(a))}
 						ctrl={this.props.ctrl} />
 					<Invitations
 						invitations={this.state.meetings.filter(a => a.status === false)}
