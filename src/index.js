@@ -16,7 +16,7 @@ class MainController extends Component {
 		this.ctrl = {
 			dashboard: () => this.setState({current: <Dashboard ctrl={this.ctrl} />}),
 			createMeeting: () => this.setState({current: <CreateMeeting ctrl={this.ctrl} />}),
-			viewMeeting: id => this.setState({current: <ViewMeeting id={id} ctrl={this.ctrl} />}),
+			viewMeeting: id => this.setState({current: <ViewMeeting meetingId={id} ctrl={this.ctrl} />}),
 			respondInvitation: id => this.setState({current: <RespondInvitation ctrl={this.ctrl} />})
 		}
 		this.state = {
