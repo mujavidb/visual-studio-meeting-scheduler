@@ -36,22 +36,25 @@ router.get('/document/create/:documentId', function (req, res, next) {
 
 // Create meeting. Note that documentId is the same as the VSTS accountId.
 // Middleware
-router.use('/:documentId/meeting/create/:meetingName', function (req, res, next) {
 
-    // Here will we conduct some error checking the POST body to make sure that it
-    // is correctly formed, and that it is of the expected format.
-    try {
-        JSON.parse(req.body.attendees);
-        JSON.parse(req.body.hostAvailability);
-        // JSON.parse(req.body.attendees); JSON.parse(req.body.hostAvailability);
+// router.use('/:documentId/meeting/create', function (req, res, next) {
 
-    } catch (error) {
-        res.send('Poorly-formed JSON.');
-        // res.send(error);
-    }
+//     // Here will we conduct some error checking the POST body to make sure that it
+//     // is correctly formed, and that it is of the expected format.
+//     try {
+//         // JSON.parse(req.body.meetingName);
+//         // JSON.parse(req.body.attendees);
+//         // JSON.parse(req.body.hostAvailability);
+//         // JSON.parse(req.body.attendees); JSON.parse(req.body.hostAvailability);
 
-    next();
-});
+//     } catch (error) {
+//         res.send('Poorly-formed JSON.');
+//         // res.send(error);
+//     }
+
+//     next();
+// });
+
 
 
 // GET all your meetings
@@ -102,18 +105,22 @@ router.post('/:documentId/:meetingId/attendees/add', function(req,res,next) {
 
 
 
-router.post('/:documentId/meeting/create/:meetingName', function (req, res, next) {
+router.post('/:documentId/meeting/create', function (req, res, next) {
     // console.log(testing);
 
     var query = "";
 
+    
+
+    console.log(req.body.meetingName);
+
     // Data from URL params
     var accountId = req.params.documentId;
-    var meetingName = req.params.meetingName;
+    var meetingName = req.body.meetingName;
 
     // Data from POST body
-    var attendees = JSON.parse(req.body.attendees);
-    var hostAvailability = JSON.parse(req.body.hostAvailability);
+    var attendees = req.body.attendees;
+    var hostAvailability = req.body.hostAvailability;
     var hostId = req.body.hostId;
 
     // Need to check for correct structure of the POST body. If it is wrong then

@@ -20,8 +20,8 @@ export default class CreateCalendar extends Component {
 		$(calendar).fullCalendar({
 		    header: {
 		    	left: '',
-				center: 'title',
-				right: ''
+				center: '',
+				right: 'prev,next today'
 		    },
 		    titleFormat: 'MMM D YYYY',
 		    defaultView: 'agendaWeek',
@@ -39,10 +39,14 @@ export default class CreateCalendar extends Component {
 					start: start,
 					end: end
 				}
-				$(calendar).fullCalendar('renderEvent', eventData, true) // stick? = true
-				const events = $(calendar).fullCalendar('clientEvents')
-				_this.props.onChangeTimeSlots(events)
-				$(calendar).fullCalendar('unselect')
+				if(!start.isBefore(moment())) {
+					$(calendar).fullCalendar('renderEvent', eventData, true); // stick? = true
+					var events = $(calendar).fullCalendar('clientEvents');
+					_this.props.onChangeTimeSlots(events);
+				} else {
+					alert("No events in the past!");
+				}
+				$(calendar).fullCalendar('unselect');
 
 			},
 			eventClick: function(calEvent, jsEvent, view) {

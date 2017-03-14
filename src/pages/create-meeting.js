@@ -2,6 +2,7 @@ import React, { Component } from "react"
 import CreateCalendar from '../components/create-calendar'
 import AutosuggestUser from '../components/autosuggest-user'
 import MarkdownEditor from '../components/markdown-editor'
+import axios from 'axios'
 
 //API: OAuth
 //API: get user id
@@ -68,15 +69,31 @@ export default class CreateMeeting extends Component {
 	}
 	onSubmit(){
 		this.setState({formSubmitted: true})
+		
 		if (this.validateInput()){
 			const data = {
 				"hostId": "1234567891234",
 				"meetingName": this._titleInput.value,
-				"hostAvailability": [this.state.timeSlots.map(a=>({start: a.start.toLocaleString(), end: a.end.toLocaleString()}))],
-				"attendees": [this.state.attendees.map(a=>({ id: a.id, name: a.name }))]
+				"hostAvailability": this.state.timeSlots.map(a=>({start: a.start.toString(), end: a.end.toString()})),
+				"meetingLocation": this._locationInput.value,
+				"attendees": this.state.attendees.map(a=>({ id: a.id, name: a.name }))
 			}
 			console.log("Sending Data")
 			console.log(data)
+			let _this = this;
+			axios({
+				method: 'post',
+				url: `http://localhost:3000/${this.accountID}/meeting/create`,
+				data: data,
+				withCredentials: true
+			})
+			.then(function (response) {
+			    console.log(response);
+			    _this.props.ctrl.dashboard.call();
+			})
+			.catch(function (error) {
+			    console.log(error);
+			});
 			// const request = new XMLHttpRequest()
 			// request.open('POST', `http://localhost:3000/meeting/get/${this.props.userID}`, true)
 			// request.setRequestHeader("Content-Type", "application/json")
@@ -90,6 +107,7 @@ export default class CreateMeeting extends Component {
 			// 	}
 			// }
 			// request.send(data)
+			//
 		}
 	}
 	componentDidMount(){

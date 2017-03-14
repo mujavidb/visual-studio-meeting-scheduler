@@ -3,6 +3,8 @@ import moment from 'moment'
 import { generateRGBColor } from '../helpers/color-generator'
 import MarkdownRenderer from '../components/markdown-renderer'
 import { formatToLongTime } from '../helpers/format-time'
+import LoadingImage from '../components/loading-image'
+import axios from 'axios'
 
 //API: pull event details
 //API: check if user has permission
@@ -13,113 +15,62 @@ class ViewMeeting extends Component {
 		super(props)
 		// In the final implementation, you would do a GET request
 		// 		to get the element with the ID === props.params.id
-		this.meetings = [
-			{
-				"id"			: "1",
-				"name"			: "Plan Client Presentation",
-				"time"			: "2017-02-15T14:30:00+00:00",
-				"description"	: "Example description",
-				"location"		: "MPEB 6.21, UCL",
-				"minutes"		: "This is what we talked about",
-				"agenda"		: "This is what we will talk about",
-				"attendees"		: [
-					{
-						"id"		: "213",
-						"availability"	: "blah",
-						"status"		: false,
-						"initials"		: "MB"
-					},
-					{
-						"id"		: "3489",
-						"availability"	: "blah",
-						"status"		: true,
-						"initials"		: "AH"
-					},
-					{
-						"id"		: "394",
-						"availability"	: "blah",
-						"status"		: true,
-						"initials"		: "KC"
-					}
-				]
-			},
-			{
-				"id"			: "2",
-				"name"			: "Weekly Standup",
-				"time"			: "",
-				"description"	: "Example description",
-				"location"		: "Break room",
-				"minutes"		: "This is what we talked about",
-				"agenda"		: "This is what we will talk about",
-				"attendees"		: [
-					{
-						"id"		: "213",
-						"availability"	: "blah",
-						"status"		: true,
-						"initials"		: "MB"
-					},
-					{
-						"id"		: "3489",
-						"availability"	: "blah",
-						"status"		: true,
-						"initials"		: "AH"
-					},
-					{
-						"id"		: "394",
-						"availability"	: "blah",
-						"status"		: true,
-						"initials"		: "KC"
-					}
-				]
-			},
-			{
-				"id"			: "3",
-				"name"			: "Sales Review",
-				"time"			: "2017-02-06T15:30:00+00:00",
-				"description"	: "We're going to review some sales",
-				"location"		: "Board Room",
-				"minutes"		: "This is what we talked about",
-				"agenda"		: "This is what we will talk about",
-				"attendees"		: [
-					{
-						"id"		: "213",
-						"availability"	: "blah",
-						"status"		: true,
-						"initials"		: "MB"
-					},
-					{
-						"id"		: "3489",
-						"availability"	: "blah",
-						"status"		: true,
-						"initials"		: "AH"
-					},
-					{
-						"id"		: "394",
-						"availability"	: "blah",
-						"status"		: true,
-						"initials"		: "KC"
-					}
-				]
-			},
-		]
-		this.meeting = this.meetings.find(item => item.id === this.props.id)
+		this.state = {
+			meeting: {},
+			loading: true
+		}
+	}
+	componentDidMount(){
+		this.getMeeting();
+	}
+	getMeeting(){
+		console.log("GET MEETING");
+		let _this = this;
+		axios({
+			method: 'get',
+			url: `http://localhost:3000/funfun123123/${this.props.meetingId}/get`,
+			withCredentials: true
+		})
+		.then(function (response) {
+			_this.setState({meeting: response.data[0].meeting, loading: false});
+			console.log("RESPONSE", response);
+			console.log("GOT MEETING");
+		})
+		.catch(function (error) {
+			console.log(error);
+		});
+	}
+	getInitials(fullName) {
+		let names = fullName.split(" ");
+		let initials = "";
+		names.forEach(name => initials += name.charAt(0));
+		return initials;
 	}
 	render(){
-		const meetingTime = this.meeting.time ? moment(this.meeting.time).format("ddd Do MMM, h:mma") : "Time TBC"
-		const meetingTimeTitle = this.meeting.time ? moment(this.meeting.time).format("dddd Do MMMM YYYY, h:mma") : "Time TBC"
-		const minutes = this.meeting.minutes == "" ? ""
-												   : (
-													<section>
-														<h3>Minutes</h3>
-														<MarkdownRenderer
-															content={this.meeting.minutes}/>
-													</section>
-												   )
-		return (
+		let content = (<p>hey</p>);
+		if(this.state.loading == true) {
+			content = (
+				<div className="loading-container">
+					<LoadingImage />
+					<span>Loading Content...</span>
+				</div>
+			)
+		} else {
+			const meetingTime = this.state.meeting.time ? moment(this.state.meeting.time).format("ddd Do MMM, h:mma") : "Time TBC"
+			const meetingTimeTitle = this.state.meeting.time ? moment(this.state.meeting.time).format("dddd Do MMMM YYYY, h:mma") : "Time TBC"
+			const minutes = this.state.meeting.minutes == null ? ""
+													   : (
+														<section>
+															<h3>Minutes</h3>
+															<MarkdownRenderer
+																content={this.state.meeting.minutes}/>
+														</section>
+													   )
+			content = (
 				<div className="large_card_area single_meeting">
 					<header>
 						<div className="topbar">
-							<h2 className="container_title">{ this.meeting.name }</h2>
+							<h2 className="container_title">{ this.state.meeting.meetingName }</h2>
 							<h2 className="container_date" title={meetingTimeTitle}>{ meetingTime }</h2>
 						</div>
 					</header>
@@ -128,7 +79,7 @@ class ViewMeeting extends Component {
 						<section>
 							<h3>Agenda</h3>
 							<MarkdownRenderer
-								content={this.meeting.agenda}/>
+								content={this.state.meeting.agenda}/>
 						</section>
 
 						{ minutes }
@@ -140,19 +91,20 @@ class ViewMeeting extends Component {
 									<div className="attendees">
 										{
 											this
+											.state
 											.meeting
 											.attendees
 											.sort((a,b)=> a === true ? 0 : 1)
 											.map(attendee => {
 												const classes = `attendee_block ${attendee.status == "" ? "unresponsive" : "responsive"}`
-												const blockTitle = `${attendee.initials} has ${attendee.status == "" ? "not yet" : ""} responded`
+												const blockTitle = `${this.getInitials(attendee.name)} has ${attendee.status == "" ? "not yet " : ""}responded`
 												return (
 													<div
 														key={attendee.id}
 														className={classes}
 														title={blockTitle}
-														style={{backgroundColor: generateRGBColor(attendee.initials)}} >
-														<span className="attendee_initials">{attendee.initials}</span>
+														style={{backgroundColor: generateRGBColor(this.getInitials(attendee.name))}} >
+														<span className="attendee_initials">{this.getInitials(attendee.name)}</span>
 													</div>
 												)
 											})
@@ -168,6 +120,9 @@ class ViewMeeting extends Component {
 					</main>
 				</div>
 			)
+		}
+		
+		return content;
 	}
 }
 
