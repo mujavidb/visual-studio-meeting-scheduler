@@ -4,6 +4,8 @@ import AllMeetings from '../components/all-meetings'
 import LoadingImage from '../components/loading-image'
 import axios from 'axios'
 
+console.log(axios);
+
 //API: OAuth
 //API: get user id
 //API: pull all events
@@ -36,7 +38,7 @@ class Dashboard extends Component {
 	}
 	getAllMeetings(){
 		console.log("Get all meetings is running");
-		let that = this;
+		let _this = this
 		axios.defaults.headers.post['Content-Type'] = 'application/json';
 		axios({
 			method: 'get',
@@ -44,15 +46,15 @@ class Dashboard extends Component {
 			withCredentials: true
 		})
 		.then(function (response) {
-			that.setState({meetings: response.data.meetings, loading: false})
-			console.log(response);
+			_this.setState({meetings: response.data.meetings, loading: false})
+			console.log(response)
 		})
 		.catch(function (error) {
-			console.log(error);
+			console.log(error)
 		});
 	}
 	isInvitationFilter(meeting){
-		console.log(meeting);
+		console.log(meeting)
 		return true;
 	}
 	render(){

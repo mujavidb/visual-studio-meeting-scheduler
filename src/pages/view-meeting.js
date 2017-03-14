@@ -38,7 +38,7 @@ class ViewMeeting extends Component {
 		})
 		.catch(function (error) {
 			console.log(error);
-		});
+		})
 	}
 	getInitials(fullName) {
 		let names = fullName.split(" ");
@@ -125,7 +125,7 @@ class ViewMeeting extends Component {
 				</div>
 			)
 		}
-		
+
 		return content;
 	}
 }

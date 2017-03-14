@@ -17,6 +17,46 @@
 	.fc-ltr .fc-time-grid .fc-event-container {
 		margin: 0 1px 0 1px;
 	}
+	.fc-toolbar.fc-header-toolbar {
+		margin-bottom: 5px;
+		background-color: #eee;
+	}
+
+	.fc-view-container {
+		// margin-top: -2px;
+	}
+
+	.fc-left button,
+	.fc-right button {
+		box-shadow: none;
+		text-shadow: none;
+		background-image: none;
+		border: none;
+		color: white;
+		background-color: #106EBE;
+		border-radius: 0;
+		transition: all 0.3s ease;
+		outline:0
+	}
+
+	.fc-left button:hover,
+	.fc-right button:hover {
+		background-color: #0C5798;
+		outline:0
+	}
+
+	.fc-left button:focus,
+	.fc-right button:focus {
+		outline: 0;
+	}
+
+	.fc-center h2 {
+		font-size: 18px;
+		margin-top: 6px;
+		font-weight: 600;
+	}
+
+
 	.fc-time-grid-event .fc-time {
 		box-sizing: border-box;
 		margin-top: 4px;
