@@ -9,7 +9,7 @@ const Meeting = props => {
 			<div className="meeting_card">
 				<h3 className="meeting_title">{ props.details.meetingName }</h3>
 				<p className="meeting_datetime">{ formatToLongTime(props.details.time) }</p>
-				<p className="meeting_location">{ props.details.location }</p>
+				<p className="meeting_location">{ props.details.meetingLocation }</p>
 				<div className="attendees">
 					{
 						props

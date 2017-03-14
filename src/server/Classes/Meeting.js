@@ -22,6 +22,7 @@ class Meeting {
             "hostId": hostId,
             "meetingId": null,
             "meetingName": meetingName,
+            "meetingLocation": null,
             "hostAvailability": [],
             "finalDate": null,
             "attendees": []
@@ -84,6 +85,12 @@ class Meeting {
             .data
             .attendees
             .push({"id": id, "response": 0, "name": name, "availableTimes": []});
+    }
+
+    addLocation(location) {
+        this
+            .data
+            .meetingLocation = location;
     }
 
 }
