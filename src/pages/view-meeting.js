@@ -75,6 +75,10 @@ class ViewMeeting extends Component {
 						</div>
 					</header>
 					<main>
+						<section>
+							<h3>Location</h3>
+							<p>{ this.state.meeting.meetingLocation }</p>
+						</section>
 
 						<section>
 							<h3>Agenda</h3>
