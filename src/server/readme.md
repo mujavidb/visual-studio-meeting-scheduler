@@ -18,6 +18,9 @@ DEBUG=*:server node ./bin/www
 
 <h2>API</h2>
 
+<p>Make sure you set an 'application/json' header!!</p>
+
+
 <h3>Create a Document</h3>
 <p>
     In our system, every VSTS Account has it's own document, so if a VSTS account hasn't used the extension before
