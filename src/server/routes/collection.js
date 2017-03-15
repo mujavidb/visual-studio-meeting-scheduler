@@ -69,6 +69,18 @@ router.get('/:documentId/meeting/get/:userId', function (req, res, next) {
 
 });
 
+// GET hosted meetings
+router.get('/:documentId/meeting/hosted/:userId', function(req, res, next) {
+    Meetings
+        .getHostedMeetings(req.params.documentId, req.params.userId)
+        .then((response) => {
+            res.send(response);
+        })
+        .catch((error) => {
+            res.send(error);
+        });
+});
+
 // Get an individual meeting
 router.get('/:documentId/:meetingId/get', function(req, res, next) {
 
