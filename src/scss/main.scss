@@ -6,16 +6,18 @@ $lighter-text: #6c6c6c;
 $default-text: #4c4c4c;
 $darker-text: #2c2c2c;
 
-$upcoming-event:#199DCA;
-$upcoming-event-hover:#168EB8;
-$past-event:#EB9F61;
-$past-event-hover: #E0894E;
+$event-upcoming:#199DCA;
+$event-upcoming-hover:#168EB8;
+$event-past:#EB9F61;
+$event-past-hover: #E0894E;
 $event-invitation:#A0447A;
 $event-invitation-hover: #8F417F;
+$event-hosting:#1cab84;
+$event-hosting-hover: #189C7B;
 
-$vs-blue: #106EBE;
+$vs-base: #106EBE;
 
-$primary-button: $vs-blue;
+$primary-button: #2a81cc;
 $primary-button-hover:#0875AC;
 $muted-button: $lighter-text;
 $muted-button-hover: $default-text;
@@ -70,6 +72,7 @@ h3 {
 	align-items: center;
 	flex-flow: column nowrap;
 	height: 100%;
+	width: 100%;
 	font-size: 20px;
 }
 
@@ -142,7 +145,8 @@ header {
 	margin-bottom: 15px;
 }
 
-.invitations header {
+.invitations header,
+.hosted_meetings header {
 	margin-bottom: 0;
 }
 
@@ -187,7 +191,7 @@ header {
 .single_meeting header,
 .create_meeting header {
 	padding: 20px 20px 5px;
-    background-color: $vs-blue;
+    background-color: $vs-base;
     color: white;
 }
 
@@ -205,7 +209,7 @@ header {
 
 .button {
 	font-size: 1em;
-	padding: 15px;
+	padding: 12px 18px;
 	box-sizing: border-box;
 	color: white;
 	border: none;
@@ -269,13 +273,10 @@ header {
 .meeting_card_container {
 	animation: fadeInUp 0.3s ease;
 	animation-fill-mode: forwards;
-}
-
-.meeting_card_container .meeting_card{
 	margin-bottom: 20px;
 }
 
-.meeting_card_container:last-child .meeting_card{
+.meeting_card_container:last-child{
 	margin-bottom: 0;
 }
 
@@ -290,19 +291,19 @@ header {
 }
 
 .meeting_card {
-	background-color: $upcoming-event;
+	background-color: $event-upcoming;
 }
 
 .meeting_card:hover {
-	background-color: $upcoming-event-hover;
+	background-color: $event-upcoming-hover;
 }
 
 .past .meeting_card {
-	background-color: $past-event;
+	background-color: $event-past;
 }
 
 .past .meeting_card:hover {
-	background-color: $past-event-hover;
+	background-color: $event-past-hover;
 }
 
 .invitations .meeting_card {
@@ -313,6 +314,14 @@ header {
 	background-color: $event-invitation-hover;
 }
 
+.hosted_meetings .meeting_card {
+	background-color: $event-hosting;
+}
+
+.hosted_meetings .meeting_card:hover {
+	background-color: $event-hosting-hover;
+}
+
 .empty_state_card {
 	box-sizing: border-box;
 	display: flex;
@@ -321,14 +330,17 @@ header {
 	text-align: center;
 	padding: 20px;
 	font-size: 20px;
-	height: 200px;
+	height: 184px;
 	color: $default-text;
 	background-color: #dcdcdc;
+	animation: fadeInUp 0.5s ease;
+	animation-fill-mode: forwards;
 }
 
 
 .all_meetings .meeting_title,
-.invitations .meeting_title {
+.invitations .meeting_title,
+.hosted_meetings .meeting_title {
 	color: white;
 	margin: 0 0 5px;
 	font-weight: 400;
@@ -462,6 +474,8 @@ header {
 .markdown_input textarea {
 	min-height: 120px;
 	font-size: 15px;
+	flex-grow: 1;
+	resize: none;
 }
 
 .attendee_input,

@@ -1,6 +1,7 @@
 import React, { Component } from "react"
 import Invitations from '../components/all-invitations'
 import AllMeetings from '../components/all-meetings'
+import HostedMeetings from '../components/hosted-meetings'
 import LoadingImage from '../components/loading-image'
 import axios from 'axios'
 
@@ -23,47 +24,37 @@ class Dashboard extends Component {
 		}
 	}
 	componentDidMount(){
-		this.verifyOAuth();
-		this.getAllMeetings();
-	}
-	verifyOAuth(){
-		//TODO: update for OAuth
-		this.setState({authToken: "smoa98hjr738fqbhn98hrj4mnqr93om"})
-		this.getUserID()
+		this.getUserID();
 	}
 	getUserID(){
 		//TODO: update to get user id
-		this.setState({userID: "kjsadlj23"})
-		// this.getAllEvents()
+		this.setState({userID: "funfun123123"}, () => this.getAllMeetings())
 	}
 	getAllMeetings(){
-		console.log("Get all meetings is running");
-		let _this = this
-		axios.defaults.headers.post['Content-Type'] = 'application/json';
+		const _this = this
+		axios.defaults.headers.post['Content-Type'] = 'application/json'
 		axios({
 			method: 'get',
-			url: `http://localhost:3000/document/create/funfun123123`,
+			url: `http://localhost:3000/document/create/${this.state.userID}`,
 			withCredentials: true
 		})
-		.then(function (response) {
+		.then( response => {
 			_this.setState({meetings: response.data.meetings, loading: false})
-			console.log(response)
 		})
-		.catch(function (error) {
-			console.log(error)
-		});
+		.catch( error => console.log(error))
 	}
 	isInvitationFilter(meeting){
-		console.log(meeting)
-		return true;
+		return true
 	}
 	render(){
 		let content
 		if (this.state.loading == true) {
 			content = (
-				<div className="loading-container">
-					<LoadingImage />
-					<span>Loading Content...</span>
+				<div>
+					<div className="loading-container">
+						<LoadingImage />
+						<span>Loading Content...</span>
+					</div>
 				</div>
 			)
 		} else {
@@ -74,6 +65,9 @@ class Dashboard extends Component {
 						ctrl={this.props.ctrl} />
 					<Invitations
 						invitations={this.state.meetings.filter(a => a.status === false)}
+						ctrl={this.props.ctrl} />
+					<HostedMeetings
+						meetings={this.state.meetings.filter(a => this.state.userID === a.hostId)}
 						ctrl={this.props.ctrl} />
 				</div>
 			)

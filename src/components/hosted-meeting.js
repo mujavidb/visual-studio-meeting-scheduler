@@ -4,10 +4,9 @@ import { formatToLongTime } from '../helpers/format-time'
 import { generateRGBColor } from '../helpers/color-generator'
 import { getInitials } from '../helpers/get-initials'
 
-const Invitation = props => {
+const HostedMeeting = props => {
 	console.log(props);
 	return (
-		//TODO: Route this to seperate invitation view
 		<a className="meeting_card_container" role="button" onClick={()=>props.ctrl.respondInvitation(props.details.id)}>
 			<div className="meeting_card">
 				<h3 className="meeting_title">{ props.details.meetingName }</h3>
@@ -39,4 +38,4 @@ const Invitation = props => {
 		)
 }
 
-export default Invitation
+export default HostedMeeting

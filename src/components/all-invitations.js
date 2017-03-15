@@ -8,7 +8,7 @@ const Invitations = props => {
 	} else {
 		content = (
 			<div className="empty_state_card">
-				"You currently have no meeting invitations."
+				You have no meeting invitations
 			</div>
 		)
 	}

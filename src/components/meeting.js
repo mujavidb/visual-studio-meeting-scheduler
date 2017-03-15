@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import moment from 'moment'
 import { formatToLongTime } from '../helpers/format-time'
 import { generateRGBColor } from '../helpers/color-generator'
+import { getInitials } from '../helpers/get-initials'
 
 const Meeting = props => {
 	return (
@@ -34,13 +35,6 @@ const Meeting = props => {
 			</div>
 		</a>
 		)
-}
-
-var getInitials = function(fullName) {
-	let names = fullName.split(" ");
-	let initials = "";
-	names.forEach(name => initials += name.charAt(0));
-	return initials;
 }
 
 export default Meeting
