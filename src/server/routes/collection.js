@@ -154,4 +154,27 @@ router.post('/:documentId/meeting/create', function (req, res, next) {
         });
 });
 
+
+
+
+router.post('/:documentId/:meetingId/edit', function (req, res, next) {
+
+    var accountId = req.params.documentId;
+    var meetingId = req.params.meetingId;
+    var meetingData = req.body;
+
+    console.log(req.body.hostId);
+
+    Meetings
+            .editMeetingDetails(accountId, meetingId, meetingData)
+            .then((response) => {
+                res.send(response);
+            })
+            .catch((error) => {
+                res.send(error);
+            });
+
+});
+
+
 module.exports = router;
