@@ -121,3 +121,22 @@ localhost:3000/my-document-id/meeting-id/get
 ```
 localhost:3000/ProperTestDocument/DdVqhdEV5gVuj/get
 ```
+
+<h3>Edit data in an existing meeting</h3>
+<p>Make a POST request on:</p>
+```
+localhost:3000/ProperTestDocument/14AjFg56Z86H8/edit
+```
+<p>POST body is as follows:</p>
+```
+{
+	"hostId": "new host id mofo!!",
+	"meetingName": "What is this",
+	"meetingLocation": "Some where in the world",
+	"hostAvailability": [],
+	"finalDate": null,
+	"attendees": []	
+}
+```
+
+<p>You can include as little or as many parameters as you want. You cannot replace meetingID, you can try but it won't work.</p>
