@@ -71,7 +71,13 @@ localhost:3000/ProperTestDocument/meeting/create/EatingChocolate
 ```
 'localhost:3000/:documentId/meeting/get/:userId'
 ```
-<p>UNDER-DEVELOPMENT: I still have a few query things I need to mess around with before I'm happy with this</p>
+
+<p>Alternatively, you can get all hosted meetings of a user with the request below</p>
+```
+localhost:3000/:documentId/meeting/hosted/:userId
+```
+
+<p>UPDATE: working now.</p>
 
 <h3>Add attendees to a meeting</h3>
 <p>Make a POST request on:</p>
@@ -101,6 +107,10 @@ localhost:3000/my-document-id/my-meeting-id/attendees/add
 }
 ```
 <p>
+
+
+
+
 
 <h3>Get a single meeting using meetingId</h3>
 <p>Make a GET request on:</p>
