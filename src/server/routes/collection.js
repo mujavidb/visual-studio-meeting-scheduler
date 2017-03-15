@@ -70,7 +70,7 @@ router.get('/:documentId/meeting/get/:userId', function (req, res, next) {
 });
 
 // GET hosted meetings
-router.get('/:documentId/meeting/hosted/:userId', function(req, res, next) {
+router.get('/:documentId/meeting/hosted/:userId', function (req, res, next) {
     Meetings
         .getHostedMeetings(req.params.documentId, req.params.userId)
         .then((response) => {
