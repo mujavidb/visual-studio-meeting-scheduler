@@ -1,23 +1,23 @@
 {
     "manifestVersion": 1,
     "id": "meeting-extension",
-    "version": "0.1.2",
+    "version": "0.1.14",
     "name": "Meetings",
     "description": "An extension to handle meeting scheduling and management.",
-    "publisher": "alasdairhall",
+    "publisher": "mujavidbukhari",
     "targets": [
         {
             "id": "Microsoft.VisualStudio.Services"
-            }
-        ],
+        }
+    ],
     "icons": {
-        "default": "public/images/meeting.png"
+        "default": "assets/images/meeting.png"
     },
     "contributions": [
         {
-            "id": "project-hub-group",
+            "id": "VS1TEAM8-Meetings-HubGroup",
             "type": "ms.vss-web.hub-group",
-            "description": "Meetings hub group",
+            "description": "Meetings hub group.",
             "targets": [
                 "ms.vss-web.project-hub-groups-collection"
             ],
@@ -27,40 +27,32 @@
             }
         },
         {
-            "id": "AlasdairHall.Meetings",
+            "id": "VS1TEAM8-Meetings-HubGroup-DashboardHub",
             "type": "ms.vss-web.hub",
-            "description": "Meetings hub.",
-            "targets": [
-                ".project-hub-group"
-                ],
+            "description": "Meetings dashboard hub.",
+            "targets": [".VS1TEAM8-Meetings-HubGroup"],
             "properties": {
-                "name": "Meetings",
-                "order": 99,
-                "uri": "index.html"
+                "name": "Dashboard",
+                "order": 1,
+                "uri": "dashboard.html"
             }
         }
     ],
-    "scopes": [
-        "vso.work"
-    ],
     "files": [
         {
-            "path": "index.html", "addressable": true
+            "path": "dashboard.html", "addressable": true
         },
         {
             "path": "index.js", "addressable": true
         },
         {
-            "path": "main.css", "addressable": true
+            "path": "assets/js/VSS.SDK.min.js", "addressable": true
         },
         {
-            "path": "components", "addressable": true
+            "path": "assets/images/meeting.png", "addressable": true
         },
         {
-            "path": "public", "addressable": true
-        },
-        {
-            "path": "sdk/scripts", "addressable": true
+            "path": "assets/css", "addressable": true
         }
     ]
 }

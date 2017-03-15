@@ -1,34 +1,29 @@
 import React, { Component } from "react"
 import ReactDOM from "react-dom"
 
-import Dashboard from './components/dashboard.js'
-import CreateMeeting from './components/create-meeting.js'
-import ViewMeeting from './components/view-meeting.js'
+//Import pages
+import Dashboard from './pages/dashboard'
+import CreateMeeting from './pages/create-meeting'
+import ViewMeeting from './pages/view-meeting'
+import RespondInvitation from './pages/respond-invitation'
 
+//MainController functions as router for application
 class MainController extends Component {
 	constructor(){
 		super()
-		this.viewMeeting = this.viewMeeting.bind(this)
-		this.createMeeting = this.createMeeting.bind(this)
-		this.dashboard = this.dashboard.bind(this)
+
+		//ctrl object passed around update view
 		this.ctrl = {
-			dashboard: this.dashboard,
-			viewMeeting: this.viewMeeting,
-			createMeeting: this.createMeeting
+			dashboard: () => this.setState({current: <Dashboard ctrl={this.ctrl} />}),
+			createMeeting: () => this.setState({current: <CreateMeeting ctrl={this.ctrl} />}),
+			viewMeeting: id => this.setState({current: <ViewMeeting meetingId={id} ctrl={this.ctrl} />}),
+			respondInvitation: id => this.setState({current: <RespondInvitation ctrl={this.ctrl} />})
 		}
 		this.state = {
 			current: <Dashboard ctrl={this.ctrl} />
+			// current: <CreateMeeting ctrl={this.ctrl} />
+			// current: <RespondInvitation ctrl={this.ctrl} />
 		}
-	}
-	createMeeting(){
-		this.setState({current: <CreateMeeting ctrl={this.ctrl} />})
-	}
-	viewMeeting(id){
-		console.log("testing");
-		this.setState({current: <ViewMeeting id={id} ctrl={this.ctrl} />})
-	}
-	dashboard(){
-		this.setState({current: <Dashboard ctrl={this.ctrl} />})
 	}
 	render(){
 		return this.state.current

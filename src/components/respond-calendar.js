@@ -1,0 +1,83 @@
+import React, { Component } from "react"
+import fullcalendar from 'fullcalendar'
+import moment from 'moment-timezone'
+import $ from 'jquery'
+
+export default class RespondCalendar extends Component {
+	constructor(props){
+		super(props)
+		this.events = this.props.timeSlots.map(a => ({
+			start:moment(a.start),
+			end:moment(a.end),
+			editable: false,
+			resourceEditable: false
+		}))
+		this.state = {
+			selected: []
+		}
+		const bg = {backgroundColor: "#10CC89"}
+	}
+	componentDidMount() {
+		const { calendar } = this.refs;
+		const _this = this;
+		$(calendar).fullCalendar({
+		    header: {
+		    	left: '',
+				center: 'title',
+				right: ''
+		    },
+		    titleFormat: 'MMM D YYYY',
+		    defaultView: 'agendaWeek',
+		    defaultDate: moment(),
+		    firstDay: 1,
+		    scrollTime: '08:00:00',
+		    columnFormat: 'ddd D/M',
+		    allDaySlot: false,
+		    navLinks: false,
+			selectable: false,
+			selectHelper: true,
+			slotLabelFormat: "h(:mm)a",
+			select: function(start, end) {
+				const eventData = {
+					start: start,
+					end: end
+				}
+				$(calendar).fullCalendar('renderEvent', eventData, true) // stick? = true
+				const events = $(calendar).fullCalendar('clientEvents')
+				$(calendar).fullCalendar('unselect')
+				// _this.props.onChangeTimeSlots(events)
+			},
+			eventClick: function(calendarEvent, jsEvent, view) {
+				const $this = $(this)
+				if ($this.hasClass("selected")){
+					_this.setState({selected: _this.state.selected.filter(e=>e!=calendarEvent)}, () => {
+						$this.removeClass("selected")
+						console.log(_this.state.selected)
+						_this.props.onSelectTimeSlots(_this.state.selected)
+					})
+				} else {
+					_this.setState({selected: [..._this.state.selected, calendarEvent]}, () => {
+						$this.addClass("selected")
+						console.log(_this.state.selected)
+						_this.props.onSelectTimeSlots(_this.state.selected)
+					})
+				}
+			},
+			editable: true,
+			eventOverlap: true,
+			eventLimit: true // allow "more" link when too many events
+		})
+		$(calendar).fullCalendar('addEventSource', this.events)
+	}
+
+	render() {
+		return (
+			<div>
+				<span className="label">Click a proposed time slot to mark it as possible. You can select multiple slots.</span>
+				<div className="full_calendar_area">
+					<div ref="calendar"></div>
+				</div>
+			</div>
+		);
+	}
+}
