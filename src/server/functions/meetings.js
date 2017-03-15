@@ -174,3 +174,24 @@ exports.addAttendees = function (accountId, meetingId, attendees) {
     });
 
 }
+
+
+
+
+
+exports.editMeetingDetails = function (accountId, meetingId, newMeetingData) {
+
+    return new Promise((resolve, reject) => {
+        client.executeStoredProcedure(`${collectionUrl}/sprocs/editMeetingData`, [accountId, meetingId, newMeetingData],
+            function (error, response) {
+                console.log("execute");
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(response);
+                }
+
+            });
+    });
+
+}
