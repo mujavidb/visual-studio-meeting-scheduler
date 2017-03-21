@@ -25,10 +25,11 @@ class ViewMeeting extends Component {
 	}
 	getMeeting(){
 		console.log("GET MEETING");
+		let context = VSS.getWebContext();
 		let _this = this;
 		axios({
 			method: 'get',
-			url: `http://localhost:3000/funfun123123/${this.props.meetingId}/get`,
+			url: `https://meeting-scheduler.azurewebsites.net/${context.project.id}/${this.props.meetingId}/get`,
 			withCredentials: true
 		})
 		.then(function (response) {

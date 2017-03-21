@@ -18,16 +18,20 @@ class MainController extends Component {
 			createMeeting: () => this.setState({current: <CreateMeeting ctrl={this.ctrl} />}),
 			viewMeeting: id => this.setState({current: <ViewMeeting meetingId={id} ctrl={this.ctrl} />}),
 			respondInvitation: id => this.setState({current: <RespondInvitation ctrl={this.ctrl} />})
-		}
+		};
 		this.state = {
-			current: <Dashboard ctrl={this.ctrl} />
+			current: <Dashboard ctrl={this.ctrl} />,
+			context: {}
 			// current: <CreateMeeting ctrl={this.ctrl} />
 			// current: <RespondInvitation ctrl={this.ctrl} />
-		}
+		};
 	}
 	render(){
 		return this.state.current
 	}
 }
 
-ReactDOM.render(<MainController />, document.getElementById('root'))
+VSS.ready(function(){
+	console.log("VSS IS READY!");
+	ReactDOM.render(<MainController />, document.getElementById('root'));
+})

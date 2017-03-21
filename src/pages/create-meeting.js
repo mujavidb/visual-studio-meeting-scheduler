@@ -18,28 +18,31 @@ export default class CreateMeeting extends Component {
 		this.updateMarkdown = this.updateMarkdown.bind(this)
 		this.updateTimeSlots = this.updateTimeSlots.bind(this)
 		this.updateAttendees = this.updateAttendees.bind(this)
+		this.updateTeamMembers = this.updateTeamMembers.bind(this)
 		this.onSubmit = this.onSubmit.bind(this)
 		this.state = {
 			markdown_text: 'Enter *markdown* here',
 			attendees: [],
 			timeSlots: [],
 			errors: [],
+			teamMembers: [],
 			formSubmitted: false
 		}
-		this.accountID = "funfun123123"
-		this.userID = "lovebug321321"
+		
+		// this.accountID = this.context.project.id
+		// this.userID = this.context.user.id
 		this._titleInput = {}
 		this._locationInput = {}
 
 		//mocks form received in
-		this.query_results = [
-			{ initials: "MB", id: "najd38j9h", name: "Mujavid Bukhari"},
-			{ initials: "AL", id: "kjsadlj23", name: "Alasdair Hall"},
-			{ initials: "KC", id: "mjniojin2", name: "Kelvin Chan"},
-			{ initials: "ES", id: "9jn9n34f9", name: "Eric Schmidt"},
-			{ initials: "FP", id: "mlksandhg", name: "Faiz Punakkath"},
-			{ initials: "YM", id: "934i029jd", name: "Yousef Mahmood"}
-		]
+		// this.query_results = [
+		// 	{ initials: "MB", id: "najd38j9h", name: "Mujavid Bukhari"},
+		// 	{ initials: "AL", id: "kjsadlj23", name: "Alasdair Hall"},
+		// 	{ initials: "KC", id: "mjniojin2", name: "Kelvin Chan"},
+		// 	{ initials: "ES", id: "9jn9n34f9", name: "Eric Schmidt"},
+		// 	{ initials: "FP", id: "mlksandhg", name: "Faiz Punakkath"},
+		// 	{ initials: "YM", id: "934i029jd", name: "Yousef Mahmood"}
+		// ]
 	}
 	updateMarkdown(text){
 		this.setState({markdown_text: text, updated: true})
@@ -48,7 +51,12 @@ export default class CreateMeeting extends Component {
 		this.setState({timeSlots:newTimeSlots, updated: true})
 	}
 	updateAttendees(attendees){
+		console.log("ATTENDEES;",attendees)
 		this.setState({attendees: attendees, updated: true})
+	}
+	updateTeamMembers(teamMembers){
+		console.log("UPDATE TEAM MEMBERS:", teamMembers);
+		this.setState({teamMembers: teamMembers})
 	}
 	validateInput(){
 		const errors = []
@@ -61,6 +69,9 @@ export default class CreateMeeting extends Component {
 		if (this.state.timeSlots.length === 0){
 			errors.push("You need to select some availability slots on the calendar.")
 		}
+		if (this.state.timeSlots.length === 1){
+			// non-votable
+		}
 		if (this.state.attendees.length === 0){
 			errors.push("You need to add attendees to the meeting.")
 		}
@@ -71,8 +82,9 @@ export default class CreateMeeting extends Component {
 		this.setState({formSubmitted: true})
 		
 		if (this.validateInput()){
+			let context = VSS.getWebContext();
 			const data = {
-				"hostId": "1234567891234",
+				"hostId": context.user.id,
 				"meetingName": this._titleInput.value,
 				"hostAvailability": this.state.timeSlots.map(a=>({start: a.start.toString(), end: a.end.toString()})),
 				"meetingLocation": this._locationInput.value,
@@ -83,7 +95,7 @@ export default class CreateMeeting extends Component {
 			let _this = this;
 			axios({
 				method: 'post',
-				url: `http://localhost:3000/${this.accountID}/meeting/create`,
+				url: `https://meeting-scheduler.azurewebsites.net/${context.project.id}/meeting/create`,
 				data: data,
 				withCredentials: true
 			})
@@ -94,24 +106,27 @@ export default class CreateMeeting extends Component {
 			.catch(function (error) {
 			    console.log(error);
 			});
-			// const request = new XMLHttpRequest()
-			// request.open('POST', `http://localhost:3000/meeting/get/${this.props.userID}`, true)
-			// request.setRequestHeader("Content-Type", "application/json")
-			// request.onreadystatechange = () => {
-			// 	if (request.readystate === XMLHttpRequest.DONE){
-			// 		if (request.status == 200) {
-
-			// 		} else {
-			// 			console.log("Oops, there's a problemo")
-			// 		}
-			// 	}
-			// }
-			// request.send(data)
-			//
 		}
 	}
+	getTeamMembers(){
+		let _this = this;
+		let context = VSS.getWebContext();
+		VSS.require(["TFS/Core/RestClient"], function (TFS_Core_WebApi) {
+		    // Get the REST client
+		    console.log("PROJ ID:", context.project.id, "TEAM ID:", context.team.id);
+		    TFS_Core_WebApi.getClient().getTeamMembers(context.project.id, context.team.id).then(function(response){
+		    	console.log("TEAM MEMBERS BELOW");
+		    	console.log(response);
+		    	_this.updateTeamMembers(response);
+		    }, function(error){
+		    	console.log(error);
+		    });
+		});
+	}
 	componentDidMount(){
-		this._titleInput.focus()
+		this._titleInput.focus();
+		this.getTeamMembers();
+		console.log("TEAM MEMBERS:", this.teamMembers);
 	}
 	componentDidUpdate(){
 		if (this.state.formSubmitted && this.state.updated) {
@@ -128,6 +143,15 @@ export default class CreateMeeting extends Component {
 					</ul>
 				</section>
 			)
+		}
+		let autosuggest
+		if(this.state.teamMembers.length == 0) {
+			autosuggest = (<p>Loading...</p>);
+		} else {
+			autosuggest = (<AutosuggestUser
+				originalData={this.state.teamMembers}
+				update={this.updateAttendees}/>
+			);
 		}
 		return (
 				<div className="large_card_area create_meeting">
@@ -169,9 +193,8 @@ export default class CreateMeeting extends Component {
 
 						<section>
 							<h3>Attendees</h3>
-							<AutosuggestUser
-								originalData={this.query_results}
-								update={this.updateAttendees}/>
+							{ autosuggest }
+							
 						</section>
 						{ errors }
 						<footer>
