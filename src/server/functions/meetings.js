@@ -10,7 +10,7 @@ var client = new documentClient(config.endpoint, {
 
 var Meeting = require('../Classes/Meeting');
 
-exports.createMeeting = function (accountId, hostId, meetingId, meetingName, query, hostAvailability, attendeesArray, meetingLocation) {
+exports.createMeeting = function (accountId, hostId, meetingId, meetingName, query, hostAvailability, attendeesArray, meetingLocation, agenda) {
 
     var documentUrl = `${collectionUrl}/docs/${accountId}`
 
@@ -64,6 +64,7 @@ exports.createMeeting = function (accountId, hostId, meetingId, meetingName, que
                             });
 
                             meeting.addLocation(meetingLocation);
+                            meeting.addAgenda(agenda);
 
                             // Now we have created the meeting object, under meeting.data, we can push it to
                             // the document and replace the whole document.

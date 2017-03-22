@@ -143,7 +143,7 @@ router.post('/:documentId/meeting/create', function (req, res, next) {
 
     console.log("Calling createMeeting function");
     Meetings
-        .createMeeting(accountId, hostId, meetingId, meetingName, query, hostAvailability, attendees, meetingLocation)
+        .createMeeting(accountId, hostId, meetingId, meetingName, query, hostAvailability, attendees, meetingLocation, agenda)
         .then((response) => {
             console.log('ok');
             res.send(response);
@@ -179,6 +179,7 @@ router.post('/:documentId/:meetingId/edit', function (req, res, next) {
 // Get meetings that you have responded to.
 
 router.post('/:documentId/meeting/responded/:userId', function (req, res, next) {
+
     Meetings
         .getRespondedMeetings(req.params.documentId, req.params.userId)
         .then((response) => {

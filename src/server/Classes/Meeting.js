@@ -25,6 +25,7 @@ class Meeting {
             "meetingLocation": null,
             "hostAvailability": [],
             "finalDate": null,
+            "agenda": null,
             "attendees": []
         }
     }
@@ -91,6 +92,12 @@ class Meeting {
         this
             .data
             .meetingLocation = location;
+    }
+
+    addAgenda(agenda) {
+        this
+            .data
+            .agenda = agenda;
     }
 
 }
