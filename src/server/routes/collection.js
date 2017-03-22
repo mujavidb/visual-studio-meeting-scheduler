@@ -156,7 +156,7 @@ router.post('/:documentId/meeting/create', function (req, res, next) {
 
 
 
-
+// Edit a meeting
 router.post('/:documentId/:meetingId/edit', function (req, res, next) {
 
     var accountId = req.params.documentId;
@@ -174,6 +174,19 @@ router.post('/:documentId/:meetingId/edit', function (req, res, next) {
                 res.send(error);
             });
 
+});
+
+// Get meetings that you have responded to.
+
+router.post('/:documentId/meeting/responded/:userId', function (req, res, next) {
+    Meetings
+        .getRespondedMeetings(req.params.documentId, req.params.userId)
+        .then((response) => {
+            res.send(response);
+        })
+        .catch((error) => {
+            res.send(error);
+        });
 });
 
 
