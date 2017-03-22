@@ -30,10 +30,12 @@ DEBUG=*:server node ./bin/www
     IMPORTANT: Make sure the accountID you use to create this is the account-id of the VSTS account!!
 </p>
 <p>Make a GET request on</p>
+
 ```
 localhost:3000/document/create/:documentId
 ```
 <p>For example:</p>
+
 ```
 localhost:3000/document/create/sajdhjqwe-id-2
 ```
@@ -43,14 +45,17 @@ localhost:3000/document/create/sajdhjqwe-id-2
 
 <h3>Create a meeting</h3>
 <p>create a POST request on </p>
+
 ```
 localhost:3000/:documentId/meeting/create
 ```
 <p>For example:</p>
+
 ```
 localhost:3000/ProperTestDocument/meeting/create/EatingChocolate
 ```
 <p>The body of the POST request is as follows:</p>
+
 ```
 {
     "meetingName": "Happy Birthday To the Ground!",
@@ -72,11 +77,13 @@ localhost:3000/ProperTestDocument/meeting/create/EatingChocolate
 
 <h3>Get all meetings of a user</h3>
 <p>Make a GET request on</p>
+
 ```
 'localhost:3000/:documentId/meeting/get/:userId'
 ```
 
 <p>Alternatively, you can get all hosted meetings of a user with the request below</p>
+
 ```
 localhost:3000/:documentId/meeting/hosted/:userId
 ```
@@ -85,14 +92,17 @@ localhost:3000/:documentId/meeting/hosted/:userId
 
 <h3>Add attendees to a meeting</h3>
 <p>Make a POST request on:</p>
+
 ```
 localhost:3000/:documentId/:meetingId/attendees/add
 ```
 <p>For example</p>
+
 ```
 localhost:3000/my-document-id/my-meeting-id/attendees/add
 ```
 <p>The POST body is as follows:</p>
+
 ```
 {
     "attendees": [
@@ -118,20 +128,24 @@ localhost:3000/my-document-id/my-meeting-id/attendees/add
 
 <h3>Get a single meeting using meetingId</h3>
 <p>Make a GET request on:</p>
+
 ```
 localhost:3000/my-document-id/meeting-id/get
 ```
 </p>For example:</p>
+
 ```
 localhost:3000/ProperTestDocument/DdVqhdEV5gVuj/get
 ```
 
 <h3>Edit data in an existing meeting</h3>
 <p>Make a POST request on:</p>
+
 ```
 localhost:3000/ProperTestDocument/14AjFg56Z86H8/edit
 ```
 <p>POST body is as follows:</p>
+
 ```
 {
 	"hostId": "new host id mofo!!",
