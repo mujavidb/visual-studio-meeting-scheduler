@@ -158,3 +158,11 @@ localhost:3000/ProperTestDocument/14AjFg56Z86H8/edit
 ```
 
 <p>You can include as little or as many parameters as you want. You cannot replace meetingID, you can try but it won't work.</p>
+
+<h3>Get responded meetings</h3>
+
+<p>POST request. No body needed for now, but I've made it a post request because we'll eventually have to attach auth headers for the server</p>
+
+```
+localhost:3000/ProperTestDocument/meeting/responded/user-id
+```
