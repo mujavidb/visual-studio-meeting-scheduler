@@ -135,6 +135,7 @@ router.post('/:documentId/meeting/create', function (req, res, next) {
     var hostAvailability = req.body.hostAvailability;
     var hostId = req.body.hostId;
     var meetingLocation = req.body.meetingLocation;
+    var agenda = req.body.agenda;
 
     // Need to check for correct structure of the POST body. If it is wrong then
     // send some sort of error. console.log(JSON.parse(attendees)); Data needed to
