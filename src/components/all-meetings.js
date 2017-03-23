@@ -6,8 +6,10 @@ class AllMeetings extends Component {
 	constructor(props){
 		super(props)
 		this.state = {
-			isPast: this.props.isPast !== undefined ? this.props.isPast : false
+			isPast: this.props.isPast !== undefined ? this.props.isPast : false,
+			teamMembers: []
 		}
+		this.updateTeamMembers = this.updateTeamMembers.bind(this);
 		this.toggleMeetings = this.toggleMeetings.bind(this);
 	}
 	toggleMeetings(goToPast){
@@ -22,7 +24,7 @@ class AllMeetings extends Component {
 	getMeetingList() {
 		const filteredMeetings = this.props.meetings.filter(this.filterUpcoming(this.state.isPast))
 		if (filteredMeetings.length > 0) {
-			return filteredMeetings.map(item => <Meeting key={item.meetingId} details={item} ctrl={this.props.ctrl}/>)
+			return filteredMeetings.map(item => <Meeting key={item.meetingId} details={item} ctrl={this.props.ctrl} teamMembers={this.state.teamMembers}/>)
 		} else {
 			return (
 				<div className="empty_state_card">
@@ -30,6 +32,27 @@ class AllMeetings extends Component {
 				</div>
 			)
 		}
+	}
+	getTeamMembers() {
+		let _this = this;
+		let context = VSS.getWebContext();
+		VSS.require(["TFS/Core/RestClient"], function (TFS_Core_WebApi) {
+		    // Get the REST client
+		    console.log("PROJ ID:", context.project.id, "TEAM ID:", context.team.id);
+		    TFS_Core_WebApi.getClient().getTeamMembers(context.project.id, context.team.id).then(function(response){
+		    	console.log("TEAM MEMBERS BELOW");
+		    	console.log(response);
+		    	_this.updateTeamMembers(response);
+		    }, function(error){
+		    	console.log(error);
+		    });
+		});
+	}
+	updateTeamMembers(teamMembers){
+		this.setState({teamMembers: teamMembers});
+	}
+	componentDidMount(){
+		this.getTeamMembers();
 	}
 	render(){
 		return (

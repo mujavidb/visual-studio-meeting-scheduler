@@ -3,6 +3,7 @@ import CreateCalendar from '../components/create-calendar'
 import AutosuggestUser from '../components/autosuggest-user'
 import MarkdownEditor from '../components/markdown-editor'
 import axios from 'axios'
+import moment from 'moment'
 
 //API: OAuth
 //API: get user id
@@ -49,6 +50,7 @@ export default class CreateMeeting extends Component {
 	}
 	updateTimeSlots(newTimeSlots){
 		this.setState({timeSlots:newTimeSlots, updated: true})
+		console.log("NEW TIME SLOTS:", newTimeSlots)
 	}
 	updateAttendees(attendees){
 		console.log("ATTENDEES;",attendees)
@@ -79,16 +81,17 @@ export default class CreateMeeting extends Component {
 		return errors.length === 0 ? true : false
 	}
 	onSubmit(){
-		this.setState({formSubmitted: true})
+		this.setState({formSubmitted: true}) // is this right to go here?
 		
 		if (this.validateInput()){
 			let context = VSS.getWebContext();
 			const data = {
 				"hostId": context.user.id,
 				"meetingName": this._titleInput.value,
-				"hostAvailability": this.state.timeSlots.map(a=>({start: a.start.toString(), end: a.end.toString()})),
+				"hostAvailability": this.state.timeSlots.map(a=>({dateStart: moment(a.start).toString(), dateEnd: moment(a.end).toString()})),
 				"meetingLocation": this._locationInput.value,
-				"attendees": this.state.attendees.map(a=>({ id: a.id, name: a.name }))
+				"attendees": this.state.attendees.map(a=>({ id: a.id, name: a.name })),
+				"agenda": this.state.markdown_text
 			}
 			console.log("Sending Data")
 			console.log(data)
