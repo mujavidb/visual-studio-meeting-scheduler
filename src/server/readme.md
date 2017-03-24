@@ -16,6 +16,13 @@ DEBUG=*:server node ./bin/www
     be hosted onto Azure (I think).
 </p>
 
+<h3>How to deploy server to Azure</h3>
+<p>From the root of the repository:</p>
+
+```
+git subtree push --prefix src/server azure master
+```
+
 
 <h2>API</h2>
 
