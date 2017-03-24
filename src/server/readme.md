@@ -166,3 +166,12 @@ localhost:3000/ProperTestDocument/14AjFg56Z86H8/edit
 ```
 localhost:3000/ProperTestDocument/meeting/responded/user-id
 ```
+
+<h3>Set final meeting date</h3
+
+<p>POST request</p>
+
+```
+localhost:3000/ProperTestDocument/oz5mUbpN05NIY/finalise
+```
+
