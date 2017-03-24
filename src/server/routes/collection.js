@@ -192,4 +192,31 @@ router.post('/:documentId/meeting/responded/:userId', function (req, res, next) 
 });
 
 
+// Finalise meeting date.
+
+router.post('/:documentId/:meetingId/finalise', function (req, res, next) {
+
+    console.log(req.body.finalDate);
+
+    next();
+});
+
+
+router.post('/:documentId/:meetingId/finalise', function (req, res, next) {
+
+    var finalDate = req.body.finalDate;
+
+
+    Meetings
+        .finaliseMeetingDate(req.params.documentId, req.params.meetingId, req.body.finalDate)
+        .then((response) => {
+            res.send(response);
+        })
+        .catch((error) => {
+            res.send(error);
+        });
+});
+
+
+
 module.exports = router;

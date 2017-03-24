@@ -214,3 +214,20 @@ exports.editMeetingDetails = function (accountId, meetingId, newMeetingData) {
     });
 
 }
+
+exports.finaliseMeetingDate = function (accountId, meetingId, finalDate) {
+
+    return new Promise((resolve, reject) => {
+        client.executeStoredProcedure(`${collectionUrl}/sprocs/finaliseMeetingDate`, [accountId, meetingId, finalDate],
+            function (error, response) {
+                console.log("execute");
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(response);
+                }
+
+            });
+    });
+
+}
