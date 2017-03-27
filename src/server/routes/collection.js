@@ -135,6 +135,7 @@ router.post('/:documentId/meeting/create', function (req, res, next) {
     var hostAvailability = req.body.hostAvailability;
     var hostId = req.body.hostId;
     var meetingLocation = req.body.meetingLocation;
+    var agenda = req.body.agenda;
 
     // Need to check for correct structure of the POST body. If it is wrong then
     // send some sort of error. console.log(JSON.parse(attendees)); Data needed to
@@ -143,7 +144,7 @@ router.post('/:documentId/meeting/create', function (req, res, next) {
 
     console.log("Calling createMeeting function");
     Meetings
-        .createMeeting(accountId, hostId, meetingId, meetingName, query, hostAvailability, attendees, meetingLocation)
+        .createMeeting(accountId, hostId, meetingId, meetingName, query, hostAvailability, attendees, meetingLocation, agenda)
         .then((response) => {
             console.log('ok');
             res.send(response);
@@ -156,7 +157,7 @@ router.post('/:documentId/meeting/create', function (req, res, next) {
 
 
 
-
+// Edit a meeting
 router.post('/:documentId/:meetingId/edit', function (req, res, next) {
 
     var accountId = req.params.documentId;
@@ -175,6 +176,71 @@ router.post('/:documentId/:meetingId/edit', function (req, res, next) {
             });
 
 });
+
+
+router.post('/:documentId/meeting/responded/:userId', function (req, res, next) {
+
+    if (typeof req.params.documentId != 'string' && typeof req.params.userId != 'string') {
+        res.send("JSON values must be strings!");
+    }
+
+    next();
+});
+
+// =================================================================================================
+// GET MEETINGS ====================================================================================
+// =================================================================================================
+
+router.post('/:documentId/meeting/responded/:userId', function (req, res, next) {
+
+    Meetings
+        .getRespondedMeetings(req.params.documentId, req.params.userId)
+        .then((response) => {
+            res.send(response);
+        })
+        .catch((error) => {
+            res.send(error);
+        });
+});
+
+router.post('/:documentId/meeting/unresponded/:userId', function (req, res, next) {
+
+    Meetings
+        .getUnrespondedMeetings(req.params.documentId, req.params.userId)
+        .then((response) => {
+            res.send(response);
+        })
+        .catch((error) => {meet
+            res.send(error);
+        });
+});
+
+// ========================================================================================
+// Finalise meeting date ==================================================================
+// ========================================================================================
+router.post('/:documentId/:meetingId/finalise', function (req, res, next) {
+
+    console.log(req.body.finalDate);
+
+    next();
+});
+
+
+router.post('/:documentId/:meetingId/finalise', function (req, res, next) {
+
+    var finalDate = req.body.finalDate;
+
+
+    Meetings
+        .finaliseMeetingDate(req.params.documentId, req.params.meetingId, req.body.finalDate)
+        .then((response) => {
+            res.send(response);
+        })
+        .catch((error) => {
+            res.send(error);
+        });
+});
+
 
 
 module.exports = router;
