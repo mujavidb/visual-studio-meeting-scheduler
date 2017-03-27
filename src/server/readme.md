@@ -1,13 +1,15 @@
-<h1>How To Use Kelvin's API??!?!?!</h1>
-
 ##### Table of Contents  
-[Headers](#headers)  
-[Emphasis](#emphasis)  
-...snip...    
+[Installation](#installation)  
+
+
 <a name="headers"/>
 ## Headers
 
+<h1>How To Use Kelvin's API??!?!?!</h1>
 
+
+
+<a name="installation"/>
 <h2>Installation</h2>
 <p>Firstly, you need to install the packages that is required for the server to run.</p>
 
