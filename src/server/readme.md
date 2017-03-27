@@ -1,6 +1,6 @@
-##### Table of Contents  
+# Table of Contents  
 [Installation](#installation)  
-
+[Meetings](#meetings)
 
 <a name="headers"/>
 ## Headers
@@ -60,7 +60,10 @@ localhost:3000/document/create/sajdhjqwe-id-2
 <p>At the moment this is a GET request, and is subject to change, though is a low priority<p>
 
 
-
+<!--============================================================================================================-->
+<!--MEETINGS ===================================================================================================-->
+<!--============================================================================================================-->
+<a name="meetings"/>
 <h3>Create a meeting</h3>
 <p>create a POST request on </p>
 
@@ -183,6 +186,14 @@ localhost:3000/ProperTestDocument/14AjFg56Z86H8/edit
 
 ```
 localhost:3000/ProperTestDocument/meeting/responded/user-id
+```
+
+<h3>Get UNresponded meetings</h3>
+
+<p> POST request. </p>
+
+```
+localhost:3000/ProperTestDocument/meeting/unresponded/user-id
 ```
 
 <h3>Set final meeting date</h3
