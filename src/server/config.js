@@ -12,8 +12,8 @@ config.collection = {
     "id": "AccountsCollection"
 };
 
-config.meetingsCollection = {
-    "id": "MeetingsCollection"
+config.usersCollection = {
+    "id": "UsersCollection"
 }
 
 config.documents = {
