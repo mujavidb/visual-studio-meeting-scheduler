@@ -187,8 +187,9 @@ router.post('/:documentId/meeting/responded/:userId', function (req, res, next) 
     next();
 });
 
-
-// Get meetings that you have responded to.
+// =================================================================================================
+// GET MEETINGS ====================================================================================
+// =================================================================================================
 
 router.post('/:documentId/meeting/responded/:userId', function (req, res, next) {
 
@@ -202,9 +203,21 @@ router.post('/:documentId/meeting/responded/:userId', function (req, res, next) 
         });
 });
 
+router.post('/:documentId/meeting/unresponded/:userId', function (req, res, next) {
 
-// Finalise meeting date.
+    Meetings
+        .getUnrespondedMeetings(req.params.documentId, req.params.userId)
+        .then((response) => {
+            res.send(response);
+        })
+        .catch((error) => {meet
+            res.send(error);
+        });
+});
 
+// ========================================================================================
+// Finalise meeting date ==================================================================
+// ========================================================================================
 router.post('/:documentId/:meetingId/finalise', function (req, res, next) {
 
     console.log(req.body.finalDate);

@@ -158,6 +158,24 @@ exports.getRespondedMeetings = function(accountId, userId) {
     });
 }
 
+exports.getUnrespondedMeetings = function(accountId, userId) {
+    var documentUrl = `${collectionUrl}/docs/${accountId}`;
+
+    return new Promise((resolve, reject) => {
+        client.executeStoredProcedure(`${collectionUrl}/sprocs/getUnrespondedMeetings`, [accountId, userId],
+            function (error, response) {
+                console.log("execute");
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(response);
+                }
+
+            });
+
+    });
+}
+
 exports.getHostedMeetings = function(accountId, userId) {
     var documentUrl = `${collectionUrl}/docs/${accountId}`;
 
