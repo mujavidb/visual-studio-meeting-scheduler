@@ -4,6 +4,7 @@ import { formatToLongTime } from '../helpers/format-time'
 import { generateRGBColor } from '../helpers/color-generator'
 
 const Meeting = props => {
+	console.log("Meeting props.teamMembers:", props.teamMembers);
 	return (
 		<a onClick={()=>props.ctrl.viewMeeting(props.details.meetingId)} className="meeting_card_container" role="button">
 			<div className="meeting_card">
@@ -18,7 +19,7 @@ const Meeting = props => {
 						.sort((a,b)=> a === true ? 0 : 1)
 						.map(attendee => {
 							const classes = `attendee_block ${attendee.status == "" ? "unresponsive" : "responsive"}`
-							const blockTitle = `${getInitials(attendee.name)} has ${attendee.status == "" ? "not yet" : ""} responded`
+							const blockTitle = `${attendee.name} has ${attendee.status == "" ? "not yet " : ""}responded`
 							if(props.teamMembers.length == 0) {
 								return (
 									<div
