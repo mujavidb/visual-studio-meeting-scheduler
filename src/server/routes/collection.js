@@ -177,6 +177,17 @@ router.post('/:documentId/:meetingId/edit', function (req, res, next) {
 
 });
 
+
+router.post('/:documentId/meeting/responded/:userId', function (req, res, next) {
+
+    if (typeof req.params.documentId != 'string' && typeof req.params.userId != 'string') {
+        res.send("JSON values must be strings!");
+    }
+
+    next();
+});
+
+
 // Get meetings that you have responded to.
 
 router.post('/:documentId/meeting/responded/:userId', function (req, res, next) {
