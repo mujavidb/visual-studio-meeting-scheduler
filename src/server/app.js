@@ -14,6 +14,52 @@ var collection = require('./routes/collection');
 
 var app = express();
 
+// ============================================================================================================
+// azure ad passport ==========================================================================================
+// ============================================================================================================
+
+var passport = require('passport');
+var AzureAD =  require('passport-azure-ad');
+var config = require('./config.js');
+
+passport.use(new AzureAD.OIDCStrategy({
+    identityMetadata: config.creds.identityMetadata,
+    clientID: config.creds.clientID,
+    clientSecret: config.creds.clientSecret,
+    audience: config.creds.audience,
+    validateIssuer: config.creds.validateIssuer,
+    passReqToCallback: config.creds.passReqToCallback,
+    loggingLevel: config.creds.loggingLevel,
+    responseType: config.creds.responseType,
+    responseMode: config.creds.responseMode,
+    redirectUrl: config.creds.redirectUrl
+  },
+  function(iss, sub, profile, accessToken, refreshToken, done) {
+    if (!profile.oid) {
+      return done(new Error("No oid found"), null);
+    }
+    // asynchronous verification, for effect... 
+    process.nextTick(function () {
+      findByOid(profile.oid, function(err, user) {
+        if (err) {
+          return done(err);
+        }
+        if (!user) {
+          // "Auto-registration" 
+          users.push(profile);
+          return done(null, profile);
+        }
+        return done(null, user);
+      });
+    });
+  }
+));
+
+
+
+// =========================================================================================
+// Server setup ============================================================================
+// =========================================================================================
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -44,7 +90,7 @@ app.use(function(req, res, next) {
   }
 });
 
-app.use('/', collection);
+app.use('/', collection); 
 app.use('/users', users);
 // app.use('/collection', collection);
 

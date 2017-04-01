@@ -3,6 +3,9 @@ var router = express.Router();
 var Collection = require('../functions/collections');
 var Meetings = require('../functions/meetings');
 
+// passport imports
+var passport = require('passport');
+
 // Create collection
 router.get('/create', function (req, res, next) {
 
@@ -83,18 +86,7 @@ router.get('/:documentId/meeting/hosted/:userId', function (req, res, next) {
         });
 });
 
-// Get an individual meeting
-router.get('/:documentId/:meetingId/get', function(req, res, next) {
 
-    Meetings
-    .getMeeting(req.params.documentId, req.params.meetingId)
-    .then((response) => {
-        res.send(response);
-    })
-    .catch((error) => {
-        res.send(error);
-    });
-});
 
 
 // Add Attendees to meeting
@@ -102,7 +94,7 @@ router.post('/:documentId/:meetingId/attendees/add', function(req,res,next) {
     var accountId = req.params.documentId;
     var meetingId = req.params.meetingId;
 
-    attendees = JSON.parse(req.body.attendees);
+    attendees = req.body.attendees;
 
     console.log(attendees);
 
@@ -191,6 +183,33 @@ router.post('/:documentId/meeting/responded/:userId', function (req, res, next) 
 // GET MEETINGS ====================================================================================
 // =================================================================================================
 
+
+router.get('/:documentId/:meetingId/get', passport.authenticate('azuread-openidconnect', { failureRedirect: '/' }),
+  function(req, res) {
+    log.info('Login was called in the Sample');
+
+    console.log('auth passed???');
+    next();
+    // res.redirect('/');
+});
+ 
+
+
+// Get an individual meeting
+router.get('/:documentId/:meetingId/get', function(req, res, next) {
+
+    Meetings
+    .getMeeting(req.params.documentId, req.params.meetingId)
+    .then((response) => {
+        res.send(response);
+    })
+    .catch((error) => {
+        res.send(error);
+    });
+});
+
+
+
 router.post('/:documentId/meeting/responded/:userId', function (req, res, next) {
 
     Meetings
@@ -203,7 +222,19 @@ router.post('/:documentId/meeting/responded/:userId', function (req, res, next) 
         });
 });
 
-router.post('/:documentId/meeting/unresponded/:userId', function (req, res, next) {
+// router.post('/:documentId/meeting/unresponded/:userId', function (req, res, next) {
+
+//     Meetings
+//         .getUnrespondedMeetings(req.params.documentId, req.params.userId)
+//         .then((response) => {
+//             res.send(response);
+//         })
+//         .catch((error) => {meet
+//             res.send(error);
+//         });
+// });
+
+router.post('/:documentId/meeting/unresponded/:userId', passport.authenticate('azuread-openidconnect', { tenantIdOrName: '1faf88fe-a998-4c5b-93c9-210a11d9a5c2'}),function (req, res, next) {
 
     Meetings
         .getUnrespondedMeetings(req.params.documentId, req.params.userId)
@@ -214,6 +245,7 @@ router.post('/:documentId/meeting/unresponded/:userId', function (req, res, next
             res.send(error);
         });
 });
+ 
 
 // ========================================================================================
 // Finalise meeting date ==================================================================
