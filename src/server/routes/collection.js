@@ -102,7 +102,7 @@ router.post('/:documentId/:meetingId/attendees/add', function(req,res,next) {
     var accountId = req.params.documentId;
     var meetingId = req.params.meetingId;
 
-    attendees = JSON.parse(req.body.attendees);
+    attendees = req.body.attendees;
 
     console.log(attendees);
 
