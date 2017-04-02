@@ -4,7 +4,7 @@ import AutosuggestUser from '../components/autosuggest-user'
 import MarkdownEditor from '../components/markdown-editor'
 import axios from 'axios'
 
-export default class CreateMeeting extends Component {
+export default class UpdateMeeting extends Component {
 	constructor(props){
 		super(props)
 		this.updateMarkdown = this.updateMarkdown.bind(this)
@@ -12,6 +12,7 @@ export default class CreateMeeting extends Component {
 		this.updateAttendees = this.updateAttendees.bind(this)
 		this.onSubmit = this.onSubmit.bind(this)
 		this.state = {
+			meeting: {},
 			markdown_text: 'Enter *markdown* here',
 			attendees: [],
 			timeSlots: [],
@@ -90,11 +91,35 @@ export default class CreateMeeting extends Component {
 	}
 	componentDidMount(){
 		this._titleInput.focus()
+		this.getMeeting()
 	}
 	componentDidUpdate(){
 		if (this.state.formSubmitted && this.state.updated) {
 			this.validateInput()
 		}
+	}
+	getMeeting(){
+		console.log("GET MEETING");
+		let _this = this;
+		axios({
+			method: 'get',
+			url: `http://localhost:3000/funfun123123/${this.props.meetingId}/get`,
+			withCredentials: true
+		})
+		.then(function (response) {
+			_this.setState({meeting: response.data[0].meeting, loading: false});
+			console.log("RESPONSE", response);
+			console.log("GOT MEETING");
+		})
+		.catch(function (error) {
+			console.log(error);
+		})
+	}
+	getInitials(fullName) {
+		let names = fullName.split(" ");
+		let initials = "";
+		names.forEach(name => initials += name.charAt(0));
+		return initials;
 	}
 	render(){
 		let errors
@@ -121,6 +146,7 @@ export default class CreateMeeting extends Component {
 								ref={x=>this._titleInput = x}
 								type="text"
 								placeholder="Enter meeting title"
+								value={this.state.meeting}
 								onChange={()=>this.state.formSubmitted ? this.validateInput() : ""}/>
 						</section>
 
@@ -154,7 +180,7 @@ export default class CreateMeeting extends Component {
 						{ errors }
 						<footer>
 							<button onClick={this.props.ctrl.dashboard} className="button cancel maxed">Cancel</button>
-							<button onClick={this.onSubmit} className="button primary maxed">Create Meeting</button>
+							<button onClick={this.onSubmit} className="button primary maxed">Update</button>
 						</footer>
 					</main>
 				</div>

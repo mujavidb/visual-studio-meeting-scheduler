@@ -547,6 +547,16 @@ header {
 	width: 100%;
 }
 
+.location_area {
+	padding: 10px;
+	box-sizing: border-box;
+	height: 100%;
+	border: 1px solid $border;
+	color: $default-text;
+	background-color: #fafafa;
+	margin: 0 0 15px;
+}
+
 // Loader image
 
 .loader-box {

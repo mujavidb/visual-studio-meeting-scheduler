@@ -7,7 +7,7 @@ import { getInitials } from '../helpers/get-initials'
 const HostedMeeting = props => {
 	console.log(props);
 	return (
-		<a className="meeting_card_container" role="button" onClick={()=>props.ctrl.respondInvitation(props.details.id)}>
+		<a className="meeting_card_container" role="button" onClick={()=>props.ctrl.viewMeeting(props.details.meetingId)}>
 			<div className="meeting_card">
 				<h3 className="meeting_title">{ props.details.meetingName }</h3>
 				<p className="meeting_datetime">{ formatToLongTime(props.details.time) }</p>
