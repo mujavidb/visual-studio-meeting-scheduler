@@ -1,8 +1,8 @@
 //Global scope override
 #root .full_calendar_area {
-	.fc-toolbar.fc-header-toolbar {
+	/*.fc-toolbar.fc-header-toolbar {
 		display: none;
-	}
+	}*/
 	thead th {
 		vertical-align: middle;
 		height: 38px;
@@ -29,8 +29,14 @@
 		text-align: center;
 	}
 	.fc-event {
-		background-color: #0a71bd;
+		background-color: $vs-blue;
 		border-color: #75c2d8;
 		border-radius: 0;
+		transition: all 0.1s ease;
+		cursor: pointer;
+	}
+	.fc-event.selected {
+		background-color: #0DAD76;
+		border-color: #6FE4C1;
 	}
 }

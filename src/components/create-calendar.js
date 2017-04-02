@@ -1,6 +1,6 @@
 import React, { Component } from "react"
 import fullcalendar from 'fullcalendar'
-import moment from 'moment'
+import moment from 'moment-timezone'
 import $ from 'jquery'
 
 //TODO: Add ability to load in meetings
@@ -9,7 +9,7 @@ import $ from 'jquery'
 //TODO: Find ways to show all meetings to a user and
 //		have them select the most favourable
 
-export default class Calendar extends Component {
+export default class CreateCalendar extends Component {
 	constructor(props){
 		super(props);
 		this.currentID = 0;
@@ -20,8 +20,8 @@ export default class Calendar extends Component {
 		$(calendar).fullCalendar({
 		    header: {
 		    	left: '',
-				center: 'title',
-				right: ''
+				center: '',
+				right: 'prev,next today'
 		    },
 		    titleFormat: 'MMM D YYYY',
 		    defaultView: 'agendaWeek',
@@ -33,16 +33,19 @@ export default class Calendar extends Component {
 		    navLinks: false, // can click day/week names to navigate views
 			selectable: true,
 			selectHelper: true,
+			slotLabelFormat: "h(:mm)a",
 			select: function(start, end) {
-				const title = "Meeting";
 				const eventData = {
-					title: title,
 					start: start,
 					end: end
-				};
-				$(calendar).fullCalendar('renderEvent', eventData, true); // stick? = true
-				const events = $(calendar).fullCalendar('clientEvents');
-				_this.props.onChangeTimeSlots(events);
+				}
+				if(!start.isBefore(moment())) {
+					$(calendar).fullCalendar('renderEvent', eventData, true); // stick? = true
+					var events = $(calendar).fullCalendar('clientEvents');
+					_this.props.onChangeTimeSlots(events);
+				} else {
+					alert("No events in the past!");
+				}
 				$(calendar).fullCalendar('unselect');
 
 			},
@@ -54,8 +57,7 @@ export default class Calendar extends Component {
 			},
 			editable: true,
 			eventOverlap: true,
-			eventLimit: true, // allow "more" link when too many events
-
+			eventLimit: true // allow "more" link when too many events
 		})
 	}
 

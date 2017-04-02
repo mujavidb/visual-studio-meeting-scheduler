@@ -7,7 +7,10 @@ var documentClient = require('documentdb').DocumentClient;
 var client = new documentClient(config.endpoint, {"masterKey": config.primaryKey});
 
 var databaseUrl = `dbs/${config.database.id}`;
-var collectionUrl = `${databaseUrl}/colls/${config.collection.id}`;
+// var collectionUrl = `${databaseUrl}/colls/${config.collection.id}`;
+
+var collectionUrl = `${databaseUrl}/colls/${config.usersCollection.id}`;
+
 var meetingsDocumentUrl = `${collectionUrl}/docs/meetings`;
 var salt = 'nXqPlBBYVdP5Qhxj39PE';
 
@@ -22,8 +25,10 @@ class Meeting {
             "hostId": hostId,
             "meetingId": null,
             "meetingName": meetingName,
+            "meetingLocation": null,
             "hostAvailability": [],
             "finalDate": null,
+            "agenda": null,
             "attendees": []
         }
     }
@@ -84,6 +89,18 @@ class Meeting {
             .data
             .attendees
             .push({"id": id, "response": 0, "name": name, "availableTimes": []});
+    }
+
+    addLocation(location) {
+        this
+            .data
+            .meetingLocation = location;
+    }
+
+    addAgenda(agenda) {
+        this
+            .data
+            .agenda = agenda;
     }
 
 }

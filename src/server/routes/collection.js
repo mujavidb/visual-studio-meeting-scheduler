@@ -36,22 +36,25 @@ router.get('/document/create/:documentId', function (req, res, next) {
 
 // Create meeting. Note that documentId is the same as the VSTS accountId.
 // Middleware
-router.use('/:documentId/meeting/create/:meetingName', function (req, res, next) {
 
-    // Here will we conduct some error checking the POST body to make sure that it
-    // is correctly formed, and that it is of the expected format.
-    try {
-        JSON.parse(req.body.attendees);
-        JSON.parse(req.body.hostAvailability);
-        // JSON.parse(req.body.attendees); JSON.parse(req.body.hostAvailability);
+// router.use('/:documentId/meeting/create', function (req, res, next) {
 
-    } catch (error) {
-        res.send('Poorly-formed JSON.');
-        // res.send(error);
-    }
+//     // Here will we conduct some error checking the POST body to make sure that it
+//     // is correctly formed, and that it is of the expected format.
+//     try {
+//         // JSON.parse(req.body.meetingName);
+//         // JSON.parse(req.body.attendees);
+//         // JSON.parse(req.body.hostAvailability);
+//         // JSON.parse(req.body.attendees); JSON.parse(req.body.hostAvailability);
 
-    next();
-});
+//     } catch (error) {
+//         res.send('Poorly-formed JSON.');
+//         // res.send(error);
+//     }
+
+//     next();
+// });
+
 
 
 // GET all your meetings
@@ -66,6 +69,18 @@ router.get('/:documentId/meeting/get/:userId', function (req, res, next) {
             res.send(error);
         })
 
+});
+
+// GET hosted meetings
+router.get('/:documentId/meeting/hosted/:userId', function (req, res, next) {
+    Meetings
+        .getHostedMeetings(req.params.documentId, req.params.userId)
+        .then((response) => {
+            res.send(response);
+        })
+        .catch((error) => {
+            res.send(error);
+        });
 });
 
 // Get an individual meeting
@@ -87,7 +102,7 @@ router.post('/:documentId/:meetingId/attendees/add', function(req,res,next) {
     var accountId = req.params.documentId;
     var meetingId = req.params.meetingId;
 
-    attendees = JSON.parse(req.body.attendees);
+    attendees = req.body.attendees;
 
     console.log(attendees);
 
@@ -102,19 +117,25 @@ router.post('/:documentId/:meetingId/attendees/add', function(req,res,next) {
 
 
 
-router.post('/:documentId/meeting/create/:meetingName', function (req, res, next) {
+router.post('/:documentId/meeting/create', function (req, res, next) {
     // console.log(testing);
 
     var query = "";
 
+    
+
+    console.log(req.body.meetingName);
+
     // Data from URL params
     var accountId = req.params.documentId;
-    var meetingName = req.params.meetingName;
+    var meetingName = req.body.meetingName;
 
     // Data from POST body
-    var attendees = JSON.parse(req.body.attendees);
-    var hostAvailability = JSON.parse(req.body.hostAvailability);
+    var attendees = req.body.attendees;
+    var hostAvailability = req.body.hostAvailability;
     var hostId = req.body.hostId;
+    var meetingLocation = req.body.meetingLocation;
+    var agenda = req.body.agenda;
 
     // Need to check for correct structure of the POST body. If it is wrong then
     // send some sort of error. console.log(JSON.parse(attendees)); Data needed to
@@ -123,7 +144,7 @@ router.post('/:documentId/meeting/create/:meetingName', function (req, res, next
 
     console.log("Calling createMeeting function");
     Meetings
-        .createMeeting(accountId, hostId, meetingId, meetingName, query, hostAvailability, attendees)
+        .createMeeting(accountId, hostId, meetingId, meetingName, query, hostAvailability, attendees, meetingLocation, agenda)
         .then((response) => {
             console.log('ok');
             res.send(response);
@@ -133,5 +154,93 @@ router.post('/:documentId/meeting/create/:meetingName', function (req, res, next
             res.send(error);
         });
 });
+
+
+
+// Edit a meeting
+router.post('/:documentId/:meetingId/edit', function (req, res, next) {
+
+    var accountId = req.params.documentId;
+    var meetingId = req.params.meetingId;
+    var meetingData = req.body;
+
+    console.log(req.body.hostId);
+
+    Meetings
+            .editMeetingDetails(accountId, meetingId, meetingData)
+            .then((response) => {
+                res.send(response);
+            })
+            .catch((error) => {
+                res.send(error);
+            });
+
+});
+
+
+router.post('/:documentId/meeting/responded/:userId', function (req, res, next) {
+
+    if (typeof req.params.documentId != 'string' && typeof req.params.userId != 'string') {
+        res.send("JSON values must be strings!");
+    }
+
+    next();
+});
+
+// =================================================================================================
+// GET MEETINGS ====================================================================================
+// =================================================================================================
+
+router.post('/:documentId/meeting/responded/:userId', function (req, res, next) {
+
+    Meetings
+        .getRespondedMeetings(req.params.documentId, req.params.userId)
+        .then((response) => {
+            res.send(response);
+        })
+        .catch((error) => {
+            res.send(error);
+        });
+});
+
+router.post('/:documentId/meeting/unresponded/:userId', function (req, res, next) {
+
+    Meetings
+        .getUnrespondedMeetings(req.params.documentId, req.params.userId)
+        .then((response) => {
+            res.send(response);
+        })
+        .catch((error) => {meet
+            res.send(error);
+        });
+});
+
+// ========================================================================================
+// Finalise meeting date ==================================================================
+// ========================================================================================
+router.post('/:documentId/:meetingId/finalise', function (req, res, next) {
+
+    console.log(req.body.finalDate);
+
+    next();
+});
+
+
+router.post('/:documentId/:meetingId/finalise', function (req, res, next) {
+
+    var finalDate = req.body.finalDate;
+
+
+    Meetings
+        .finaliseMeetingDate(req.params.documentId, req.params.meetingId, req.body.finalDate)
+        .then((response) => {
+            res.send(response);
+        })
+        .catch((error) => {
+            res.send(error);
+        });
+});
+
+
 
 module.exports = router;
