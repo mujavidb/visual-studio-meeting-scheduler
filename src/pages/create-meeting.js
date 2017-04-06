@@ -50,7 +50,6 @@ export default class CreateMeeting extends Component {
 	}
 	updateTimeSlots(newTimeSlots){
 		this.setState({timeSlots:newTimeSlots, updated: true})
-		console.log("NEW TIME SLOTS:", newTimeSlots)
 	}
 	updateAttendees(attendees){
 		console.log("ATTENDEES;",attendees)
@@ -118,8 +117,6 @@ export default class CreateMeeting extends Component {
 		    // Get the REST client
 		    console.log("PROJ ID:", context.project.id, "TEAM ID:", context.team.id);
 		    TFS_Core_WebApi.getClient().getTeamMembers(context.project.id, context.team.id).then(function(response){
-		    	console.log("TEAM MEMBERS BELOW");
-		    	console.log(response);
 		    	_this.updateTeamMembers(response);
 		    }, function(error){
 		    	console.log(error);
@@ -129,7 +126,6 @@ export default class CreateMeeting extends Component {
 	componentDidMount(){
 		this._titleInput.focus();
 		this.getTeamMembers();
-		console.log("TEAM MEMBERS:", this.teamMembers);
 	}
 	componentDidUpdate(){
 		if (this.state.formSubmitted && this.state.updated) {

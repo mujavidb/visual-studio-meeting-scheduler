@@ -19,7 +19,7 @@ class MainController extends Component {
 			dashboard: () => this.setState({current: <Dashboard ctrl={this.ctrl} teamMembers={this.state.teamMembers} />}),
 			createMeeting: () => this.setState({current: <CreateMeeting ctrl={this.ctrl} teamMembers={this.state.teamMembers} />}),
 			viewMeeting: id => this.setState({current: <ViewMeeting meetingId={id} ctrl={this.ctrl} teamMembers={this.state.teamMembers} />}),
-			respondInvitation: id => this.setState({current: <RespondInvitation ctrl={this.ctrl} teamMembers={this.state.teamMembers} />})
+			respondInvitation: id => this.setState({current: <RespondInvitation ctrl={this.ctrl} meetingId={id} teamMembers={this.state.teamMembers} />})
 		};
 		this.state = {
 			current: this.loadingImage(),

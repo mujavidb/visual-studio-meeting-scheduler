@@ -7,8 +7,8 @@ export default class RespondCalendar extends Component {
 	constructor(props){
 		super(props)
 		this.events = this.props.timeSlots.map(a => ({
-			start:moment(a.start),
-			end:moment(a.end),
+			start:moment(a.dateStart),
+			end:moment(a.dateEnd),
 			editable: false,
 			resourceEditable: false
 		}))
@@ -18,6 +18,7 @@ export default class RespondCalendar extends Component {
 		const bg = {backgroundColor: "#10CC89"}
 	}
 	componentDidMount() {
+		console.log("EVENTS:", this.events);
 		const { calendar } = this.refs;
 		const _this = this;
 		$(calendar).fullCalendar({
@@ -37,16 +38,6 @@ export default class RespondCalendar extends Component {
 			selectable: false,
 			selectHelper: true,
 			slotLabelFormat: "h(:mm)a",
-			select: function(start, end) {
-				const eventData = {
-					start: start,
-					end: end
-				}
-				$(calendar).fullCalendar('renderEvent', eventData, true) // stick? = true
-				const events = $(calendar).fullCalendar('clientEvents')
-				$(calendar).fullCalendar('unselect')
-				// _this.props.onChangeTimeSlots(events)
-			},
 			eventClick: function(calendarEvent, jsEvent, view) {
 				const $this = $(this)
 				if ($this.hasClass("selected")){

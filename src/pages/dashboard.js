@@ -22,8 +22,8 @@ class Dashboard extends Component {
 		}
 	}
 	componentDidMount(){
-		console.log("Dashboard this.props.teamMembers", this.props.teamMembers);
 		this.verifyOAuth();
+		this.getDocument();
 		this.getAllMeetings();
 		this.getAllInvitations();
 		console.log("WEB CONTEXT:", VSS.getWebContext());
@@ -47,8 +47,7 @@ class Dashboard extends Component {
 	// 	this.setState({projectID: context.project.id});
 	// 	console.log("PROJECT ID:", this.state.projectID);
 	// }
-	getAllMeetings(){
-		console.log("Get all meetings is running");
+	getDocument(){
 		let _this = this;
 		let context = VSS.getWebContext();
 		axios.defaults.headers.post['Content-Type'] = 'application/json';
@@ -58,7 +57,23 @@ class Dashboard extends Component {
 			withCredentials: true
 		})
 		.then(function (response) {
-			_this.setState({meetings: response.data.meetings, loading: false});
+			console.log(response);
+		})
+		.catch(function (error) {
+			console.log(error);
+		});
+		
+	}
+	getAllMeetings(){
+		let _this = this;
+		let context = VSS.getWebContext();
+		axios({
+			method: 'post',
+			url: `https://meeting-scheduler.azurewebsites.net/${context.project.id}/meeting/responded/${context.user.id}`,
+			withCredentials: true
+		})
+		.then(function (response) {
+			_this.setState({meetings: response.data});
 			console.log(response);
 		})
 		.catch(function (error) {
@@ -71,12 +86,12 @@ class Dashboard extends Component {
 		let context = VSS.getWebContext();
 		axios.defaults.headers.post['Content-Type'] = 'application/json';
 		axios({
-			method: 'get',
+			method: 'post',
 			url: `https://meeting-scheduler.azurewebsites.net/${context.project.id}/meeting/unresponded/${context.user.id}`,
 			withCredentials: true
 		})
 		.then(function (response) {
-			_this.setState({invitations: response.data.meetings, loading: false});
+			_this.setState({invitations: response.data, loading: false});
 			console.log("INVITATIONS RESPONSE:", response);
 		})
 		.catch(function (error) {
@@ -84,7 +99,6 @@ class Dashboard extends Component {
 		});
 	}
 	isInvitationFilter(meeting){
-		console.log(meeting);
 		return true;
 	}
 	render(){
@@ -100,12 +114,13 @@ class Dashboard extends Component {
 			content = (
 				<div className="main-container">
 					<AllMeetings
-						meetings={this.state.meetings.filter(a => this.isInvitationFilter(a))}
+						meetings={this.state.meetings}
 						ctrl={this.props.ctrl} 
 						teamMembers={this.props.teamMembers}/>
 					<Invitations
-						invitations={this.state.meetings.filter(a => a.status === false)}
-						ctrl={this.props.ctrl} />
+						invitations={this.state.invitations}
+						ctrl={this.props.ctrl}
+						teamMembers={this.props.teamMembers} />
 				</div>
 			)
 		}

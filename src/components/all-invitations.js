@@ -4,7 +4,7 @@ import Invitation from './invitation.js'
 const Invitations = props => {
 	let content
 	if (props.invitations.length > 0) {
-		content = props.invitations.map( item => <Invitation key={item.id} details={item} ctrl={props.ctrl}/>)
+		content = props.invitations.map( item => <Invitation key={item.meetingId} details={item} ctrl={props.ctrl} teamMembers={props.teamMembers}/>)
 	} else {
 		content = (
 			<div className="empty_state_card">
