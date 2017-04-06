@@ -26,7 +26,7 @@ class AllMeetings extends Component {
 		} else {
 			return (
 				<div className="empty_state_card">
-					You currently have no {this.state.isPast ? 'past' : 'upcoming'} meetings.
+					You currently have no {this.state.isPast ? 'past' : 'upcoming'} meetings
 				</div>
 			)
 		}

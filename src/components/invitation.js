@@ -2,8 +2,10 @@ import React, { Component } from 'react'
 import moment from 'moment'
 import { formatToLongTime } from '../helpers/format-time'
 import { generateRGBColor } from '../helpers/color-generator'
+import { getInitials } from '../helpers/get-initials'
 
 const Invitation = props => {
+	console.log(props);
 	return (
 		//TODO: Route this to seperate invitation view
 		<a className="meeting_card_container" role="button" onClick={()=>props.ctrl.respondInvitation(props.details.meetingId)}>

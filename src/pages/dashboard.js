@@ -1,8 +1,11 @@
 import React, { Component } from "react"
 import Invitations from '../components/all-invitations'
 import AllMeetings from '../components/all-meetings'
+import HostedMeetings from '../components/hosted-meetings'
 import LoadingImage from '../components/loading-image'
 import axios from 'axios'
+
+console.log(axios);
 
 //API: OAuth
 //API: get user id
@@ -105,9 +108,11 @@ class Dashboard extends Component {
 		let content
 		if (this.state.loading == true) {
 			content = (
-				<div className="loading-container">
-					<LoadingImage />
-					<span>Loading Content...</span>
+				<div>
+					<div className="loading-container">
+						<LoadingImage />
+						<span>Loading Content...</span>
+					</div>
 				</div>
 			)
 		} else {
@@ -118,9 +123,17 @@ class Dashboard extends Component {
 						ctrl={this.props.ctrl} 
 						teamMembers={this.props.teamMembers}/>
 					<Invitations
+<<<<<<< HEAD
 						invitations={this.state.invitations}
 						ctrl={this.props.ctrl}
 						teamMembers={this.props.teamMembers} />
+=======
+						invitations={this.state.meetings.filter(a => a.status === false)}
+						ctrl={this.props.ctrl} />
+					<HostedMeetings
+						meetings={this.state.meetings.filter(a => this.state.userID === a.hostId)}
+						ctrl={this.props.ctrl} />
+>>>>>>> mujavid/initial_integration
 				</div>
 			)
 		}

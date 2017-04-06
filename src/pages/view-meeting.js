@@ -19,6 +19,7 @@ class ViewMeeting extends Component {
 			meeting: {},
 			loading: true
 		}
+		this.userID = "funfun123123"
 	}
 	componentDidMount(){
 		this.getMeeting();
@@ -39,7 +40,7 @@ class ViewMeeting extends Component {
 		})
 		.catch(function (error) {
 			console.log(error);
-		});
+		})
 	}
 	getInitials(fullName) {
 		let names = fullName.split(" ");
@@ -49,7 +50,7 @@ class ViewMeeting extends Component {
 	}
 	render(){
 		let content = (<p>hey</p>);
-		if(this.state.loading == true) {
+		if (this.state.loading == true) {
 			content = (
 				<div className="loading-container">
 					<LoadingImage />
@@ -59,14 +60,6 @@ class ViewMeeting extends Component {
 		} else {
 			const meetingTime = this.state.meeting.time ? moment(this.state.meeting.time).format("ddd Do MMM, h:mma") : "Time TBC"
 			const meetingTimeTitle = this.state.meeting.time ? moment(this.state.meeting.time).format("dddd Do MMMM YYYY, h:mma") : "Time TBC"
-			const minutes = this.state.meeting.minutes == null ? ""
-													   : (
-														<section>
-															<h3>Minutes</h3>
-															<MarkdownRenderer
-																content={this.state.meeting.minutes}/>
-														</section>
-													   )
 			content = (
 				<div className="large_card_area single_meeting">
 					<header>
@@ -78,16 +71,27 @@ class ViewMeeting extends Component {
 					<main>
 						<section>
 							<h3>Location</h3>
-							<p>{ this.state.meeting.meetingLocation }</p>
+							<p className="location_area">
+								{ this.state.meeting.meetingLocation ? this.state.meeting.meetingLocation : "No location set."}
+							</p>
 						</section>
 
 						<section>
 							<h3>Agenda</h3>
 							<MarkdownRenderer
-								content={this.state.meeting.agenda}/>
+								content={this.state.meeting.agenda ? this.state.meeting.agenda : "No agenda set for this meeting."}/>
 						</section>
 
-						{ minutes }
+						{
+							this.state.meeting.minutes == null ? "" :
+							(
+								<section>
+									<h3>Minutes</h3>
+									<MarkdownRenderer
+										content={this.state.meeting.minutes}/>
+								</section>
+							)
+						}
 
 						<section>
 							<h3>Attendees</h3>
@@ -99,7 +103,7 @@ class ViewMeeting extends Component {
 											.state
 											.meeting
 											.attendees
-											.sort((a,b)=> a === true ? 0 : 1)
+											.sort((a,b)=> a === true ? 0 : 1) //FIX: make this actually work
 											.map(attendee => {
 												const classes = `attendee_block ${attendee.status == "" ? "unresponsive" : "responsive"}`
 												const blockTitle = `${attendee.name} has ${attendee.status == "" ? "not yet " : ""}responded`
@@ -129,12 +133,22 @@ class ViewMeeting extends Component {
 
 						<footer>
 							<a onClick={()=>this.props.ctrl.dashboard()} className="button cancel maxed" role="button">Back</a>
+							{
+								this.userID === this.state.meeting.hostId ?
+									(
+										<a
+											onClick={()=>this.props.ctrl.updateMeeting(this.state.meeting.meetingId)}
+											className="button primary maxed"
+											role="button">Edit</a>
+									)
+									: ""
+							}
 						</footer>
 					</main>
 				</div>
 			)
 		}
-		
+
 		return content;
 	}
 }
