@@ -6,7 +6,7 @@ const HostedMeetings = props => {
 	if (props.meetings.length > 0) {
 		console.log("props.meetings")
 		console.log(props.meetings)
-		content = props.meetings.map( item => <HostedMeeting key={item.meetingId} details={item} ctrl={props.ctrl}/>)
+		content = props.meetings.map( item => <HostedMeeting key={item.meetingId} details={item} ctrl={props.ctrl} teamMembers={props.teamMembers}/>)
 	} else {
 		content = (
 			<div className="empty_state_card">

@@ -20,16 +20,24 @@ const HostedMeeting = props => {
 						.sort((a,b)=> a === true ? 0 : 1)
 						.map(attendee => {
 							const classes = `attendee_block ${attendee.status == "" ? "unresponsive" : "responsive"}`
-							const blockTitle = `${getInitials(attendee.name)} has ${attendee.status == "" ? "not yet" : ""} responded`
-							return (
-								<div
-									key={attendee.id}
-									className={classes}
-									title={blockTitle}
-									style={{backgroundColor: generateRGBColor(getInitials(attendee.name))}} >
-									<span className="attendee_initials">{getInitials(attendee.name)}</span>
-								</div>
-							)
+							const blockTitle = `${attendee.name} has ${attendee.status == "" ? "not yet " : ""}responded`
+							if(props.teamMembers.length == 0) {
+								return (
+									<div
+										key={attendee.id}
+										className={classes}
+										title={blockTitle}
+										style={{backgroundColor: generateRGBColor(getInitials(attendee.name))}} >
+										<span className="attendee_initials">{getInitials(attendee.name)}</span>
+									</div>
+								)
+							} else {
+								const user = props.teamMembers.find(teamMember => attendee.id === teamMember.id)
+								return (
+									<img key={attendee.id} src={user.imageUrl} alt={blockTitle} />
+								)
+							}
+							
 						})
 					}
 				</div>

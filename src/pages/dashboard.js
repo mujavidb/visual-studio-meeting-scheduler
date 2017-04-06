@@ -101,11 +101,28 @@ class Dashboard extends Component {
 			console.log(error);
 		});
 	}
+	getAllHostedMeetings(){
+		let _this = this;
+		let context = VSS.getWebContext();
+		axios({
+			method: 'post',
+			url: `https://meeting-scheduler.azurewebsites.net/${context.project.id}/meeting/unresponded/${context.user.id}`,
+			withCredentials: true
+		})
+		.then(function (response) {
+			_this.setState({invitations: response.data, loading: false});
+			console.log("INVITATIONS RESPONSE:", response);
+		})
+		.catch(function (error) {
+			console.log(error);
+		});
+	}
 	isInvitationFilter(meeting){
 		return true;
 	}
 	render(){
 		let content
+		let context = VSS.getWebContext();
 		if (this.state.loading == true) {
 			content = (
 				<div>
@@ -123,17 +140,13 @@ class Dashboard extends Component {
 						ctrl={this.props.ctrl} 
 						teamMembers={this.props.teamMembers}/>
 					<Invitations
-<<<<<<< HEAD
 						invitations={this.state.invitations}
 						ctrl={this.props.ctrl}
 						teamMembers={this.props.teamMembers} />
-=======
-						invitations={this.state.meetings.filter(a => a.status === false)}
-						ctrl={this.props.ctrl} />
 					<HostedMeetings
-						meetings={this.state.meetings.filter(a => this.state.userID === a.hostId)}
-						ctrl={this.props.ctrl} />
->>>>>>> mujavid/initial_integration
+						meetings={this.state.meetings.filter(a => context.user.id === a.hostId)}
+						ctrl={this.props.ctrl} 
+						teamMembers={this.props.teamMembers} />
 				</div>
 			)
 		}
