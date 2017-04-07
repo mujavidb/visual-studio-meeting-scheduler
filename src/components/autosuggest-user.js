@@ -12,7 +12,7 @@ export default class AutosuggestUser extends Component {
 		this.onSuggestionsClearRequested = this.onSuggestionsClearRequested.bind(this)
 		this.onUpdateAttendeesInput = this.onUpdateAttendeesInput.bind(this)
 		this.onSuggestionSelected = this.onSuggestionSelected.bind(this)
-		this.data = this.props.originalData.map(a => ({ id: a.id, name: a.name }))
+		this.data = this.props.originalData.map(a => ({ id: a.id, name: a.displayName, imgURL: a.imageUrl }))
 
 		this.state = {
 			attendee_value: "",
@@ -21,7 +21,7 @@ export default class AutosuggestUser extends Component {
 		}
 	}
 	onSuggestionSelected(event, others){
-		const newAttendee = this.props.originalData.find(a => a.name === this.state.attendee_value)
+		const newAttendee = this.data.find(a => a.name === this.state.attendee_value)
 		if (newAttendee != undefined && this.state.attendees.filter(a=>a.id == newAttendee.id).length == 0) {
 			const newAttendees = [...this.state.attendees, newAttendee]
 			this.setState({
@@ -37,7 +37,7 @@ export default class AutosuggestUser extends Component {
 	getSuggestions(value){
 		const inputValue = value.trim().toLowerCase()
 		const re = new RegExp(`${inputValue}`)
-		return inputValue === "" ? [] : this.props.originalData.filter(a => re.test(a.name.toLowerCase()))
+		return inputValue === "" ? [] : this.data.filter(a => re.test(a.name.toLowerCase()))
 	}
 	onSuggestionsFetchRequested({ value }){
 		this.setState({ suggestions: this.getSuggestions(value) })
@@ -96,10 +96,12 @@ export default class AutosuggestUser extends Component {
 					<div className="attendees">
 						{
 							this.state.attendees.map(attendee =>
-								<div className="attendee_block" key={attendee.id} id={attendee.id} style={getAttendeeColor(attendee)}>
+								<div className="attendee_block" key={attendee.id} id={attendee.id}>
+									<img src={attendee.imgURL}/>
 									<span className="attendee_initials">{attendee.initials}</span>
 									<a onClick={this.deleteAttendee} className="remove">&#10799;</a>
 								</div>
+								// TODO: SORT OUT STYLES^
 							)
 						}
 					</div>

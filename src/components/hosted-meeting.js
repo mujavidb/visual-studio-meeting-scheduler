@@ -4,11 +4,10 @@ import { formatToLongTime } from '../helpers/format-time'
 import { generateRGBColor } from '../helpers/color-generator'
 import { getInitials } from '../helpers/get-initials'
 
-const Invitation = props => {
+const HostedMeeting = props => {
 	console.log(props);
 	return (
-		//TODO: Route this to seperate invitation view
-		<a className="meeting_card_container" role="button" onClick={()=>props.ctrl.respondInvitation(props.details.meetingId)}>
+		<a className="meeting_card_container" role="button" onClick={()=>props.ctrl.viewMeeting(props.details.meetingId)}>
 			<div className="meeting_card">
 				<h3 className="meeting_title">{ props.details.meetingName }</h3>
 				<p className="meeting_datetime">{ formatToLongTime(props.details.time) }</p>
@@ -21,7 +20,7 @@ const Invitation = props => {
 						.sort((a,b)=> a === true ? 0 : 1)
 						.map(attendee => {
 							const classes = `attendee_block ${attendee.status == "" ? "unresponsive" : "responsive"}`
-							const blockTitle = `${attendee.initials} has ${attendee.status == "" ? "not yet" : ""} responded`
+							const blockTitle = `${attendee.name} has ${attendee.status == "" ? "not yet " : ""}responded`
 							if(props.teamMembers.length == 0) {
 								return (
 									<div
@@ -38,6 +37,7 @@ const Invitation = props => {
 									<img key={attendee.id} src={user.imageUrl} alt={blockTitle} />
 								)
 							}
+							
 						})
 					}
 				</div>
@@ -46,4 +46,4 @@ const Invitation = props => {
 		)
 }
 
-export default Invitation
+export default HostedMeeting
