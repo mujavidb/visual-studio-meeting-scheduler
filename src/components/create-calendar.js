@@ -19,18 +19,18 @@ export default class CreateCalendar extends Component {
 		const _this = this;
 		$(calendar).fullCalendar({
 		    header: {
-		    	left: '',
-				center: '',
-				right: 'prev,next today'
+		    	left: 'prev',
+				center: 'title',
+				right: 'next'
 		    },
-		    titleFormat: 'MMM D YYYY',
+		    titleFormat: 'MMMM Do, YYYY',
 		    defaultView: 'agendaWeek',
 		    defaultDate: moment(),
 		    firstDay: 1,
 		    scrollTime: '08:00:00',
-		    columnFormat: 'ddd D/M',
+		    columnFormat: 'dddd\nDo',
 		    allDaySlot: false,
-		    navLinks: false, // can click day/week names to navigate views
+		    navLinks: false,
 			selectable: true,
 			selectHelper: true,
 			slotLabelFormat: "h(:mm)a",

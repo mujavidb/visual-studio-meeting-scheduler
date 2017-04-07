@@ -22,14 +22,17 @@ class AllMeetings extends Component {
 	getMeetingList() {
 		const filteredMeetings = this.props.meetings.filter(this.filterUpcoming(this.state.isPast))
 		if (filteredMeetings.length > 0) {
-			return filteredMeetings.map(item => <Meeting key={item.meetingId} details={item} ctrl={this.props.ctrl}/>)
+			return filteredMeetings.map(item => <Meeting key={item.meetingId} details={item} ctrl={this.props.ctrl} teamMembers={this.props.teamMembers} />)
 		} else {
 			return (
 				<div className="empty_state_card">
-					You currently have no {this.state.isPast ? 'past' : 'upcoming'} meetings.
+					You currently have no {this.state.isPast ? 'past' : 'upcoming'} meetings
 				</div>
 			)
 		}
+	}
+	componentDidMount(){
+		console.log("All Meetings this.props.teamMembers:", this.props.teamMembers);
 	}
 	render(){
 		return (

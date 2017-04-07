@@ -5,13 +5,8 @@ export default class MarkdownRenderer extends Component {
 	constructor(props){
 		super(props)
 		this.state = {
-			markdown_text: 'Enter *markdown* here'
+			markdown_text: 'No content to show'
 		}
-		this.updateMarkdown = this.updateMarkdown.bind(this)
-	}
-	updateMarkdown(event){
-		this.setState({markdown_text: event.target.value})
-		this.props.update(event.target.value)
 	}
 	render(){
 		return (
