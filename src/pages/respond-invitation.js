@@ -14,6 +14,7 @@ class RespondInvitation extends Component {
 	constructor(props){
 		super(props)
 		this.onSubmit = this.onSubmit.bind(this)
+		this.handleCheckboxChange = this.handleCheckboxChange.bind(this)
 		this.updateSelectedTimeSlots = this.updateSelectedTimeSlots.bind(this)
 		this.state = {
 			selected: [],
@@ -45,6 +46,17 @@ class RespondInvitation extends Component {
 	componentDidMount(){
 		this.getMeeting();
 	}
+	handleCheckboxChange(event){
+		if(event.target.checked) {
+			let selected = [{
+				start: this.state.invitation.hostAvailability[0].dateStart,
+				end: this.state.invitation.hostAvailability[0].dateEnd
+			}]
+			this.setState({selected: selected});
+		} else {
+			this.setState({selected: []});
+		}
+	}
 	onSubmit(){
 		let context = VSS.getWebContext();
 		let _this = this;
@@ -57,7 +69,7 @@ class RespondInvitation extends Component {
 			            id: context.user.id,
 			            response: 1,
 			            name: context.user.name,
-			            availableTimes: this.state.selected.map(a=>({dateStart: moment(a.start).toString(), dateEnd: moment(a.end).toString()}))
+			            availableTimes: this.state.selected.map(a=>({dateStart: moment(a.start).toISOString(), dateEnd: moment(a.end).toISOString()}))
 			        }
 			    ]
 			},
@@ -72,6 +84,31 @@ class RespondInvitation extends Component {
 		});
 	}
 	render(){
+		let time
+		if(this.state.invitation.finalDate){
+			time = (moment(this.state.invitation.finalDate.dateStart).format("ddd Do MMM, H:mm") + " - " + moment(this.state.invitation.finalDate.dateEnd).format("H:mm"))
+		}
+		let availability
+		if(this.state.invitation.finalDate) {
+			availability = (
+				<div>
+					<h3>Time</h3>
+					<p>{ time }</p>
+					<label>Going</label>
+					<input type="checkbox" name="isGoing" onChange={this.handleCheckboxChange} />
+				</div>
+			)
+		} else {
+			availability = (
+				<div>
+					<h3>Availability</h3>
+					<RespondCalendar
+						onSelectTimeSlots={this.updateSelectedTimeSlots}
+						timeSlots={this.state.invitation.hostAvailability}
+						ctrl={this.props.ctrl} />
+				</div>
+			)
+		}
 		let content
 		if(this.state.loading){
 			content = (
@@ -97,11 +134,7 @@ class RespondInvitation extends Component {
 						</section>
 
 						<section>
-							<h3>Availability</h3>
-							<RespondCalendar
-								onSelectTimeSlots={this.updateSelectedTimeSlots}
-								timeSlots={this.state.invitation.hostAvailability}
-								ctrl={this.props.ctrl} />
+							{ availability }
 						</section>
 
 

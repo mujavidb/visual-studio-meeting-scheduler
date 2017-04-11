@@ -23,9 +23,9 @@ export default class RespondCalendar extends Component {
 		const _this = this;
 		$(calendar).fullCalendar({
 		    header: {
-		    	left: '',
+		    	left: 'prev',
 				center: 'title',
-				right: ''
+				right: 'next'
 		    },
 			titleFormat: 'MMMM Do, YYYY',
 		    defaultView: 'agendaWeek',
