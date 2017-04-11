@@ -58,12 +58,20 @@ exports.createMeeting = function (accountId, hostId, meetingId, meetingName, que
                             // if hostAvailbility is length 1, set finalDate to this time.
 
                             if (hostAvailability.length == 1) {
-                                var start = hostAvailability[0].dateStart;
-                                var end = hostAvailability[1].dateEnd;
+
+                                // console.log("Condition MET");
+                                // console.log(hostAvailability[0]['dateStart']);
+
+
+                                var start = hostAvailability[0]['dateStart'];
+                                var end = hostAvailability[0]['dateEnd'];
                                 
                                 meeting.addHostAvailability(start, end);
                                 meeting.addFinalDate(start, end);
                             } else {
+
+                                console.log("In ELSE");
+
                                 hostAvailability.forEach(function (date) {
                                 meeting.addHostAvailability(date.dateStart, date.dateEnd);
                                 });    

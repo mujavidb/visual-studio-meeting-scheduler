@@ -87,8 +87,7 @@ class Meeting {
     addFinalDate(dateStart, dateEnd) {
         this
             .data
-            .finalDate
-            .push({"dateStart": dateStart, "dateEnd": dateEnd});
+            .finalDate = {"dateStart": dateStart, "dateEnd": dateEnd};
     }
 
     addAttendee(id, name) {
