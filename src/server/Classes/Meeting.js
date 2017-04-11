@@ -84,6 +84,12 @@ class Meeting {
             .push({"dateStart": dateStart, "dateEnd": dateEnd});
     }
 
+    addFinalDate(dateStart, dateEnd) {
+        this
+            .data
+            .finalDate = {"dateStart": dateStart, "dateEnd": dateEnd};
+    }
+
     addAttendee(id, name) {
         this
             .data

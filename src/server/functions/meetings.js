@@ -55,9 +55,27 @@ exports.createMeeting = function (accountId, hostId, meetingId, meetingName, que
                             var updatedDocument = results;
 
                             // Finish building the data inside the Meetings object
-                            hostAvailability.forEach(function (date) {
+                            // if hostAvailbility is length 1, set finalDate to this time.
+
+                            if (hostAvailability.length == 1) {
+
+                                // console.log("Condition MET");
+                                // console.log(hostAvailability[0]['dateStart']);
+
+
+                                var start = hostAvailability[0]['dateStart'];
+                                var end = hostAvailability[0]['dateEnd'];
+                                
+                                meeting.addHostAvailability(start, end);
+                                meeting.addFinalDate(start, end);
+                            } else {
+
+                                console.log("In ELSE");
+
+                                hostAvailability.forEach(function (date) {
                                 meeting.addHostAvailability(date.dateStart, date.dateEnd);
-                            });
+                                });    
+                            }
 
                             attendeesArray.forEach(function (attendee) {
                                 meeting.addAttendee(attendee.id, attendee.name)
