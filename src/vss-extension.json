@@ -1,7 +1,7 @@
 {
     "manifestVersion": 1,
     "id": "meeting-extension",
-    "version": "0.1.15",
+    "version": "0.1.31",
     "name": "Meetings",
     "description": "An extension to handle meeting scheduling and management.",
     "publisher": "mujavidbukhari",
@@ -34,13 +34,17 @@
             "properties": {
                 "name": "Dashboard",
                 "order": 1,
-                "uri": "dashboard.html"
+                "uri": "index.html"
             }
         }
     ],
+    "scopes": [
+        "vso.profile",
+        "vso.work"
+    ],
     "files": [
         {
-            "path": "dashboard.html", "addressable": true
+            "path": "index.html", "addressable": true
         },
         {
             "path": "index.js", "addressable": true
