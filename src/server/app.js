@@ -33,6 +33,7 @@ app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Credentials", "true");
   res.header("Access-Control-Allow-Origin", "http://localhost:8080"); // remove for production
   res.header("Access-Control-Allow-Origin", "https://alasdairhall.gallery.vsassets.io");
+  res.header("Access-Control-Allow-Origin", "https://mujavidbukhari.gallery.vsassets.io");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   // intercept OPTIONS method
   if ('OPTIONS' == req.method) {
