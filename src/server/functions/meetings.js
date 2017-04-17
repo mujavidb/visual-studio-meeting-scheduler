@@ -10,7 +10,7 @@ var client = new documentClient(config.endpoint, {
 
 var Meeting = require('../Classes/Meeting');
 
-exports.createMeeting = function (accountId, hostId, meetingId, meetingName, query, hostAvailability, attendeesArray, meetingLocation) {
+exports.createMeeting = function (accountId, hostId, meetingId, meetingName, query, hostAvailability, attendeesArray, meetingLocation, agenda) {
 
     var documentUrl = `${collectionUrl}/docs/${accountId}`
 
@@ -64,6 +64,7 @@ exports.createMeeting = function (accountId, hostId, meetingId, meetingName, que
                             });
 
                             meeting.addLocation(meetingLocation);
+                            meeting.addAgenda(agenda);
 
                             // Now we have created the meeting object, under meeting.data, we can push it to
                             // the document and replace the whole document.
@@ -139,6 +140,60 @@ exports.getMeetings = function (accountId, userId) {
 
 };
 
+exports.getRespondedMeetings = function(accountId, userId) {
+    var documentUrl = `${collectionUrl}/docs/${accountId}`;
+
+    return new Promise((resolve, reject) => {
+        client.executeStoredProcedure(`${collectionUrl}/sprocs/getRespondedMeetings`, [accountId, userId],
+            function (error, response) {
+                console.log("execute");
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(response);
+                }
+
+            });
+
+    });
+}
+
+exports.getUnrespondedMeetings = function(accountId, userId) {
+    var documentUrl = `${collectionUrl}/docs/${accountId}`;
+
+    return new Promise((resolve, reject) => {
+        client.executeStoredProcedure(`${collectionUrl}/sprocs/getUnrespondedMeetings`, [accountId, userId],
+            function (error, response) {
+                console.log("execute");
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(response);
+                }
+
+            });
+
+    });
+}
+
+exports.getHostedMeetings = function(accountId, userId) {
+    var documentUrl = `${collectionUrl}/docs/${accountId}`;
+
+    return new Promise((resolve, reject) => {
+        client.executeStoredProcedure(`${collectionUrl}/sprocs/getHostedMeetings`, [accountId, userId],
+            function (error, response) {
+                console.log("execute");
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(response);
+                }
+
+            });
+
+    });
+}
+
 exports.addAttendees = function (accountId, meetingId, attendees) {
     // execute the stored procedure
     return new Promise((resolve, reject) => {
@@ -153,6 +208,44 @@ exports.addAttendees = function (accountId, meetingId, attendees) {
 
             });
 
+    });
+
+}
+
+
+
+
+
+exports.editMeetingDetails = function (accountId, meetingId, newMeetingData) {
+
+    return new Promise((resolve, reject) => {
+        client.executeStoredProcedure(`${collectionUrl}/sprocs/editMeetingData`, [accountId, meetingId, newMeetingData],
+            function (error, response) {
+                console.log("execute");
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(response);
+                }
+
+            });
+    });
+
+}
+
+exports.finaliseMeetingDate = function (accountId, meetingId, finalDate) {
+
+    return new Promise((resolve, reject) => {
+        client.executeStoredProcedure(`${collectionUrl}/sprocs/finaliseMeetingDate`, [accountId, meetingId, finalDate],
+            function (error, response) {
+                console.log("execute");
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(response);
+                }
+
+            });
     });
 
 }

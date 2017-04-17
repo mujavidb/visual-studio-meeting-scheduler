@@ -7,7 +7,10 @@ var documentClient = require('documentdb').DocumentClient;
 var client = new documentClient(config.endpoint, {"masterKey": config.primaryKey});
 
 var databaseUrl = `dbs/${config.database.id}`;
-var collectionUrl = `${databaseUrl}/colls/${config.collection.id}`;
+// var collectionUrl = `${databaseUrl}/colls/${config.collection.id}`;
+
+var collectionUrl = `${databaseUrl}/colls/${config.usersCollection.id}`;
+
 var meetingsDocumentUrl = `${collectionUrl}/docs/meetings`;
 var salt = 'nXqPlBBYVdP5Qhxj39PE';
 
@@ -25,6 +28,7 @@ class Meeting {
             "meetingLocation": null,
             "hostAvailability": [],
             "finalDate": null,
+            "agenda": null,
             "attendees": []
         }
     }
@@ -91,6 +95,12 @@ class Meeting {
         this
             .data
             .meetingLocation = location;
+    }
+
+    addAgenda(agenda) {
+        this
+            .data
+            .agenda = agenda;
     }
 
 }
