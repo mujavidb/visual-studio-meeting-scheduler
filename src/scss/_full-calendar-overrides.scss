@@ -1,8 +1,6 @@
 //Global scope override
 #root .full_calendar_area {
-	/*.fc-toolbar.fc-header-toolbar {
-		display: none;
-	}*/
+
 	thead th {
 		vertical-align: middle;
 		height: 38px;
@@ -36,7 +34,9 @@
 		background-color: #106EBE;
 		border-radius: 0;
 		transition: all 0.3s ease;
-		outline:0
+		outline:0;
+		height: auto;
+    	padding: 10px;
 	}
 
 	.fc-left button:hover,

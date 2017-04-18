@@ -65,7 +65,7 @@ class Dashboard extends Component {
 		.catch(function (error) {
 			console.log(error);
 		});
-		
+
 	}
 	getAllMeetings(){
 		let _this = this;
@@ -82,7 +82,7 @@ class Dashboard extends Component {
 		.catch(function (error) {
 			console.log(error);
 		});
-		
+
 	}
 	getAllInvitations(){
 		let _this = this;
@@ -134,10 +134,10 @@ class Dashboard extends Component {
 			)
 		} else {
 			content = (
-				<div className="main-container">
+				<div className="big-container">
 					<AllMeetings
 						meetings={this.state.meetings}
-						ctrl={this.props.ctrl} 
+						ctrl={this.props.ctrl}
 						teamMembers={this.props.teamMembers}/>
 					<Invitations
 						invitations={this.state.invitations}
@@ -145,7 +145,7 @@ class Dashboard extends Component {
 						teamMembers={this.props.teamMembers} />
 					<HostedMeetings
 						meetings={this.state.meetings.filter(a => context.user.id === a.hostId)}
-						ctrl={this.props.ctrl} 
+						ctrl={this.props.ctrl}
 						teamMembers={this.props.teamMembers} />
 				</div>
 			)

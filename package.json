@@ -11,7 +11,7 @@
     "autoprefix": "postcss --use autoprefixer src/assets/css/main.css -d src/assets/css/",
     "version": "awk -F'[\"]' -v OFS='\"'  '/\"version\":/{split($4,a,\".\");$4=a[1]\".\"a[2]\".\"a[3]+1};1' src/vss-extension.json > src/vss-extension.json~; mv src/vss-extension.json~ src/vss-extension.json",
     "clean_copy": "rm -rf build; mkdir build; cp -R src/assets src/vss-extension.json src/index.html build",
-    "webpack": "webpack -p --config webpack.old-config.js",
+    "webpack": "webpack --config webpack.old-config.js",
     "extension": "tfx extension create --manifests vss-extension.json --root build --output-path build --share-with vs1team8",
     "publish": "tfx extension publish --manifests vss-extension.json --root build --output-path build --share-with vs1team8"
   },
