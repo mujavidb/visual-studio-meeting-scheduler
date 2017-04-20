@@ -21,21 +21,9 @@ export default class CreateMeeting extends Component {
 			teamMembers: [],
 			formSubmitted: false
 		}
-		
-		// this.accountID = this.context.project.id
-		// this.userID = this.context.user.id
+
 		this._titleInput = {}
 		this._locationInput = {}
-
-		//mocks form received in
-		// this.query_results = [
-		// 	{ initials: "MB", id: "najd38j9h", name: "Mujavid Bukhari"},
-		// 	{ initials: "AL", id: "kjsadlj23", name: "Alasdair Hall"},
-		// 	{ initials: "KC", id: "mjniojin2", name: "Kelvin Chan"},
-		// 	{ initials: "ES", id: "9jn9n34f9", name: "Eric Schmidt"},
-		// 	{ initials: "FP", id: "mlksandhg", name: "Faiz Punakkath"},
-		// 	{ initials: "YM", id: "934i029jd", name: "Yousef Mahmood"}
-		// ]
 	}
 	updateMarkdown(text){
 		this.setState({markdown_text: text, updated: true})
@@ -138,9 +126,10 @@ export default class CreateMeeting extends Component {
 		if(this.state.teamMembers.length == 0) {
 			autosuggest = (<p>Loading...</p>);
 		} else {
-			autosuggest = (<AutosuggestUser
-				originalData={this.state.teamMembers}
-				update={this.updateAttendees}/>
+			autosuggest = (
+					<AutosuggestUser
+						originalData={this.state.teamMembers}
+						update={this.updateAttendees}/>
 			);
 		}
 		return (
@@ -184,7 +173,7 @@ export default class CreateMeeting extends Component {
 						<section>
 							<h3>Attendees</h3>
 							{ autosuggest }
-							
+
 						</section>
 						{ errors }
 						<footer>

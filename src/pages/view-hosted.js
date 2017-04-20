@@ -6,16 +6,19 @@ import { formatToLongTime } from '../helpers/format-time'
 import LoadingImage from '../components/loading-image'
 import axios from 'axios'
 
-class ViewMeeting extends Component {
+function compareMilli(a,b) {
+	if(a.milli > b.milli) return -1;
+	if(a.milli < b.milli) return 1;
+	return 0;
+}
+
+class ViewHosted extends Component {
 	constructor(props){
 		super(props)
-		// In the final implementation, you would do a GET request
-		// 		to get the element with the ID === props.params.id
 		this.state = {
 			meeting: {},
 			loading: true
 		}
-		this.userID = "funfun123123"
 	}
 	componentDidMount(){
 		this.getMeeting();
@@ -31,22 +34,17 @@ class ViewMeeting extends Component {
 		})
 		.then(function (response) {
 			_this.setState({meeting: response.data[0].meeting, loading: false});
-			console.log("RESPONSE", response);
+			console.log("RESPONSE");
+			console.log(response);
 			console.log("GOT MEETING");
 		})
 		.catch(function (error) {
 			console.log(error);
 		})
 	}
-	getInitials(fullName) {
-		let names = fullName.split(" ");
-		let initials = "";
-		names.forEach(name => initials += name.charAt(0));
-		return initials;
-	}
 	render(){
-		let content = (<p>hey</p>);
-		if (this.state.loading == true) {
+		let content = {};
+		if (this.state.loading === true || this.state.meeting === {}) {
 			content = (
 				<div className="loading-container">
 					<LoadingImage />
@@ -56,6 +54,36 @@ class ViewMeeting extends Component {
 		} else {
 			const meetingTime = this.state.meeting.time ? moment(this.state.meeting.time).format("ddd Do MMM, h:mma") : "Time TBC"
 			const meetingTimeTitle = this.state.meeting.time ? moment(this.state.meeting.time).format("dddd Do MMMM YYYY, h:mma") : "Time TBC"
+
+			const attendees = this.state.meeting.attendees;
+			const timeSlots = {}
+			for (let i = 0; i < attendees.length; i++) {
+				if (attendees[i].availableTimes.length > 0) {
+					for (let j = 0; j < attendees[i].availableTimes.length; j++){
+						let range = {
+							start: moment(attendees[i].availableTimes[j].dateStart),
+							end: moment(attendees[i].availableTimes[j].dateEnd)
+						}
+						let rangeStr = range.start.toString() + range.end.toString()
+						if (rangeStr in timeSlots) {
+							timeSlots[rangeStr].attendees.push({id: attendees[i].id, name: attendees[i].name})
+						} else {
+							timeSlots[rangeStr] = {
+								range: range,
+								attendees: []
+							}
+						}
+					}
+				}
+			}
+			console.log("timeSlots")
+			console.log(timeSlots)
+			let sortedSlots = Object
+								.keys(timeSlots)
+								.map(key => timeSlots[key])
+								.sort((a,b) => compareMilli(a.range.start, b.range.start))
+			console.log(sortedSlots)
+
 			content = (
 				<div className="large_card_area single_meeting">
 					<header>
@@ -88,6 +116,47 @@ class ViewMeeting extends Component {
 								</section>
 							)
 						}
+
+						<section>
+							<h3>Attendee Availabilities</h3>
+							<table>
+								<thead>
+									<td>Team Member</td>
+									{
+										sortedSlots.map(slot => {
+											let time = slot.range.start.format("ddd Do[\n] h:mma [\n - \n]")
+												+ slot.range.end.format("h:mma")
+											return <td>{time}</td>
+										})
+									}
+								</thead>
+								{
+									this
+									.state
+									.meeting
+									.attendees
+									.map(attendee => {
+										return (
+											<tr>
+												<td>{attendee.name}</td>
+												{
+													sortedSlots.map(slot => {
+														let index = -1;
+														for(let i = 0; i < slot.attendees.length; i++) {
+															if (slot.attendees[i].id === attendee.id) {
+																index = i;
+																break;
+															}
+														}
+														return <td>{(index > -1) ? "YES" : "NO"}</td>
+													})
+												}
+											</tr>
+										)
+									})
+								}
+							</table>
+						</section>
 
 						<section>
 							<h3>Attendees</h3>
@@ -140,9 +209,8 @@ class ViewMeeting extends Component {
 				</div>
 			)
 		}
-
 		return content;
 	}
 }
 
-export default ViewMeeting
+export default ViewHosted

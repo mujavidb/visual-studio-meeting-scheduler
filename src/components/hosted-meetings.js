@@ -4,8 +4,6 @@ import HostedMeeting from '../components/hosted-meeting'
 const HostedMeetings = props => {
 	let content
 	if (props.meetings.length > 0) {
-		console.log("props.meetings")
-		console.log(props.meetings)
 		content = props.meetings.map( item => <HostedMeeting key={item.meetingId} details={item} ctrl={props.ctrl} teamMembers={props.teamMembers}/>)
 	} else {
 		content = (
