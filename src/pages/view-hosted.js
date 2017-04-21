@@ -6,6 +6,8 @@ import { formatToLongTime } from '../helpers/format-time'
 import LoadingImage from '../components/loading-image'
 import axios from 'axios'
 
+const p = a => console.log(a)
+
 function compareMilli(a,b) {
 	if(a.milli > b.milli) return -1;
 	if(a.milli < b.milli) return 1;
@@ -15,36 +17,55 @@ function compareMilli(a,b) {
 class ViewHosted extends Component {
 	constructor(props){
 		super(props)
+		this.selectTime = this.selectTime.bind(this)
+		this.finaliseMeetingTime = this.finaliseMeetingTime.bind(this)
 		this.state = {
 			meeting: {},
-			loading: true
+			context: {},
+			loading: true,
+			selected_slot: false,
+			sorted_slots: false,
 		}
 	}
 	componentDidMount(){
 		this.getMeeting();
 	}
 	getMeeting(){
-		console.log("GET MEETING");
-		let context = VSS.getWebContext();
 		let _this = this;
-		axios({
-			method: 'get',
-			url: `https://meeting-scheduler.azurewebsites.net/${context.project.id}/${this.props.meetingId}/get`,
-			withCredentials: true
+		let context = {};
+		context = VSS.getWebContext();
+		while (context === {}); //pause until context received
+		console.log("WEB CONTEXT:");
+		console.log(context);
+		this.setState({context: context},() => {
+			axios.defaults.headers.post['Content-Type'] = 'application/json';
+			axios({
+				method: 'get',
+				url: `https://meeting-scheduler.azurewebsites.net/${context.project.id}/${_this.props.meetingId}/get`,
+				withCredentials: true
+			})
+			.then(function (response) {
+				console.log("RESPONSE:");
+				console.log(response);
+				_this.setState({meeting: response.data[0].meeting, loading: false});
+			})
+			.catch(function (error) {
+				console.log(error);
+			})
 		})
-		.then(function (response) {
-			_this.setState({meeting: response.data[0].meeting, loading: false});
-			console.log("RESPONSE");
-			console.log(response);
-			console.log("GOT MEETING");
-		})
-		.catch(function (error) {
-			console.log(error);
-		})
+	}
+	selectTime(range){
+		this.setState({selected_slot: range})
+	}
+	finaliseMeetingTime(){
+		if (this.state.selected_slot !== false) {
+			p("Booyah")
+			//use this.state.selected_slot as the set time
+		}
 	}
 	render(){
 		let content = {};
-		if (this.state.loading === true || this.state.meeting === {}) {
+		if (this.state.loading === true) {
 			content = (
 				<div className="loading-container">
 					<LoadingImage />
@@ -52,37 +73,49 @@ class ViewHosted extends Component {
 				</div>
 			)
 		} else {
+
 			const meetingTime = this.state.meeting.time ? moment(this.state.meeting.time).format("ddd Do MMM, h:mma") : "Time TBC"
 			const meetingTimeTitle = this.state.meeting.time ? moment(this.state.meeting.time).format("dddd Do MMMM YYYY, h:mma") : "Time TBC"
 
-			const attendees = this.state.meeting.attendees;
-			const timeSlots = {}
-			for (let i = 0; i < attendees.length; i++) {
-				if (attendees[i].availableTimes.length > 0) {
-					for (let j = 0; j < attendees[i].availableTimes.length; j++){
-						let range = {
-							start: moment(attendees[i].availableTimes[j].dateStart),
-							end: moment(attendees[i].availableTimes[j].dateEnd)
-						}
-						let rangeStr = range.start.toString() + range.end.toString()
-						if (rangeStr in timeSlots) {
-							timeSlots[rangeStr].attendees.push({id: attendees[i].id, name: attendees[i].name})
-						} else {
-							timeSlots[rangeStr] = {
-								range: range,
-								attendees: []
+			let sortedSlots
+			if (this.state.sorted_slots === false) {
+				const attendees = this.state.meeting.attendees;
+				let timeSlots = {}
+				for (let i = 0; i < attendees.length; i++) {
+					if (attendees[i].availableTimes.length > 0) {
+						for (let j = 0; j < attendees[i].availableTimes.length; j++){
+							let range = {
+								start: moment(attendees[i].availableTimes[j].dateStart),
+								end: moment(attendees[i].availableTimes[j].dateEnd)
+							}
+							let rangeStr = range.start.toString() + range.end.toString()
+							if (rangeStr in timeSlots) {
+								timeSlots[rangeStr].attendees.push({id: attendees[i].id, name: attendees[i].name})
+							} else {
+								timeSlots[rangeStr] = {
+									range: range,
+									attendees: [{id: attendees[i].id, name: attendees[i].name}]
+								}
 							}
 						}
 					}
 				}
+				sortedSlots = Object
+									.keys(timeSlots)
+									.map(key => timeSlots[key])
+									.sort((a,b) => compareMilli(a.range.start, b.range.start))
+				this.setState({sorted_slots: sortedSlots})
+			} else {
+				sortedSlots = this.state.sorted_slots
 			}
-			console.log("timeSlots")
-			console.log(timeSlots)
-			let sortedSlots = Object
-								.keys(timeSlots)
-								.map(key => timeSlots[key])
-								.sort((a,b) => compareMilli(a.range.start, b.range.start))
-			console.log(sortedSlots)
+
+
+			let selected_message = ""
+			if (this.state.selected_slot === false || this.state.selected_slot === undefined) {
+				selected_message = "No time slot selected."
+			} else {
+				selected_message = this.state.selected_slot.start.format("dddd Do MMMM, h:mma") + " - " + this.state.selected_slot.end.format("h:mma")
+			}
 
 			content = (
 				<div className="large_card_area single_meeting">
@@ -119,43 +152,71 @@ class ViewHosted extends Component {
 
 						<section>
 							<h3>Attendee Availabilities</h3>
-							<table>
-								<thead>
-									<td>Team Member</td>
+							<div className="attendee_availabilities">
+								<div className="attendee_names">
+									<span>Team Member</span>
 									{
-										sortedSlots.map(slot => {
-											let time = slot.range.start.format("ddd Do[\n] h:mma [\n - \n]")
-												+ slot.range.end.format("h:mma")
-											return <td>{time}</td>
+										this
+										.state
+										.meeting
+										.attendees
+										.map(attendee => {
+											return <span>{attendee.name}</span>
 										})
 									}
-								</thead>
-								{
-									this
-									.state
-									.meeting
-									.attendees
-									.map(attendee => {
-										return (
-											<tr>
-												<td>{attendee.name}</td>
-												{
-													sortedSlots.map(slot => {
-														let index = -1;
-														for(let i = 0; i < slot.attendees.length; i++) {
-															if (slot.attendees[i].id === attendee.id) {
-																index = i;
-																break;
+								</div>
+								<div className="attendee_slots">
+									<div
+										className="attendee_event_times"
+										style={{width: `${sortedSlots.length * 150}px`}}>
+										{
+											sortedSlots
+											.map(slot => {
+												let time = slot.range.start.format("ddd Do h:mma-")
+													+ slot.range.end.format("h:mma")
+												return <span>{time}</span>
+											})
+										}
+									</div>
+									{
+										this
+										.state
+										.meeting
+										.attendees
+										.map(attendee => {
+											return (
+												<div
+													className="attendee_availability_row"
+													style={{width: `${sortedSlots.length * 150}px`}}>
+													{
+														sortedSlots.map(slot => {
+															let index = -1;
+															for(let i = 0; i < slot.attendees.length; i++) {
+																if (slot.attendees[i].id === attendee.id) {
+																	index = i;
+																	break;
+																}
 															}
-														}
-														return <td>{(index > -1) ? "YES" : "NO"}</td>
-													})
-												}
-											</tr>
-										)
-									})
-								}
-							</table>
+															let value = (index > -1) ? "YES" : "NO";
+															return <span className={value}>{value}</span>
+														})
+													}
+												</div>
+											)
+										})
+									}
+									<div className="attendee_availability_select">
+										{
+											sortedSlots.map(slot => (
+												<button
+													className="button"
+													onClick={()=>this.selectTime(slot.range)}>Select</button>
+											))
+										}
+									</div>
+								</div>
+							</div>
+							<strong>Selected time slot:</strong><span>{selected_message}</span>
 						</section>
 
 						<section>
@@ -194,16 +255,11 @@ class ViewHosted extends Component {
 
 						<footer>
 							<a onClick={()=>this.props.ctrl.dashboard()} className="button cancel maxed" role="button">Back</a>
-							{
-								this.userID === this.state.meeting.hostId ?
-									(
-										<a
-											onClick={()=>this.props.ctrl.updateMeeting(this.state.meeting.meetingId)}
-											className="button primary maxed"
-											role="button">Edit</a>
-									)
-									: ""
-							}
+							<button
+								onClick={this.finaliseMeetingTime}
+								className="button primary finalise maxed"
+								disabled={this.state.selected_slot === false}
+								role="button">Finalize Meeting Time</button>
 						</footer>
 					</main>
 				</div>

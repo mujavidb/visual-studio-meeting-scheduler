@@ -9,15 +9,10 @@ import axios from 'axios'
 class ViewMeeting extends Component {
 	constructor(props){
 		super(props)
-		// In the final implementation, you would do a GET request
-		// 		to get the element with the ID === props.params.id
 		this.state = {
 			meeting: {},
 			loading: true
 		}
-		this.userID = "funfun123123"
-	}
-	componentDidMount(){
 		this.getMeeting();
 	}
 	getMeeting(){
@@ -31,7 +26,8 @@ class ViewMeeting extends Component {
 		})
 		.then(function (response) {
 			_this.setState({meeting: response.data[0].meeting, loading: false});
-			console.log("RESPONSE", response);
+			console.log("RESPONSE");
+			console.log(response);
 			console.log("GOT MEETING");
 		})
 		.catch(function (error) {
@@ -126,7 +122,7 @@ class ViewMeeting extends Component {
 						<footer>
 							<a onClick={()=>this.props.ctrl.dashboard()} className="button cancel maxed" role="button">Back</a>
 							{
-								this.userID === this.state.meeting.hostId ?
+								this.context.user.id === this.state.meeting.hostId ?
 									(
 										<a
 											onClick={()=>this.props.ctrl.updateMeeting(this.state.meeting.meetingId)}
