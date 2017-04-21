@@ -34,7 +34,7 @@ app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "http://localhost:8080"); // remove for production
 
   res.header("Access-Control-Allow-Origin", "https://alasdairhall.gallery.vsassets.io");
-  // res.header("Access-Control-Allow-Origin", "https://mujavidbukhari.gallery.vsassets.io");
+  res.header("Access-Control-Allow-Origin", "https://mujavidbukhari.gallery.vsassets.io");
   // res.header("Access-Control-Allow-Origin", "https://*.gallery.vsassets.io");
 
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
@@ -47,7 +47,7 @@ app.use(function(req, res, next) {
   }
 });
 
-app.use('/', collection);
+app.use('/', collection); 
 app.use('/users', users);
 // app.use('/collection', collection);
 
