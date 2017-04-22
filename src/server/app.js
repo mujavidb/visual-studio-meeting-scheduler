@@ -20,13 +20,8 @@ var app = express();
 // ==============================================================
 var whitelist = ['https://alasdairhall.gallery.vsassets.io','/\.gallery.vsassets\.io$'];
 var corsOptions = {
-  origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true)
-    } else {
-      callback(new Error('Not allowed by CORS'))
-    }
-  }
+  origin: whitelist,
+  credentials: true
 }
 
 app.use(cors(corsOptions));
