@@ -5,7 +5,6 @@ import { generateRGBColor } from '../helpers/color-generator'
 import { getInitials } from '../helpers/get-initials'
 
 const Meeting = props => {
-	console.log("Meeting props.teamMembers:", props.teamMembers);
 	return (
 		<a onClick={()=>props.ctrl.viewMeeting(props.details.meetingId)} className="meeting_card_container" role="button">
 			<div className="meeting_card">
@@ -15,19 +14,21 @@ const Meeting = props => {
 				<div className="attendees">
 					{
 						props
-						.teamMembers
+						.details
+						.attendees
 						.sort((a,b)=> a === true ? 0 : 1)
 						.map(attendee => {
 							const classes = `attendee_block ${attendee.status == "" ? "unresponsive" : "responsive"}`
 							const blockTitle = `${attendee.displayName} has ${attendee.status == "" ? "not yet " : ""}responded`
+							const user = props.teamMembers.find(teamMember => attendee.id === teamMember.id)
 							return (
 								<div
-									key={attendee.id}
-									id={attendee.id}
+									key={user.id}
+									id={user.id}
 									className={classes}
 									title={blockTitle}
 									style={{
-											backgroundImage: `url(${attendee.imageUrl})`,
+											backgroundImage: `url(${user.imageUrl})`,
 											backgroundSize: "cover",
 										}}>
 								</div>)

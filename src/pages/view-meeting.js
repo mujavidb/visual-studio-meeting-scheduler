@@ -52,6 +52,7 @@ class ViewMeeting extends Component {
 		} else {
 			const meetingTime = this.state.meeting.finalDate ? moment(this.state.meeting.finalDate.dateStart).format("ddd Do MMM, H:mm") + " - " + moment(this.state.meeting.finalDate.dateEnd).format("H:mm") : "Time TBC"
 			const meetingTimeTitle = this.state.meeting.finalDate ? moment(this.state.meeting.finalDate.dateStart).format("ddd Do MMMM YYYY, H:mm") + " - " + moment(this.state.meeting.finalDate.dateEnd).format("H:mm") : "Time TBC"
+			const context = VSS.getWebContext();
 			content = (
 				<div className="large_card_area single_meeting">
 					<header>
@@ -122,7 +123,7 @@ class ViewMeeting extends Component {
 						<footer>
 							<a onClick={()=>this.props.ctrl.dashboard()} className="button cancel maxed" role="button">Back</a>
 							{
-								this.context.user.id === this.state.meeting.hostId ?
+								context.user.id === this.state.meeting.hostId ?
 									(
 										<a
 											onClick={()=>this.props.ctrl.updateMeeting(this.state.meeting.meetingId)}

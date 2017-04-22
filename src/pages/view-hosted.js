@@ -60,7 +60,28 @@ class ViewHosted extends Component {
 	finaliseMeetingTime(){
 		if (this.state.selected_slot !== false) {
 			p("Booyah")
-			//use this.state.selected_slot as the set time
+			console.log("Selected slot:", this.state.selected_slot);
+			const data = {
+				finalDate : {
+					dateStart: this.state.selected_slot.start.toISOString(),
+					dateEnd: this.state.selected_slot.end.toISOString()
+				}
+			}
+			let context = VSS.getWebContext()
+			let _this = this
+			axios({
+				method: 'post',
+				url: `https://meeting-scheduler.azurewebsites.net/${context.project.id}/${_this.props.meetingId}/edit`,
+				data: data,
+				withCredentials: true
+			})
+			.then(function (response) {
+			    console.log(response);
+			    _this.props.ctrl.dashboard.call();
+			})
+			.catch(function (error) {
+			    console.log(error);
+			});
 		}
 	}
 	render(){
