@@ -23,16 +23,6 @@ export default class UpdateMeeting extends Component {
 		this.userID = "lovebug321321"
 		this._titleInput = {}
 		this._locationInput = {}
-
-		//mocks form received in
-		this.query_results = [
-			{ initials: "MB", id: "najd38j9h", name: "Mujavid Bukhari"},
-			{ initials: "AL", id: "kjsadlj23", name: "Alasdair Hall"},
-			{ initials: "KC", id: "mjniojin2", name: "Kelvin Chan"},
-			{ initials: "ES", id: "9jn9n34f9", name: "Eric Schmidt"},
-			{ initials: "FP", id: "mlksandhg", name: "Faiz Punakkath"},
-			{ initials: "YM", id: "934i029jd", name: "Yousef Mahmood"}
-		]
 	}
 	updateMarkdown(text){
 		this.setState({markdown_text: text, updated: true})
@@ -76,7 +66,7 @@ export default class UpdateMeeting extends Component {
 			const _this = this
 			axios({
 				method: 'post',
-				url: `http://localhost:3000/${this.accountID}/meeting/create`,
+				url: `https://localhost:3000/${this.accountID}/${this.state.meeting.meetingId}/create`,
 				data: data,
 				withCredentials: true
 			})
@@ -99,17 +89,16 @@ export default class UpdateMeeting extends Component {
 		}
 	}
 	getMeeting(){
-		console.log("GET MEETING");
+		let context = VSS.getWebContext();
 		let _this = this;
 		axios({
 			method: 'get',
-			url: `http://localhost:3000/funfun123123/${this.props.meetingId}/get`,
+			url: `https://meeting-scheduler.azurewebsites.net/${context.project.id}/${this.props.meetingId}/get`,
 			withCredentials: true
 		})
 		.then(function (response) {
 			_this.setState({meeting: response.data[0].meeting, loading: false});
-			console.log("RESPONSE", response);
-			console.log("GOT MEETING");
+			console.log(response);
 		})
 		.catch(function (error) {
 			console.log(error);
@@ -132,11 +121,22 @@ export default class UpdateMeeting extends Component {
 				</section>
 			)
 		}
+		let availability
+		if (!this.state.meeting.finalDate) {
+			availability = (
+				<section>
+					<h3>Availability</h3>
+					<CreateCalendar
+						editTimeSlots={this.state.meeting.hostAvailability}
+						onChangeTimeSlots={this.updateTimeSlots}/>
+				</section>
+			)
+		}
 		return (
 				<div className="large_card_area create_meeting">
 					<header>
 						<div className="topbar">
-							<h2 className="container_title">Create a Meeting</h2>
+							<h2 className="container_title">Edit Meeting</h2>
 						</div>
 					</header>
 					<main>
@@ -146,7 +146,7 @@ export default class UpdateMeeting extends Component {
 								ref={x=>this._titleInput = x}
 								type="text"
 								placeholder="Enter meeting title"
-								value={this.state.meeting}
+								value={this.state.meeting.meetingName}
 								onChange={()=>this.state.formSubmitted ? this.validateInput() : ""}/>
 						</section>
 
@@ -156,25 +156,23 @@ export default class UpdateMeeting extends Component {
 								ref={x=>this._locationInput = x}
 								type="text"
 								placeholder="Enter meeting location"
+								value={this.state.meetingLocation}
 								onChange={()=>this.state.formSubmitted ? this.validateInput() : ""}/>
 						</section>
 
 						<section>
 							<h3>Agenda</h3>
 							<MarkdownEditor
+								oldValue={this.state.meeting.agenda}
 								update={this.updateMarkdown}/>
 						</section>
 
-						<section>
-							<h3>Availability</h3>
-							<CreateCalendar
-								onChangeTimeSlots={this.updateTimeSlots}/>
-						</section>
+						{ availability }
 
 						<section>
 							<h3>Attendees</h3>
 							<AutosuggestUser
-								originalData={this.query_results}
+								originalData={this.props.teamMembers}
 								update={this.updateAttendees}/>
 						</section>
 						{ errors }
