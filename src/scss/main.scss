@@ -216,6 +216,7 @@ header {
 	font-size: 14px;
 	padding: 12px 18px;
 	box-sizing: border-box;
+	background-color: #6c6c6c;
 	color: white;
 	border: none;
 	outline: none;
@@ -235,7 +236,8 @@ header {
 	background-color: $primary-button;
 }
 
-.primary:hover {
+.primary:hover,
+.primary:focus {
 	background-color: $primary-button-hover;
 }
 
@@ -243,7 +245,8 @@ header {
 	background-color: $muted-button;
 }
 
-.cancel:hover {
+.cancel:hover,
+.cancel:focus {
 	background-color: $muted-button-hover;
 }
 
@@ -567,8 +570,98 @@ header {
 	margin: 0 0 15px;
 }
 
-// Loader image
+// Hosted view
+.attendee_availabilities {
+	width: 100%;
+	display: flex;
+	flex-flow: row nowrap;
+	font-size: 14px;
 
+	span {
+		display: inline-block;
+		height: 25px;
+	}
+}
+.attendee_names {
+	width: 150px;
+	display: flex;
+	flex-flow: column nowrap;
+
+	span {
+		text-align: left;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		&:first-child {
+			height: 35px;
+			font-weight: bold;
+		}
+	}
+}
+.attendee_slots {
+	width: calc(100% - 150px);
+	float:left;
+	display: flex;
+	flex-flow: column nowrap;
+	overflow-x: scroll;
+}
+.attendee_event_times {
+	display: flex;
+	flex-flow: row nowrap;
+	overflow:scroll;
+	width:200%;
+
+	span {
+		text-align: center;
+		flex-basis: 150px;
+		font-weight: bold;
+		font-size: 0.8em;
+		height: 35px;
+	}
+}
+.attendee_availability_row {
+	display: flex;
+	flex-flow: row nowrap;
+	overflow:scroll;
+	width:200%;
+	span {
+		text-align: center;
+		flex-basis: 150px;
+		font-weight: bold;
+		&.YES {
+			background-color: #a2f9e4;
+			color: #006a5d;
+		}
+		&.NO {
+			background-color: #ffbcc4;
+			color: #75072c;
+		}
+	}
+}
+
+.attendee_availability_select {
+	button {
+		height: auto;
+		font-size: 14px;
+		box-sizing: border-box;
+		color: white;
+		outline: none;
+	    width: 150px;
+		background-color: #4c4c4c;
+		padding: 8px;
+		line-height: 1;
+		border: 5px solid #f8f8f8;
+		&:hover {
+			border: 5px solid #f8f8f8;
+			background-color: #1c1c1c;
+		}
+		&:hover {
+			border: 5px solid #f8f8f8;
+			background-color: #6c6c6c;
+		}
+	}
+}
+
+// Loader image
 .loader-box {
 	width: 40px;
 	height: 40px;
