@@ -7,13 +7,29 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var cors = require('cors');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
 var collection = require('./routes/collection');
 
+
 var app = express();
 
+// CORS Settings
+// ==============================================================
+var whitelist = ['/\.gallery.vsassets\.io$'];
+var corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
+}
+
+app.use(cors(corsOptions));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -29,23 +45,24 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // allow CORS
 // Written by Al. Potentially buggy as heck!!
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Credentials", "true");
-  res.header("Access-Control-Allow-Origin", "http://localhost:8080"); // remove for production
 
-  res.header("Access-Control-Allow-Origin", "https://alasdairhall.gallery.vsassets.io");
-  res.header("Access-Control-Allow-Origin", "https://mujavidbukhari.gallery.vsassets.io");
-  // res.header("Access-Control-Allow-Origin", "https://*.gallery.vsassets.io");
+// app.use(function(req, res, next) {
+//   res.header("Access-Control-Allow-Credentials", "true");
+//   res.header("Access-Control-Allow-Origin", "http://localhost:8080"); // remove for production
 
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  // intercept OPTIONS method
-  if ('OPTIONS' == req.method) {
-    res.send(200);
-  }
-  else {
-    next();
-  }
-});
+//   res.header("Access-Control-Allow-Origin", "https://alasdairhall.gallery.vsassets.io");
+//   res.header("Access-Control-Allow-Origin", "https://mujavidbukhari.gallery.vsassets.io");
+//   // res.header("Access-Control-Allow-Origin", "https://*.gallery.vsassets.io");
+
+//   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//   // intercept OPTIONS method
+//   if ('OPTIONS' == req.method) {
+//     res.send(200);
+//   }
+//   else {
+//     next();
+//   }
+// });
 
 app.use('/', collection); 
 app.use('/users', users);
