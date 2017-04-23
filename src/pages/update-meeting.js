@@ -3,6 +3,7 @@ import CreateCalendar from '../components/create-calendar'
 import AutosuggestUser from '../components/autosuggest-user'
 import MarkdownEditor from '../components/markdown-editor'
 import axios from 'axios'
+import LoadingImage from '../components/loading-image'
 
 export default class UpdateMeeting extends Component {
 	constructor(props){
@@ -19,8 +20,6 @@ export default class UpdateMeeting extends Component {
 			errors: [],
 			formSubmitted: false
 		}
-		this.accountID = "funfun123123"
-		this.userID = "lovebug321321"
 		this._titleInput = {}
 		this._locationInput = {}
 	}
@@ -97,7 +96,7 @@ export default class UpdateMeeting extends Component {
 			withCredentials: true
 		})
 		.then(function (response) {
-			_this.setState({meeting: response.data[0].meeting, loading: false});
+			_this.setState({meeting: response.data[0].meeting, loading: false, attendees: response.data[0].meeting.attendees});
 			console.log(response);
 		})
 		.catch(function (error) {
@@ -132,7 +131,16 @@ export default class UpdateMeeting extends Component {
 				</section>
 			)
 		}
-		return (
+		let content
+		if (this.state.loading) {
+			content = (
+				<div className="loading-container">
+					<LoadingImage />
+					<span>Loading Content...</span>
+				</div>
+			)
+		} else {
+			content = (
 				<div className="large_card_area create_meeting">
 					<header>
 						<div className="topbar">
@@ -173,6 +181,7 @@ export default class UpdateMeeting extends Component {
 							<h3>Attendees</h3>
 							<AutosuggestUser
 								originalData={this.props.teamMembers}
+								oldValue={this.state.meeting.attendees}
 								update={this.updateAttendees}/>
 						</section>
 						{ errors }
@@ -183,5 +192,7 @@ export default class UpdateMeeting extends Component {
 					</main>
 				</div>
 			)
+		}
+		return content;
 	}
 }

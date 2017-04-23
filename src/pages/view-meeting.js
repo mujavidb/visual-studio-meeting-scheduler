@@ -41,7 +41,7 @@ class ViewMeeting extends Component {
 		return initials;
 	}
 	render(){
-		let content = (<p>hey</p>);
+		let content
 		if (this.state.loading == true) {
 			content = (
 				<div className="loading-container">
