@@ -15,10 +15,10 @@ export default class UpdateMeeting extends Component {
 		this.state = {
 			meeting: {},
 			markdown_text: 'Enter *markdown* here',
-			attendees: [],
 			timeSlots: [],
 			errors: [],
-			formSubmitted: false
+			formSubmitted: false,
+			attendees: []
 		}
 		this._titleInput = {}
 		this._locationInput = {}
@@ -92,11 +92,11 @@ export default class UpdateMeeting extends Component {
 		let _this = this;
 		axios({
 			method: 'get',
-			url: `https://meeting-scheduler.azurewebsites.net/${context.project.id}/${this.props.meetingId}/get`,
+			url: `https://meeting-scheduler.azurewebsites.net/${context.account.id}/${this.props.meetingId}/get`,
 			withCredentials: true
 		})
 		.then(function (response) {
-			_this.setState({meeting: response.data[0].meeting, loading: false, attendees: response.data[0].meeting.attendees});
+			_this.setState({meeting: response.data[0].meeting, loading: false});
 			console.log(response);
 		})
 		.catch(function (error) {
@@ -164,7 +164,7 @@ export default class UpdateMeeting extends Component {
 								ref={x=>this._locationInput = x}
 								type="text"
 								placeholder="Enter meeting location"
-								value={this.state.meetingLocation}
+								value={this.state.meeting.meetingLocation}
 								onChange={()=>this.state.formSubmitted ? this.validateInput() : ""}/>
 						</section>
 

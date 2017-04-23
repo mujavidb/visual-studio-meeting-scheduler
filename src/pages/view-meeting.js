@@ -21,7 +21,7 @@ class ViewMeeting extends Component {
 		let _this = this;
 		axios({
 			method: 'get',
-			url: `https://meeting-scheduler.azurewebsites.net/${context.project.id}/${this.props.meetingId}/get`,
+			url: `https://meeting-scheduler.azurewebsites.net/${context.account.id}/${this.props.meetingId}/get`,
 			withCredentials: true
 		})
 		.then(function (response) {

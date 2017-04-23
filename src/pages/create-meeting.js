@@ -76,7 +76,7 @@ export default class CreateMeeting extends Component {
 			const _this = this
 			axios({
 				method: 'post',
-				url: `https://meeting-scheduler.azurewebsites.net/${context.project.id}/meeting/create`,
+				url: `https://meeting-scheduler.azurewebsites.net/${context.account.id}/meeting/create`,
 				data: data,
 				withCredentials: true
 			})
@@ -94,8 +94,8 @@ export default class CreateMeeting extends Component {
 	// 	let context = VSS.getWebContext();
 	// 	VSS.require(["TFS/Core/RestClient"], function (TFS_Core_WebApi) {
 	// 	    // Get the REST client
-	// 	    console.log("PROJ ID:", context.project.id, "TEAM ID:", context.team.id);
-	// 	    TFS_Core_WebApi.getClient().getTeamMembers(context.project.id, context.team.id).then(function(response){
+	// 	    console.log("PROJ ID:", context.account.id, "TEAM ID:", context.team.id);
+	// 	    TFS_Core_WebApi.getClient().getTeamMembers(context.account.id, context.team.id).then(function(response){
 	// 	    	_this.updateTeamMembers(response);
 	// 	    }, function(error){
 	// 	    	console.log(error);
@@ -128,7 +128,7 @@ export default class CreateMeeting extends Component {
 		} else {
 			autosuggest = (
 					<AutosuggestUser
-						originalData={this.state.teamMembers}
+						originalData={this.props.teamMembers}
 						update={this.updateAttendees}/>
 			);
 		}
