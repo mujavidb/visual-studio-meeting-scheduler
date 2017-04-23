@@ -8,6 +8,7 @@ import ViewMeeting from './pages/view-meeting'
 import RespondInvitation from './pages/respond-invitation'
 import LoadingImage from './components/loading-image'
 import UpdateMeeting from './pages/update-meeting'
+import ViewHosted from './pages/view-hosted'
 
 //MainController functions as router for application
 class MainController extends Component {
@@ -20,6 +21,7 @@ class MainController extends Component {
 			dashboard           : () => this.setState({current: <Dashboard ctrl={this.ctrl} teamMembers={this.state.teamMembers} />}),
 			createMeeting       : () => this.setState({current: <CreateMeeting ctrl={this.ctrl} teamMembers={this.state.teamMembers} />}),
 			viewMeeting         : id => this.setState({current: <ViewMeeting meetingId={id} ctrl={this.ctrl} teamMembers={this.state.teamMembers} />}),
+			viewHosted          : id => this.setState({current: <ViewHosted meetingId={id} ctrl={this.ctrl} teamMembers={this.state.teamMembers} />}),
 			respondInvitation   : id => this.setState({current: <RespondInvitation ctrl={this.ctrl} meetingId={id} teamMembers={this.state.teamMembers} />}),
 			updateMeeting 		: id => this.setState({current: <UpdateMeeting meetingId={id} ctrl={this.ctrl} teamMembers={this.state.teamMembers} />})
 		};

@@ -6,22 +6,13 @@ import { formatToLongTime } from '../helpers/format-time'
 import LoadingImage from '../components/loading-image'
 import axios from 'axios'
 
-//API: pull event details
-//API: check if user has permission
-//API: pull all attendee details
-
 class ViewMeeting extends Component {
 	constructor(props){
 		super(props)
-		// In the final implementation, you would do a GET request
-		// 		to get the element with the ID === props.params.id
 		this.state = {
 			meeting: {},
 			loading: true
 		}
-		this.userID = "funfun123123"
-	}
-	componentDidMount(){
 		this.getMeeting();
 	}
 	getMeeting(){
@@ -35,7 +26,8 @@ class ViewMeeting extends Component {
 		})
 		.then(function (response) {
 			_this.setState({meeting: response.data[0].meeting, loading: false});
-			console.log("RESPONSE", response);
+			console.log("RESPONSE");
+			console.log(response);
 			console.log("GOT MEETING");
 		})
 		.catch(function (error) {
@@ -49,7 +41,7 @@ class ViewMeeting extends Component {
 		return initials;
 	}
 	render(){
-		let content = (<p>hey</p>);
+		let content
 		if (this.state.loading == true) {
 			content = (
 				<div className="loading-container">
@@ -60,6 +52,7 @@ class ViewMeeting extends Component {
 		} else {
 			const meetingTime = this.state.meeting.finalDate ? moment(this.state.meeting.finalDate.dateStart).format("ddd Do MMM, H:mm") + " - " + moment(this.state.meeting.finalDate.dateEnd).format("H:mm") : "Time TBC"
 			const meetingTimeTitle = this.state.meeting.finalDate ? moment(this.state.meeting.finalDate.dateStart).format("ddd Do MMMM YYYY, H:mm") + " - " + moment(this.state.meeting.finalDate.dateEnd).format("H:mm") : "Time TBC"
+			const context = VSS.getWebContext();
 			content = (
 				<div className="large_card_area single_meeting">
 					<header>
@@ -105,25 +98,21 @@ class ViewMeeting extends Component {
 											.attendees
 											.sort((a,b)=> a === true ? 0 : 1) //FIX: make this actually work
 											.map(attendee => {
+												const user = this.props.teamMembers.find(teamMember => attendee.id === teamMember.id)
 												const classes = `attendee_block ${attendee.status == "" ? "unresponsive" : "responsive"}`
-												const blockTitle = `${attendee.name} has ${attendee.status == "" ? "not yet " : ""}responded`
-												if(this.props.teamMembers.length == 0) {
-													return (
-														<div
-															key={attendee.id}
-															className={classes}
-															title={blockTitle}
-															style={{backgroundColor: generateRGBColor(getInitials(attendee.name))}} >
-															<span className="attendee_initials">{getInitials(attendee.name)}</span>
-														</div>
-													)
-												} else {
-													const user = this.props.teamMembers.find(teamMember => attendee.id === teamMember.id)
-													return (
-														<img key={attendee.id} src={user.imageUrl} alt={blockTitle} />
-													)
-												}
-												
+												const blockTitle = `${attendee.displayName} has ${attendee.status == "" ? "not yet " : ""}responded`
+												return (
+													<div
+														key={attendee.id}
+														id={attendee.id}
+														className={classes}
+														title={blockTitle}
+														style={{
+																backgroundImage: `url(${user.imageUrl})`,
+																backgroundSize: "cover",
+															}}>
+													</div>)
+
 											})
 										}
 									</div>
@@ -134,7 +123,7 @@ class ViewMeeting extends Component {
 						<footer>
 							<a onClick={()=>this.props.ctrl.dashboard()} className="button cancel maxed" role="button">Back</a>
 							{
-								this.userID === this.state.meeting.hostId ?
+								context.user.id === this.state.meeting.hostId ?
 									(
 										<a
 											onClick={()=>this.props.ctrl.updateMeeting(this.state.meeting.meetingId)}

@@ -34,7 +34,6 @@ html, body {
 
 #root {
 	font-family: Segoe UI, sans-serif;
-	padding: 0;
 	background-color: $background;
 	box-sizing: border-box;
 	color: $default-text;
@@ -43,15 +42,20 @@ html, body {
 	width: 100%;
     height: 100%;
 	overflow: scroll;
+	font-size: 14px;
 }
 
 a, a:hover {
 	color: $default-text;
+}
+
+#root a,
+#root a:hover {
 	text-decoration: none;
 }
 
 h3 {
-	font-size: 1em;
+	font-size: 16px;
 	font-weight: 600;
 	color: $lighter-text;
 }
@@ -60,7 +64,7 @@ h3 {
     cursor:pointer;
 }
 
-.main-container {
+.big-container {
 	display: flex;
 	flex-flow: row nowrap;
 	align-items: flex-start;
@@ -171,14 +175,14 @@ header {
 
 .container_title,
 .container_date {
-	font-size: 1.4em;
+	font-size: 18px;
 	font-weight: 600;
 	margin: 10px 0;
 	cursor: default;
 }
 
 .container_date {
-	font-size: 1em;
+	font-size: 14px;
 	flex-basis: 200px;
 	text-align: right;
 }
@@ -208,9 +212,11 @@ header {
 }
 
 .button {
-	font-size: 1em;
+	height: auto;
+	font-size: 14px;
 	padding: 12px 18px;
 	box-sizing: border-box;
+	background-color: #6c6c6c;
 	color: white;
 	border: none;
 	outline: none;
@@ -218,6 +224,7 @@ header {
 
 .button:hover {
 	color:white;
+	text-decoration: none;
 }
 
 .button.maxed {
@@ -229,7 +236,8 @@ header {
 	background-color: $primary-button;
 }
 
-.primary:hover {
+.primary:hover,
+.primary:focus {
 	background-color: $primary-button-hover;
 }
 
@@ -237,7 +245,8 @@ header {
 	background-color: $muted-button;
 }
 
-.cancel:hover {
+.cancel:hover,
+.cancel:focus {
 	background-color: $muted-button-hover;
 }
 
@@ -253,10 +262,11 @@ header {
 .content_filters a {
     font-weight: 600;
 	padding: 3px 10px;
-    width: 90px;
+    width: 80px;
 	box-sizing: border-box;
 	border-left: 2px solid #ccc;
 	color: $default-text;
+	font-size: 15px;
 }
 
 .content_filters a:first-child {
@@ -344,16 +354,16 @@ header {
 	color: white;
 	margin: 0 0 5px;
 	font-weight: 400;
-	font-size: 1.3em;
+	font-size: 18px;
 }
 
 .meeting_datetime {
-	font-size: 1em;
+	font-size: 14px;
 	margin:  0 0 5px;
 }
 
 .meeting_location {
-	font-size: 1em;
+	font-size: 14px;
 	margin:  0 0 15px;
 }
 
@@ -398,7 +408,7 @@ header {
 	cursor:pointer;
 	color: white;
 	transition: all 0.3s ease;
-	font-size: 2em;
+	font-size: 28px;
 	line-height: 0.75;
 }
 
@@ -413,7 +423,7 @@ header {
 .label {
 	display: block;
 	color: #8c8c8c;
-	font-size: 0.9em;
+	font-size: 14px;
 	margin-bottom: 8px;
 }
 
@@ -435,6 +445,7 @@ header {
 	list-style: none;
 	background-color: #FF8080;
 	color: white;
+	font-size: 14px;
 }
 
 .error_list li {
@@ -450,6 +461,7 @@ header {
 	border: 1px solid $border;
 	color: $default-text;
 	margin-bottom: 0;
+	font-size: 14px;
 }
 
 .large_card_area textarea {
@@ -503,24 +515,25 @@ header {
 	border: 1px solid $border;
 	color: $default-text;
 	background-color: #fafafa;
+	font-size: 14px;
 
 	h1 {
 		margin: 0 0 15px 0;
-		font-size: 1.6em;
+		font-size: 22px;
 	}
 	h2 {
 		margin: 0 0 12px 0;
-		font-size: 1.4em;
+		font-size: 19px;
 	}
 	h3 {
 		margin: 0 0 10px 0;
-		font-size: 1.2em;
+		font-size: 17px;
 	}
 	h4 {
 		margin: 0 0 10px 0;
-		font-size: 1.1em;
+		font-size: 15px;
 	}
-	ul{
+	ul {
 		margin: 0 0 10px 0;
 		padding: 0 0 0 30px;
 	}
@@ -538,7 +551,7 @@ header {
 .single_meeting .meeting_title {
 	font-weight: 600;
 	margin: 0 0 15px;
-	font-size: 1.3em;
+	font-size: 18px;
 	color: $default-text;
 }
 
@@ -557,8 +570,98 @@ header {
 	margin: 0 0 15px;
 }
 
-// Loader image
+// Hosted view
+.attendee_availabilities {
+	width: 100%;
+	display: flex;
+	flex-flow: row nowrap;
+	font-size: 14px;
 
+	span {
+		display: inline-block;
+		height: 25px;
+	}
+}
+.attendee_names {
+	width: 150px;
+	display: flex;
+	flex-flow: column nowrap;
+
+	span {
+		text-align: left;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		&:first-child {
+			height: 35px;
+			font-weight: bold;
+		}
+	}
+}
+.attendee_slots {
+	width: calc(100% - 150px);
+	float:left;
+	display: flex;
+	flex-flow: column nowrap;
+	overflow-x: scroll;
+}
+.attendee_event_times {
+	display: flex;
+	flex-flow: row nowrap;
+	overflow:scroll;
+	width:200%;
+
+	span {
+		text-align: center;
+		flex-basis: 150px;
+		font-weight: bold;
+		font-size: 0.8em;
+		height: 35px;
+	}
+}
+.attendee_availability_row {
+	display: flex;
+	flex-flow: row nowrap;
+	overflow:scroll;
+	width:200%;
+	span {
+		text-align: center;
+		flex-basis: 150px;
+		font-weight: bold;
+		&.YES {
+			background-color: #a2f9e4;
+			color: #006a5d;
+		}
+		&.NO {
+			background-color: #ffbcc4;
+			color: #75072c;
+		}
+	}
+}
+
+.attendee_availability_select {
+	button {
+		height: auto;
+		font-size: 14px;
+		box-sizing: border-box;
+		color: white;
+		outline: none;
+	    width: 150px;
+		background-color: #4c4c4c;
+		padding: 8px;
+		line-height: 1;
+		border: 5px solid #f8f8f8;
+		&:hover {
+			border: 5px solid #f8f8f8;
+			background-color: #1c1c1c;
+		}
+		&:hover {
+			border: 5px solid #f8f8f8;
+			background-color: #6c6c6c;
+		}
+	}
+}
+
+// Loader image
 .loader-box {
 	width: 40px;
 	height: 40px;

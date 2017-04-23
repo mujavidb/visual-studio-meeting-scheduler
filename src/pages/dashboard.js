@@ -5,152 +5,111 @@ import HostedMeetings from '../components/hosted-meetings'
 import LoadingImage from '../components/loading-image'
 import axios from 'axios'
 
-console.log(axios);
-
-//API: OAuth
-//API: get user id
-//API: pull all events
-//API: get all user details
-
 class Dashboard extends Component {
 	constructor(props){
 		super(props)
 		this.state = {
-			authToken: "",
 			userID: "",
 			projectID: "",
 			meetings: [],
 			invitations: [],
-			loading: true
+			loading: true,
+			context: {}
 		}
 	}
 	componentDidMount(){
-		this.verifyOAuth();
 		this.getDocument();
-		this.getAllMeetings();
-		this.getAllInvitations();
-		console.log("WEB CONTEXT:", VSS.getWebContext());
 	}
-	verifyOAuth(){
-		//TODO: update for OAuth
-		this.setState({authToken: "smoa98hjr738fqbhn98hrj4mnqr93om"});
-		// this.getUserID();
-		// this.getProjectID();
-	}
-	// getUserID(){
-	// 	//TODO: update to get user id
-	// 	let context = VSS.getWebContext();
-	// 	this.setState({userID: context.user.id});
-	// 	// this.getAllEvents()
-	// }
-	// getProjectID(){
-	// 	let context = VSS.getWebContext();
-	// 	console.log("GET PROJECT ID CONTEXT:", context);
-	// 	console.log("ID:", context.project.id);
-	// 	this.setState({projectID: context.project.id});
-	// 	console.log("PROJECT ID:", this.state.projectID);
-	// }
 	getDocument(){
 		let _this = this;
-		let context = VSS.getWebContext();
-		axios.defaults.headers.post['Content-Type'] = 'application/json';
-		axios({
-			method: 'get',
-			url: `https://meeting-scheduler.azurewebsites.net/document/create/${context.project.id}`,
-			withCredentials: true
+		let context = {};
+		context = VSS.getWebContext();
+		while (context === {}); //pause until context received
+		console.log("WEB CONTEXT:");
+		console.log(context);
+		this.setState({context: context}, () => {
+			axios.defaults.headers.post['Content-Type'] = 'application/json';
+			axios({
+				method: 'get',
+				url: `https://meeting-scheduler.azurewebsites.net/document/create/${context.project.id}`,
+				withCredentials: true
+			})
+			.then(function (response) {
+				console.log("Document");
+				console.log(response);
+				_this.getAllMeetings();
+				_this.getAllInvitations();
+			})
+			.catch(function (error) {
+				console.log(error);
+			});
 		})
-		.then(function (response) {
-			console.log(response);
-		})
-		.catch(function (error) {
-			console.log(error);
-		});
-		
+
 	}
 	getAllMeetings(){
 		let _this = this;
-		let context = VSS.getWebContext();
 		axios({
 			method: 'post',
-			url: `https://meeting-scheduler.azurewebsites.net/${context.project.id}/meeting/responded/${context.user.id}`,
+			url: `https://meeting-scheduler.azurewebsites.net/${this.state.context.project.id}/meeting/responded/${this.state.context.user.id}`,
 			withCredentials: true
 		})
 		.then(function (response) {
 			_this.setState({meetings: response.data});
+			console.log("Meetings");
 			console.log(response);
 		})
 		.catch(function (error) {
 			console.log(error);
 		});
-		
+
 	}
 	getAllInvitations(){
 		let _this = this;
-		let context = VSS.getWebContext();
 		axios.defaults.headers.post['Content-Type'] = 'application/json';
 		axios({
 			method: 'post',
-			url: `https://meeting-scheduler.azurewebsites.net/${context.project.id}/meeting/unresponded/${context.user.id}`,
+			url: `https://meeting-scheduler.azurewebsites.net/${this.state.context.project.id}/meeting/unresponded/${this.state.context.user.id}`,
 			withCredentials: true
 		})
 		.then(function (response) {
 			_this.setState({invitations: response.data, loading: false});
-			console.log("INVITATIONS RESPONSE:", response);
+			console.log("INVITATIONS RESPONSE:");
+			console.log(response);
 		})
 		.catch(function (error) {
 			console.log(error);
 		});
-	}
-	getAllHostedMeetings(){
-		let _this = this;
-		let context = VSS.getWebContext();
-		axios({
-			method: 'post',
-			url: `https://meeting-scheduler.azurewebsites.net/${context.project.id}/meeting/unresponded/${context.user.id}`,
-			withCredentials: true
-		})
-		.then(function (response) {
-			_this.setState({invitations: response.data, loading: false});
-			console.log("INVITATIONS RESPONSE:", response);
-		})
-		.catch(function (error) {
-			console.log(error);
-		});
-	}
-	isInvitationFilter(meeting){
-		return true;
 	}
 	render(){
-		let content
-		let context = VSS.getWebContext();
+		let body
 		if (this.state.loading == true) {
-			content = (
+			body = (
 				<div>
 					<div className="loading-container">
 						<LoadingImage />
-						<span>Loading Content...</span>
+						<span>Loading body...</span>
 					</div>
 				</div>
 			)
 		} else {
-			content = (
-				<div className="main-container">
+			body = (
+				<div className="big-container">
 					<AllMeetings
 						meetings={this.state.meetings}
-						ctrl={this.props.ctrl} 
+						ctrl={this.props.ctrl}
 						teamMembers={this.props.teamMembers}/>
 					<Invitations
 						invitations={this.state.invitations}
 						ctrl={this.props.ctrl}
 						teamMembers={this.props.teamMembers} />
 					<HostedMeetings
-						meetings={this.state.meetings.filter(a => context.user.id === a.hostId)}
-						ctrl={this.props.ctrl} 
+						meetings={this.state.meetings.filter(a => this.state.context.user.id === a.hostId)}
+						ctrl={this.props.ctrl}
 						teamMembers={this.props.teamMembers} />
 				</div>
 			)
 		}
-		return content
+		return body
 	}
 }
 

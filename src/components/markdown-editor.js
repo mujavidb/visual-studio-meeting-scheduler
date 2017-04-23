@@ -18,7 +18,7 @@ export default class MarkdownEditor extends Component {
 			<div className="agenda_area">
 				<div className="markdown_input">
 					<span className="label">Markdown Editor</span>
-					<textarea name="agenda" onChange={this.updateMarkdown} ref="textarea" defaultValue={this.state.markdown_text}></textarea>
+					<textarea name="agenda" onChange={this.updateMarkdown} ref="textarea" defaultValue={this.props.oldValue ? this.props.oldValue : this.state.markdown_text}></textarea>
 				</div>
 				<div className="markdown_preview_area">
 					<span className="label">Text Preview</span>

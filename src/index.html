@@ -3,15 +3,17 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel='stylesheet' href='assets/css/fullcalendar.css' />
-	<link rel="stylesheet" type="text/css" href="assets/css/main.css">
-	<script type="text/javascript" src="/assets/js/VSS.SDK.min.js"></script>
+	<link rel='stylesheet' href='./assets/css/fullcalendar.css' />
+	<link rel="stylesheet" type="text/css" href="./assets/css/main.css">
+	<script type="text/javascript" src="./assets/js/VSS.SDK.min.js"></script>
 	<base target="_blank" />
 </head>
 <body>
 	<div id="root"></div>
-	<script type="text/javascript">// VSS.init({usePlatformScripts: true});</script>
-	<script type="text/javascript" src="/index.js"></script>
-	<script type="text/javascript">// VSS.notifyLoadSucceeded();</script>
+	<script type="text/javascript">
+		VSS.init({usePlatformScripts: true});
+	</script>
+	<script type="text/javascript" src="./index.js"></script>
+	<script type="text/javascript">VSS.notifyLoadSucceeded();</script>
 </body>
 </html>
