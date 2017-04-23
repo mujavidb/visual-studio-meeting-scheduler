@@ -28,7 +28,7 @@ class RespondInvitation extends Component {
 		let _this = this;
 		axios({
 			method: 'get',
-			url: `https://meeting-scheduler.azurewebsites.net/${context.project.id}/${_this.props.meetingId}/get`,
+			url: `https://meeting-scheduler.azurewebsites.net/${context.account.id}/${_this.props.meetingId}/get`,
 			withCredentials: true
 		})
 		.then(function (response) {
@@ -62,7 +62,7 @@ class RespondInvitation extends Component {
 		let _this = this;
 		axios({
 			method: 'post',
-			url: `https://meeting-scheduler.azurewebsites.net/${context.project.id}/${_this.props.meetingId}/attendees/add`,
+			url: `https://meeting-scheduler.azurewebsites.net/${context.account.id}/${_this.props.meetingId}/attendees/add`,
 			data: {
 				attendees: [
 			        {

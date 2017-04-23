@@ -37,8 +37,6 @@ class MainController extends Component {
 		let _this = this;
 		let context = VSS.getWebContext();
 		VSS.require(["TFS/Core/RestClient"], function (TFS_Core_WebApi) {
-		    // Get the REST client
-		    console.log("PROJ ID:", context.project.id, "TEAM ID:", context.team.id);
 		    TFS_Core_WebApi.getClient().getTeamMembers(context.project.id, context.team.id).then(function(response){
 		    	console.log("TEAM MEMBERS BELOW");
 		    	console.log(response);
@@ -72,5 +70,7 @@ class MainController extends Component {
 
 VSS.ready(function(){
 	console.log("VSS IS READY!");
+	let context = VSS.getWebContext();
+	FB.AppEvents.setUserID(context.user.id);
 	ReactDOM.render(<MainController />, document.getElementById('root'));
 })

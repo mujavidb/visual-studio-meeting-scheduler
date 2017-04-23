@@ -67,6 +67,7 @@ export default class CreateCalendar extends Component {
 			eventOverlap: true,
 			eventLimit: true // allow "more" link when too many events
 		})
+		$(calendar).fullCalendar('addEventSource', this.events)
 	}
 
 	render() {
