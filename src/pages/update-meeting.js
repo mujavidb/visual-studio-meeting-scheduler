@@ -153,7 +153,7 @@ export default class UpdateMeeting extends Component {
 								ref={x=>this._titleInput = x}
 								type="text"
 								placeholder="Enter meeting title"
-								value={this.state.meeting.meetingName}
+								defaultValue={this.state.meeting.meetingName}
 								onChange={()=>this.state.formSubmitted ? this.validateInput() : ""}/>
 						</section>
 
@@ -163,7 +163,7 @@ export default class UpdateMeeting extends Component {
 								ref={x=>this._locationInput = x}
 								type="text"
 								placeholder="Enter meeting location"
-								value={this.state.meeting.meetingLocation}
+								defaultValue={this.state.meeting.meetingLocation}
 								onChange={()=>this.state.formSubmitted ? this.validateInput() : ""}/>
 						</section>
 

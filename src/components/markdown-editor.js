@@ -5,7 +5,7 @@ export default class MarkdownEditor extends Component {
 	constructor(props){
 		super(props)
 		this.state = {
-			markdown_text: 'Enter *markdown* here'
+			markdown_text: this.props.oldValue ? this.props.oldValue : "Enter *markdown* here",
 		}
 		this.updateMarkdown = this.updateMarkdown.bind(this)
 	}
