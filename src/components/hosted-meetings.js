@@ -50,7 +50,7 @@ class HostedMeetings extends Component {
 						<h2 className="container_title">
 							My Hosted Meetings
 						</h2>
-						<a onClick={this.props.ctrl.createMeeting} className="button primary" role="button">Create Meeting</a>
+						<a onClick={this.props.ctrl.createMeeting} className="button primary" role="button">Create</a>
 					</div>
 					<div className="content_filters">
 						<a className="upcoming_button" onClick={()=>this.toggleMeetings(false)} role="button">Upcoming</a>

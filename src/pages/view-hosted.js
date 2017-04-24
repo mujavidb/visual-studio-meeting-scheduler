@@ -148,7 +148,7 @@ class ViewHosted extends Component {
 
 
 			let attendee_availabilities = ""
-			if (this.state.meeting.finalDate) {
+			if (!this.state.meeting.finalDate) {
 				attendee_availabilities = (
 					<section>
 						<h3>Attendee Availabilities</h3>
