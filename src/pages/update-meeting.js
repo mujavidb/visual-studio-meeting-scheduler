@@ -57,16 +57,22 @@ export default class UpdateMeeting extends Component {
 
 		if (this.validateInput()){
 			const data = {
-				"hostId": "1234567891234",
 				"meetingName": this._titleInput.value,
 				"hostAvailability": this.state.timeSlots.map(a=>({start: a.start.toString(), end: a.end.toString()})),
 				"meetingLocation": this._locationInput.value,
-				"attendees": this.state.attendees.map(a=>({ id: a.id, name: a.name }))
+				"attendees": this.state.attendees.map(a=>({ 
+					id: a.id, 
+					name: a.name, 
+					response: a.response ? a.response : 0,
+					availableTimes: a.availableTimes : []
+				})),
+				"agenda": this.state.markdown_text
 			}
 			const _this = this
+			const context = VSS.getWebContext()
 			axios({
 				method: 'post',
-				url: `https://localhost:3000/${this.accountID}/${this.state.meeting.meetingId}/create`,
+				url: `https://meeting-scheduler.azurewebsites.net/${context.account.id}/${this.props.meetingId}/edit`,
 				data: data,
 				withCredentials: true
 			})
@@ -96,17 +102,11 @@ export default class UpdateMeeting extends Component {
 			withCredentials: true
 		})
 		.then(function (response) {
-			_this.setState({meeting: response.data[0].meeting, loading: false});
+			_this.setState({meeting: response.data[0].meeting, attendees: response.data[0].meeting.attendees ,loading: false});
 		})
 		.catch(function (error) {
 			console.log(error);
 		})
-	}
-	getInitials(fullName) {
-		let names = fullName.split(" ");
-		let initials = "";
-		names.forEach(name => initials += name.charAt(0));
-		return initials;
 	}
 	render(){
 		let errors

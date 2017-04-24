@@ -4,12 +4,11 @@ import { formatMarkdown } from '../helpers/format-markdown'
 export default class MarkdownEditor extends Component {
 	constructor(props){
 		super(props)
+		let markdown_text = this.props.oldValue ? this.props.oldValue : 'Enter *markdown* here'
 		this.state = {
-			markdown_text: 'Enter *markdown* here'
+			markdown_text: markdown_text
 		}
 		this.updateMarkdown = this.updateMarkdown.bind(this)
-		console.log("Checking props of renderer")
-		console.log(this.props)
 	}
 	updateMarkdown(event){
 		this.setState({markdown_text: event.target.value})
