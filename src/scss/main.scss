@@ -149,20 +149,22 @@ header {
 	margin-bottom: 15px;
 }
 
-.invitations header,
-.hosted_meetings header {
+.invitations header {
 	margin-bottom: 0;
 }
 
-.all_meetings .past {
+.all_meetings .past,
+.hosted_meetings .past {
 	display: none;
 }
 
-.all_meetings.past .past {
+.all_meetings.past .past,
+.hosted_meetings.past .past {
 	display: block;
 }
 
-.all_meetings.past .upcoming {
+.all_meetings.past .upcoming,
+.hosted_meetings.past .upcoming {
 	display: none;
 }
 
@@ -276,7 +278,9 @@ header {
 }
 
 .all_meetings:not(.past) .upcoming_button,
-.all_meetings.past .past_button {
+.hosted_meetings:not(.past) .upcoming_button,
+.all_meetings.past .past_button,
+.hosted_meetings.past .past_button {
 	color: #1175BC;
 }
 
@@ -392,6 +396,7 @@ header {
 
 .attendee_block.unresponsive {
 	opacity: 0.6;
+	background-color: black;
 }
 
 .remove {

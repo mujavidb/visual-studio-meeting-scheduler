@@ -32,11 +32,9 @@ export default class CreateMeeting extends Component {
 		this.setState({timeSlots:newTimeSlots, updated: true})
 	}
 	updateAttendees(attendees){
-		console.log("ATTENDEES;",attendees)
 		this.setState({attendees: attendees, updated: true})
 	}
 	updateTeamMembers(teamMembers){
-		console.log("UPDATE TEAM MEMBERS:", teamMembers);
 		this.setState({teamMembers: teamMembers})
 	}
 	validateInput(){
@@ -51,7 +49,6 @@ export default class CreateMeeting extends Component {
 			errors.push("You need to select some availability slots on the calendar.")
 		}
 		if (this.state.timeSlots.length === 1){
-			// non-votable
 		}
 		if (this.state.attendees.length === 0){
 			errors.push("You need to add attendees to the meeting.")
@@ -89,22 +86,8 @@ export default class CreateMeeting extends Component {
 			});
 		}
 	}
-	// getTeamMembers(){
-	// 	let _this = this;
-	// 	let context = VSS.getWebContext();
-	// 	VSS.require(["TFS/Core/RestClient"], function (TFS_Core_WebApi) {
-	// 	    // Get the REST client
-	// 	    console.log("PROJ ID:", context.account.id, "TEAM ID:", context.team.id);
-	// 	    TFS_Core_WebApi.getClient().getTeamMembers(context.account.id, context.team.id).then(function(response){
-	// 	    	_this.updateTeamMembers(response);
-	// 	    }, function(error){
-	// 	    	console.log(error);
-	// 	    });
-	// 	});
-	// }
 	componentDidMount(){
 		this._titleInput.focus();
-		// this.getTeamMembers();
 	}
 	componentDidUpdate(){
 		if (this.state.formSubmitted && this.state.updated) {

@@ -6,8 +6,6 @@ import { formatToLongTime } from '../helpers/format-time'
 import LoadingImage from '../components/loading-image'
 import axios from 'axios'
 
-const p = a => console.log(a)
-
 function compareMilli(a,b) {
 	if(a.milli > b.milli) return -1;
 	if(a.milli < b.milli) return 1;
@@ -35,8 +33,6 @@ class ViewHosted extends Component {
 		let context = {};
 		context = VSS.getWebContext();
 		while (context === {}); //pause until context received
-		console.log("WEB CONTEXT:");
-		console.log(context);
 		this.setState({context: context},() => {
 			axios.defaults.headers.post['Content-Type'] = 'application/json';
 			axios({
@@ -45,12 +41,9 @@ class ViewHosted extends Component {
 				withCredentials: true
 			})
 			.then(function (response) {
-				console.log("RESPONSE:");
-				console.log(response);
 				_this.setState({meeting: response.data[0].meeting, loading: false});
 			})
 			.catch(function (error) {
-				console.log(error);
 			})
 		})
 	}
@@ -59,8 +52,6 @@ class ViewHosted extends Component {
 	}
 	finaliseMeetingTime(){
 		if (this.state.selected_slot !== false) {
-			p("Booyah")
-			console.log("Selected slot:", this.state.selected_slot);
 			const data = {
 				finalDate : {
 					dateStart: this.state.selected_slot.start.toISOString(),
@@ -76,17 +67,45 @@ class ViewHosted extends Component {
 				withCredentials: true
 			})
 			.then(function (response) {
-			    console.log(response);
 			    _this.props.ctrl.dashboard.call();
 			})
 			.catch(function (error) {
-			    console.log(error);
 			});
+		}
+	}
+	componentWillMount(){
+		if (this.state.loading === false && this.state.sorted_slots === false) {
+			const attendees = this.state.meeting.attendees;
+			let timeSlots = {}
+			for (let i = 0; i < attendees.length; i++) {
+				if (attendees[i].availableTimes.length > 0) {
+					for (let j = 0; j < attendees[i].availableTimes.length; j++){
+						let range = {
+							start: moment(attendees[i].availableTimes[j].dateStart),
+							end: moment(attendees[i].availableTimes[j].dateEnd)
+						}
+						let rangeStr = range.start.toString() + range.end.toString()
+						if (rangeStr in timeSlots) {
+							timeSlots[rangeStr].attendees.push({id: attendees[i].id, name: attendees[i].name})
+						} else {
+							timeSlots[rangeStr] = {
+								range: range,
+								attendees: [{id: attendees[i].id, name: attendees[i].name}]
+							}
+						}
+					}
+				}
+			}
+			let sortedSlots = Object
+								.keys(timeSlots)
+								.map(key => timeSlots[key])
+								.sort((a,b) => compareMilli(a.range.start, b.range.start))
+			this.setState({sorted_slots: sortedSlots})
 		}
 	}
 	render(){
 		let content = {};
-		if (this.state.loading === true) {
+		if (this.state.loading === true || this.state.sorted_slots === false) {
 			content = (
 				<div className="loading-container">
 					<LoadingImage />
@@ -94,48 +113,92 @@ class ViewHosted extends Component {
 				</div>
 			)
 		} else {
+			const meetingTime = this.state.meeting.finalDate ? moment(this.state.meeting.finalDate.dateStart).format("ddd Do MMM, H:mm") + " - " + moment(this.state.meeting.finalDate.dateEnd).format("H:mm") : "Time TBC"
+			const meetingTimeTitle = this.state.meeting.finalDate ? moment(this.state.meeting.finalDate.dateStart).format("ddd Do MMMM YYYY, H:mm") + " - " + moment(this.state.meeting.finalDate.dateEnd).format("H:mm") : "Time TBC"
 
-			const meetingTime = this.state.meeting.time ? moment(this.state.meeting.time).format("ddd Do MMM, h:mma") : "Time TBC"
-			const meetingTimeTitle = this.state.meeting.time ? moment(this.state.meeting.time).format("dddd Do MMMM YYYY, h:mma") : "Time TBC"
-
-			let sortedSlots
-			if (this.state.sorted_slots === false) {
-				const attendees = this.state.meeting.attendees;
-				let timeSlots = {}
-				for (let i = 0; i < attendees.length; i++) {
-					if (attendees[i].availableTimes.length > 0) {
-						for (let j = 0; j < attendees[i].availableTimes.length; j++){
-							let range = {
-								start: moment(attendees[i].availableTimes[j].dateStart),
-								end: moment(attendees[i].availableTimes[j].dateEnd)
-							}
-							let rangeStr = range.start.toString() + range.end.toString()
-							if (rangeStr in timeSlots) {
-								timeSlots[rangeStr].attendees.push({id: attendees[i].id, name: attendees[i].name})
-							} else {
-								timeSlots[rangeStr] = {
-									range: range,
-									attendees: [{id: attendees[i].id, name: attendees[i].name}]
-								}
-							}
-						}
-					}
-				}
-				sortedSlots = Object
-									.keys(timeSlots)
-									.map(key => timeSlots[key])
-									.sort((a,b) => compareMilli(a.range.start, b.range.start))
-				this.setState({sorted_slots: sortedSlots})
-			} else {
-				sortedSlots = this.state.sorted_slots
-			}
-
+			let sortedSlots = this.state.sorted_slots
 
 			let selected_message = ""
 			if (this.state.selected_slot === false || this.state.selected_slot === undefined) {
 				selected_message = "No time slot selected."
 			} else {
 				selected_message = this.state.selected_slot.start.format("dddd Do MMMM, h:mma") + " - " + this.state.selected_slot.end.format("h:mma")
+			}
+
+			let attendee_availabilities = ""
+			if (this.state.meeting.finalDate) {
+				attendee_availabilities = (
+					<section>
+						<h3>Attendee Availabilities</h3>
+						<div className="attendee_availabilities">
+							<div className="attendee_names">
+								<span>Team Member</span>
+								{
+									this
+									.state
+									.meeting
+									.attendees
+									.map(attendee => {
+										return <span>{attendee.name}</span>
+									})
+								}
+							</div>
+							<div className="attendee_slots">
+								<div
+									className="attendee_event_times"
+									style={{width: `${sortedSlots.length * 150}px`}}>
+									{
+										sortedSlots
+										.map(slot => {
+											let time = slot.range.start.format("ddd Do h:mma-")
+												+ slot.range.end.format("h:mma")
+											return <span>{time}</span>
+										})
+									}
+								</div>
+								{
+									this
+									.state
+									.meeting
+									.attendees
+									.map(attendee => {
+										return (
+											<div
+												className="attendee_availability_row"
+												style={{width: `${sortedSlots.length * 150}px`}}>
+												{
+													sortedSlots.map(slot => {
+														let index = -1;
+														for(let i = 0; i < slot.attendees.length; i++) {
+															if (slot.attendees[i].id === attendee.id) {
+																index = i;
+																break;
+															}
+														}
+														let value = (index > -1) ? "YES" : "NO";
+														return <span className={value}>{value}</span>
+													})
+												}
+											</div>
+										)
+									})
+								}
+								<div
+									className="attendee_availability_select"
+									style={{width: `${sortedSlots.length * 150}px`}}>
+									{
+										sortedSlots.map(slot => (
+											<button
+												className="button"
+												onClick={()=>this.selectTime(slot.range)}>Select</button>
+										))
+									}
+								</div>
+							</div>
+						</div>
+						<strong>Selected time slot:</strong><span>{selected_message}</span>
+					</section>
+				)
 			}
 
 			content = (
@@ -171,74 +234,7 @@ class ViewHosted extends Component {
 							)
 						}
 
-						<section>
-							<h3>Attendee Availabilities</h3>
-							<div className="attendee_availabilities">
-								<div className="attendee_names">
-									<span>Team Member</span>
-									{
-										this
-										.state
-										.meeting
-										.attendees
-										.map(attendee => {
-											return <span>{attendee.name}</span>
-										})
-									}
-								</div>
-								<div className="attendee_slots">
-									<div
-										className="attendee_event_times"
-										style={{width: `${sortedSlots.length * 150}px`}}>
-										{
-											sortedSlots
-											.map(slot => {
-												let time = slot.range.start.format("ddd Do h:mma-")
-													+ slot.range.end.format("h:mma")
-												return <span>{time}</span>
-											})
-										}
-									</div>
-									{
-										this
-										.state
-										.meeting
-										.attendees
-										.map(attendee => {
-											return (
-												<div
-													className="attendee_availability_row"
-													style={{width: `${sortedSlots.length * 150}px`}}>
-													{
-														sortedSlots.map(slot => {
-															let index = -1;
-															for(let i = 0; i < slot.attendees.length; i++) {
-																if (slot.attendees[i].id === attendee.id) {
-																	index = i;
-																	break;
-																}
-															}
-															let value = (index > -1) ? "YES" : "NO";
-															return <span className={value}>{value}</span>
-														})
-													}
-												</div>
-											)
-										})
-									}
-									<div className="attendee_availability_select">
-										{
-											sortedSlots.map(slot => (
-												<button
-													className="button"
-													onClick={()=>this.selectTime(slot.range)}>Select</button>
-											))
-										}
-									</div>
-								</div>
-							</div>
-							<strong>Selected time slot:</strong><span>{selected_message}</span>
-						</section>
+						{ attendee_availabilities }
 
 						<section>
 							<h3>Attendees</h3>

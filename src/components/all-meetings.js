@@ -52,7 +52,6 @@ class AllMeetings extends Component {
 						<h2 className="container_title">
 							All Meetings
 						</h2>
-						<a onClick={this.props.ctrl.createMeeting} className="button primary" role="button">Create Meeting</a>
 					</div>
 					<div className="content_filters">
 						<a className="upcoming_button" onClick={()=>this.toggleMeetings(false)} role="button">Upcoming</a>

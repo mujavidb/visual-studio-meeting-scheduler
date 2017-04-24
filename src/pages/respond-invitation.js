@@ -6,10 +6,6 @@ import MarkdownRenderer from '../components/markdown-renderer'
 import LoadingImage from '../components/loading-image'
 import axios from 'axios'
 
-//API: pull event details
-//API: check if user has permission
-//API: pull all attendee details
-
 class RespondInvitation extends Component {
 	constructor(props){
 		super(props)
@@ -23,7 +19,6 @@ class RespondInvitation extends Component {
 		}
 	}
 	getMeeting(){
-		console.log("GET MEETING");
 		let context = VSS.getWebContext();
 		let _this = this;
 		axios({
@@ -32,12 +27,10 @@ class RespondInvitation extends Component {
 			withCredentials: true
 		})
 		.then(function (response) {
-			console.log("RESPONSE", response);
 			_this.setState({invitation: response.data[0].meeting, loading: false});
-			console.log("GOT MEETING");
 		})
 		.catch(function (error) {
-			console.log(error);
+			console.log(error)
 		});
 	}
 	updateSelectedTimeSlots(updatedSlots){
@@ -76,11 +69,9 @@ class RespondInvitation extends Component {
 			withCredentials: true
 		})
 		.then(function (response) {
-			console.log(response);
 			_this.props.ctrl.dashboard.call();
 		})
 		.catch(function (error) {
-			console.log("CATCH:", error);
 		});
 	}
 	render(){
