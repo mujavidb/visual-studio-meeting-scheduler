@@ -11,7 +11,7 @@ const Invitation = props => {
 		<a className="meeting_card_container" role="button" onClick={()=>props.ctrl.respondInvitation(props.details.meetingId)}>
 			<div className="meeting_card">
 				<h3 className="meeting_title">{ props.details.meetingName }</h3>
-				<p className="meeting_datetime">{ formatToLongTime(props.details.time) }</p>
+				<p className="meeting_datetime">{ formatToLongTime(props.details.finalDate) }</p>
 				<p className="meeting_location">{ props.details.meetingLocation }</p>
 				<div className="attendees">
 					{

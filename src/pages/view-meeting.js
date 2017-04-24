@@ -21,7 +21,7 @@ class ViewMeeting extends Component {
 		let _this = this;
 		axios({
 			method: 'get',
-			url: `https://meeting-scheduler.azurewebsites.net/${context.project.id}/${this.props.meetingId}/get`,
+			url: `https://meeting-scheduler.azurewebsites.net/${context.account.id}/${this.props.meetingId}/get`,
 			withCredentials: true
 		})
 		.then(function (response) {
@@ -41,7 +41,7 @@ class ViewMeeting extends Component {
 		return initials;
 	}
 	render(){
-		let content = (<p>hey</p>);
+		let content
 		if (this.state.loading == true) {
 			content = (
 				<div className="loading-container">
@@ -50,8 +50,9 @@ class ViewMeeting extends Component {
 				</div>
 			)
 		} else {
-			const meetingTime = this.state.meeting.time ? moment(this.state.meeting.time).format("ddd Do MMM, h:mma") : "Time TBC"
-			const meetingTimeTitle = this.state.meeting.time ? moment(this.state.meeting.time).format("dddd Do MMMM YYYY, h:mma") : "Time TBC"
+			const meetingTime = this.state.meeting.finalDate ? moment(this.state.meeting.finalDate.dateStart).format("ddd Do MMM, H:mm") + " - " + moment(this.state.meeting.finalDate.dateEnd).format("H:mm") : "Time TBC"
+			const meetingTimeTitle = this.state.meeting.finalDate ? moment(this.state.meeting.finalDate.dateStart).format("ddd Do MMMM YYYY, H:mm") + " - " + moment(this.state.meeting.finalDate.dateEnd).format("H:mm") : "Time TBC"
+			const context = VSS.getWebContext();
 			content = (
 				<div className="large_card_area single_meeting">
 					<header>
@@ -122,7 +123,7 @@ class ViewMeeting extends Component {
 						<footer>
 							<a onClick={()=>this.props.ctrl.dashboard()} className="button cancel maxed" role="button">Back</a>
 							{
-								this.context.user.id === this.state.meeting.hostId ?
+								context.user.id === this.state.meeting.hostId ?
 									(
 										<a
 											onClick={()=>this.props.ctrl.updateMeeting(this.state.meeting.meetingId)}

@@ -66,7 +66,7 @@ export default class CreateMeeting extends Component {
 			const data = {
 				"hostId": context.user.id,
 				"meetingName": this._titleInput.value,
-				"hostAvailability": this.state.timeSlots.map(a=>({dateStart: moment(a.start).toString(), dateEnd: moment(a.end).toString()})),
+				"hostAvailability": this.state.timeSlots.map(a=>({dateStart: moment(a.start).toISOString(), dateEnd: moment(a.end).toISOString()})),
 				"meetingLocation": this._locationInput.value,
 				"attendees": this.state.attendees.map(a=>({ id: a.id, name: a.name })),
 				"agenda": this.state.markdown_text
@@ -76,7 +76,7 @@ export default class CreateMeeting extends Component {
 			const _this = this
 			axios({
 				method: 'post',
-				url: `https://meeting-scheduler.azurewebsites.net/${context.project.id}/meeting/create`,
+				url: `https://meeting-scheduler.azurewebsites.net/${context.account.id}/meeting/create`,
 				data: data,
 				withCredentials: true
 			})
@@ -89,22 +89,22 @@ export default class CreateMeeting extends Component {
 			});
 		}
 	}
-	getTeamMembers(){
-		let _this = this;
-		let context = VSS.getWebContext();
-		VSS.require(["TFS/Core/RestClient"], function (TFS_Core_WebApi) {
-		    // Get the REST client
-		    console.log("PROJ ID:", context.project.id, "TEAM ID:", context.team.id);
-		    TFS_Core_WebApi.getClient().getTeamMembers(context.project.id, context.team.id).then(function(response){
-		    	_this.updateTeamMembers(response);
-		    }, function(error){
-		    	console.log(error);
-		    });
-		});
-	}
+	// getTeamMembers(){
+	// 	let _this = this;
+	// 	let context = VSS.getWebContext();
+	// 	VSS.require(["TFS/Core/RestClient"], function (TFS_Core_WebApi) {
+	// 	    // Get the REST client
+	// 	    console.log("PROJ ID:", context.account.id, "TEAM ID:", context.team.id);
+	// 	    TFS_Core_WebApi.getClient().getTeamMembers(context.account.id, context.team.id).then(function(response){
+	// 	    	_this.updateTeamMembers(response);
+	// 	    }, function(error){
+	// 	    	console.log(error);
+	// 	    });
+	// 	});
+	// }
 	componentDidMount(){
 		this._titleInput.focus();
-		this.getTeamMembers();
+		// this.getTeamMembers();
 	}
 	componentDidUpdate(){
 		if (this.state.formSubmitted && this.state.updated) {
@@ -123,14 +123,22 @@ export default class CreateMeeting extends Component {
 			)
 		}
 		let autosuggest
-		if(this.state.teamMembers.length == 0) {
+		if(this.props.teamMembers.length == 0) {
 			autosuggest = (<p>Loading...</p>);
 		} else {
 			autosuggest = (
 					<AutosuggestUser
-						originalData={this.state.teamMembers}
+						originalData={this.props.teamMembers}
 						update={this.updateAttendees}/>
 			);
+		}
+		let nonVotableWarning
+		if(this.state.timeSlots.length == 1) {
+			nonVotableWarning = (
+				<p>You have only selected one time slot. This will mean that the time of the meeting will not be votable.</p>
+			)
+		} else {
+			nonVotableWarning = null
 		}
 		return (
 				<div className="large_card_area create_meeting">
@@ -168,6 +176,7 @@ export default class CreateMeeting extends Component {
 							<h3>Availability</h3>
 							<CreateCalendar
 								onChangeTimeSlots={this.updateTimeSlots}/>
+							{ nonVotableWarning }
 						</section>
 
 						<section>

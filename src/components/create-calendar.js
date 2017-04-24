@@ -13,6 +13,14 @@ export default class CreateCalendar extends Component {
 	constructor(props){
 		super(props);
 		this.currentID = 0;
+		if(this.props.editTimeSlots) {
+			this.events = this.props.editTimeSlots.map(a => ({
+				start:moment(a.dateStart),
+				end:moment(a.dateEnd),
+				editable: false,
+				resourceEditable: false
+			}))
+		}	
 	}
 	componentDidMount() {
 		const { calendar } = this.refs;
@@ -59,6 +67,7 @@ export default class CreateCalendar extends Component {
 			eventOverlap: true,
 			eventLimit: true // allow "more" link when too many events
 		})
+		$(calendar).fullCalendar('addEventSource', this.events)
 	}
 
 	render() {

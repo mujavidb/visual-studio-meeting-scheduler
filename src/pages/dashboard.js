@@ -13,6 +13,7 @@ class Dashboard extends Component {
 			projectID: "",
 			meetings: [],
 			invitations: [],
+			hosted: [],
 			loading: true,
 			context: {}
 		}
@@ -31,7 +32,7 @@ class Dashboard extends Component {
 			axios.defaults.headers.post['Content-Type'] = 'application/json';
 			axios({
 				method: 'get',
-				url: `https://meeting-scheduler.azurewebsites.net/document/create/${context.project.id}`,
+				url: `https://meeting-scheduler.azurewebsites.net/document/create/${context.account.id}`,
 				withCredentials: true
 			})
 			.then(function (response) {
@@ -39,6 +40,7 @@ class Dashboard extends Component {
 				console.log(response);
 				_this.getAllMeetings();
 				_this.getAllInvitations();
+				_this.getAllHostedMeetings();
 			})
 			.catch(function (error) {
 				console.log(error);
@@ -50,7 +52,7 @@ class Dashboard extends Component {
 		let _this = this;
 		axios({
 			method: 'post',
-			url: `https://meeting-scheduler.azurewebsites.net/${this.state.context.project.id}/meeting/responded/${this.state.context.user.id}`,
+			url: `https://meeting-scheduler.azurewebsites.net/${this.state.context.account.id}/meeting/responded/${this.state.context.user.id}`,
 			withCredentials: true
 		})
 		.then(function (response) {
@@ -65,16 +67,31 @@ class Dashboard extends Component {
 	}
 	getAllInvitations(){
 		let _this = this;
+
 		axios.defaults.headers.post['Content-Type'] = 'application/json';
 		axios({
 			method: 'post',
-			url: `https://meeting-scheduler.azurewebsites.net/${this.state.context.project.id}/meeting/unresponded/${this.state.context.user.id}`,
+			url: `https://meeting-scheduler.azurewebsites.net/${this.state.context.account.id}/meeting/unresponded/${this.state.context.user.id}`,
 			withCredentials: true
 		})
 		.then(function (response) {
-			_this.setState({invitations: response.data, loading: false});
-			console.log("INVITATIONS RESPONSE:");
+			_this.setState({invitations: response.data});
 			console.log(response);
+		})
+		.catch(function (error) {
+			console.log(error);
+		});
+	}
+	getAllHostedMeetings(){
+		let _this = this;
+		let context = VSS.getWebContext();
+		axios({
+			method: 'get',
+			url: `https://meeting-scheduler.azurewebsites.net/${this.state.context.account.id}/meeting/hosted/${this.state.context.user.id}`,
+			withCredentials: true
+		})
+		.then(function (response) {
+			_this.setState({hosted: response.data, loading: false});
 		})
 		.catch(function (error) {
 			console.log(error);
@@ -82,6 +99,7 @@ class Dashboard extends Component {
 	}
 	render(){
 		let body
+		let context = VSS.getWebContext()
 		if (this.state.loading == true) {
 			body = (
 				<div>
@@ -103,7 +121,7 @@ class Dashboard extends Component {
 						ctrl={this.props.ctrl}
 						teamMembers={this.props.teamMembers} />
 					<HostedMeetings
-						meetings={this.state.meetings.filter(a => this.state.context.user.id === a.hostId)}
+						meetings={this.state.hosted}
 						ctrl={this.props.ctrl}
 						teamMembers={this.props.teamMembers} />
 				</div>

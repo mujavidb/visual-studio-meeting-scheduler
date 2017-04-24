@@ -15,12 +15,22 @@ class AllMeetings extends Component {
 	}
 	filterUpcoming(isPast){
 		return meeting => {
-			if(!meeting.time) return !isPast;
-			return moment(meeting.time).isAfter(moment()) === !isPast;
+			if(!meeting.finalDate) return !isPast;
+			return moment(meeting.finalDate.dateStart).isAfter(moment()) === !isPast;
 		}
 	}
+	compareDate(a, b){
+		if(!a.finalDate) return 1;
+		if(!b.finalDate) return -1;
+		let aTime = new moment(a.finalDate.dateStart);
+		let bTime = new moment(b.finalDate.dateStart);
+		if(aTime.isBefore(bTime)) return -1;
+		if(aTime.isAfter(bTime)) return 1;
+		return 0;
+	}
 	getMeetingList() {
-		const filteredMeetings = this.props.meetings.filter(this.filterUpcoming(this.state.isPast))
+		const filteredMeetings = this.props.meetings.filter(this.filterUpcoming(this.state.isPast)).sort(this.compareDate);
+		if(this.state.isPast) filteredMeetings.reverse();
 		if (filteredMeetings.length > 0) {
 			return filteredMeetings.map(item => <Meeting key={item.meetingId} details={item} ctrl={this.props.ctrl} teamMembers={this.props.teamMembers} />)
 		} else {
