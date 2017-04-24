@@ -14,9 +14,9 @@ import ViewHosted from './pages/view-hosted'
 class MainController extends Component {
 	constructor(){
 		super()
-
 		this.updateTeamMembers = this.updateTeamMembers.bind(this);
-		//ctrl object passed around update view
+
+		//ctrl object passed around to update view
 		this.ctrl = {
 			dashboard           : () => this.setState({current: <Dashboard ctrl={this.ctrl} teamMembers={this.state.teamMembers} />}),
 			createMeeting       : () => this.setState({current: <CreateMeeting ctrl={this.ctrl} teamMembers={this.state.teamMembers} />}),
@@ -29,8 +29,6 @@ class MainController extends Component {
 			current: this.loadingImage(),
 			teamMembers: [],
 			loading: true
-			// current: <CreateMeeting ctrl={this.ctrl} />
-			// current: <RespondInvitation ctrl={this.ctrl} />
 		};
 	}
 	getTeamMembers(){
@@ -38,8 +36,6 @@ class MainController extends Component {
 		let context = VSS.getWebContext();
 		VSS.require(["TFS/Core/RestClient"], function (TFS_Core_WebApi) {
 		    TFS_Core_WebApi.getClient().getTeamMembers(context.project.id, context.team.id).then(function(response){
-		    	console.log("TEAM MEMBERS BELOW");
-		    	console.log(response);
 		    	_this.updateTeamMembers(response);
 		    }, function(error){
 		    	console.log(error);
@@ -49,7 +45,6 @@ class MainController extends Component {
 	updateTeamMembers(teamMembers){
 		this.setState({teamMembers: teamMembers}, () => {
 			this.ctrl.dashboard();
-			console.log("STATE AFTER TEAM MEMBERS:", this.state);
 		});
 	}
 	loadingImage(){
@@ -69,7 +64,6 @@ class MainController extends Component {
 }
 
 VSS.ready(function(){
-	console.log("VSS IS READY!");
 	let context = VSS.getWebContext();
 	FB.AppEvents.setUserID(context.user.id);
 	ReactDOM.render(<MainController />, document.getElementById('root'));

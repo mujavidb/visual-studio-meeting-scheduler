@@ -149,20 +149,22 @@ header {
 	margin-bottom: 15px;
 }
 
-.invitations header,
-.hosted_meetings header {
+.invitations header {
 	margin-bottom: 0;
 }
 
-.all_meetings .past {
+.all_meetings .past,
+.hosted_meetings .past {
 	display: none;
 }
 
-.all_meetings.past .past {
+.all_meetings.past .past,
+.hosted_meetings.past .past {
 	display: block;
 }
 
-.all_meetings.past .upcoming {
+.all_meetings.past .upcoming,
+.hosted_meetings.past .upcoming {
 	display: none;
 }
 
@@ -241,6 +243,15 @@ header {
 	background-color: $primary-button-hover;
 }
 
+.delete {
+	background-color: #E66;
+}
+
+.delete:hover,
+.delete:focus {
+	background-color: #D44;
+}
+
 .cancel {
 	background-color: $muted-button;
 }
@@ -276,7 +287,9 @@ header {
 }
 
 .all_meetings:not(.past) .upcoming_button,
-.all_meetings.past .past_button {
+.hosted_meetings:not(.past) .upcoming_button,
+.all_meetings.past .past_button,
+.hosted_meetings.past .past_button {
 	color: #1175BC;
 }
 
@@ -392,6 +405,7 @@ header {
 
 .attendee_block.unresponsive {
 	opacity: 0.6;
+	background-color: black;
 }
 
 .remove {
@@ -621,8 +635,8 @@ header {
 .attendee_availability_row {
 	display: flex;
 	flex-flow: row nowrap;
-	overflow:scroll;
-	width:200%;
+	width: auto;
+	white-space: nowrap;
 	span {
 		text-align: center;
 		flex-basis: 150px;
@@ -654,13 +668,10 @@ header {
 		padding: 8px;
 		line-height: 1;
 		border: 5px solid #f8f8f8;
-		&:hover {
+		&:hover,
+		&:focus {
 			border: 5px solid #f8f8f8;
 			background-color: #1c1c1c;
-		}
-		&:hover {
-			border: 5px solid #f8f8f8;
-			background-color: #6c6c6c;
 		}
 	}
 }
