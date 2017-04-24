@@ -19,6 +19,7 @@ class ViewHosted extends Component {
 		super(props)
 		this.selectTime = this.selectTime.bind(this)
 		this.finaliseMeetingTime = this.finaliseMeetingTime.bind(this)
+		this.deleteMeeting = this.deleteMeeting.bind(this)
 		this.state = {
 			meeting: {},
 			context: {},
@@ -90,8 +91,7 @@ class ViewHosted extends Component {
 			let _this = this
 			axios({
 				method: 'post',
-				url: `https://meeting-scheduler.azurewebsites.net/${context.account.id}/${_this.props.meetingId}/edit`,
-				data: data,
+				url: `https://meeting-scheduler.azurewebsites.net/${context.account.id}/${_this.props.meetingId}/delete`,
 				withCredentials: true
 			})
 			.then(function (response) {
