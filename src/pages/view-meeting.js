@@ -96,11 +96,10 @@ class ViewMeeting extends Component {
 											.state
 											.meeting
 											.attendees
-											.sort((a,b)=> a === true ? 0 : 1) //FIX: make this actually work
 											.map(attendee => {
 												const user = this.props.teamMembers.find(teamMember => attendee.id === teamMember.id)
-												const classes = `attendee_block ${attendee.status == "" ? "unresponsive" : "responsive"}`
-												const blockTitle = `${attendee.displayName} has ${attendee.status == "" ? "not yet " : ""}responded`
+												const classes = `attendee_block ${attendee.response === 0 ? "unresponsive" : "responsive"}`
+												const blockTitle = `${attendee.name} has ${attendee.response === 0 ? "not yet " : ""}responded`
 												return (
 													<div
 														key={attendee.id}

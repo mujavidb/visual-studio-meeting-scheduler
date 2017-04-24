@@ -58,6 +58,10 @@ class RespondInvitation extends Component {
 		}
 	}
 	onSubmit(){
+		let response = 1;
+		if(this.selected.length === 0) {
+			response = 0;
+		}
 		let context = VSS.getWebContext();
 		let _this = this;
 		axios({
@@ -67,7 +71,7 @@ class RespondInvitation extends Component {
 				attendees: [
 			        {
 			            id: context.user.id,
-			            response: 1,
+			            response: response,
 			            name: context.user.name,
 			            availableTimes: this.state.selected.map(a=>({dateStart: moment(a.start).toISOString(), dateEnd: moment(a.end).toISOString()}))
 			        }
@@ -148,12 +152,23 @@ class RespondInvitation extends Component {
 											.state
 											.invitation
 											.attendees
-											.filter(attendee => attendee.status == true)
-											.map(attendee =>
-												<div className="attendee_block" key={attendee.id} style={{backgroundColor: generateRGBColor(attendee.initials)}}>
-													<span className="attendee_initials">{attendee.initials}</span>
-												</div>
-											)
+											.map(attendee => {
+												const user = this.props.teamMembers.find(teamMember => attendee.id === teamMember.id)
+												const classes = `attendee_block ${attendee.response === 0 ? "unresponsive" : "responsive"}`
+												const blockTitle = `${attendee.name} has ${attendee.response === 0 ? "not yet " : ""}responded`
+												return (
+													<div
+														key={attendee.id}
+														id={attendee.id}
+														className={classes}
+														title={blockTitle}
+														style={{
+																backgroundImage: `url(${user.imageUrl})`,
+																backgroundSize: "cover",
+															}}>
+													</div>)
+
+											})
 										}
 									</div>
 								</div>

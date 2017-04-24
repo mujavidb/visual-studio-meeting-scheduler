@@ -84,6 +84,25 @@ class ViewHosted extends Component {
 			});
 		}
 	}
+	deleteMeeting(){
+		if(confirm("Are you sure you want to delete this meeting?")){
+			let context = VSS.getWebContext()
+			let _this = this
+			axios({
+				method: 'post',
+				url: `https://meeting-scheduler.azurewebsites.net/${context.account.id}/${_this.props.meetingId}/edit`,
+				data: data,
+				withCredentials: true
+			})
+			.then(function (response) {
+			    console.log(response);
+			    _this.props.ctrl.dashboard.call();
+			})
+			.catch(function (error) {
+			    console.log(error);
+			});
+		}
+	}
 	render(){
 		let content = {};
 		if (this.state.loading === true) {
@@ -95,9 +114,8 @@ class ViewHosted extends Component {
 			)
 		} else {
 
-			const meetingTime = this.state.meeting.time ? moment(this.state.meeting.time).format("ddd Do MMM, h:mma") : "Time TBC"
-			const meetingTimeTitle = this.state.meeting.time ? moment(this.state.meeting.time).format("dddd Do MMMM YYYY, h:mma") : "Time TBC"
-
+			const meetingTime = this.state.meeting.finalDate ? moment(this.state.meeting.finalDate.dateStart).format("ddd Do MMM, H:mm") + " - " + moment(this.state.meeting.finalDate.dateEnd).format("H:mm") : "Time TBC"
+			const meetingTimeTitle = this.state.meeting.finalDate ? moment(this.state.meeting.finalDate.dateStart).format("ddd Do MMMM YYYY, H:mm") + " - " + moment(this.state.meeting.finalDate.dateEnd).format("H:mm") : "Time TBC"
 			let sortedSlots
 			if (this.state.sorted_slots === false) {
 				const attendees = this.state.meeting.attendees;
@@ -138,6 +156,80 @@ class ViewHosted extends Component {
 				selected_message = this.state.selected_slot.start.format("dddd Do MMMM, h:mma") + " - " + this.state.selected_slot.end.format("h:mma")
 			}
 
+			let availabilities
+			if(!this.state.meeting.finalDate) {
+				availabilities = (
+					<section>
+						<h3>Attendee Availabilities</h3>
+						<div className="attendee_availabilities">
+							<div className="attendee_names">
+								<span>Team Member</span>
+								{
+									this
+									.state
+									.meeting
+									.attendees
+									.map(attendee => {
+										return <span>{attendee.name}</span>
+									})
+								}
+							</div>
+							<div className="attendee_slots">
+								<div
+									className="attendee_event_times"
+									style={{width: `${sortedSlots.length * 150}px`}}>
+									{
+										sortedSlots
+										.map(slot => {
+											let time = slot.range.start.format("ddd Do h:mma-")
+												+ slot.range.end.format("h:mma")
+											return <span>{time}</span>
+										})
+									}
+								</div>
+								{
+									this
+									.state
+									.meeting
+									.attendees
+									.map(attendee => {
+										return (
+											<div
+												className="attendee_availability_row"
+												style={{width: `${sortedSlots.length * 150}px`}}>
+												{
+													sortedSlots.map(slot => {
+														let index = -1;
+														for(let i = 0; i < slot.attendees.length; i++) {
+															if (slot.attendees[i].id === attendee.id) {
+																index = i;
+																break;
+															}
+														}
+														let value = (index > -1) ? "YES" : "NO";
+														return <span className={value}>{value}</span>
+													})
+												}
+											</div>
+										)
+									})
+								}
+								<div className="attendee_availability_select">
+									{
+										sortedSlots.map(slot => (
+											<button
+												className="button"
+												onClick={()=>this.selectTime(slot.range)}>Select</button>
+										))
+									}
+								</div>
+							</div>
+						</div>
+						<strong>Selected time slot:</strong><span>{selected_message}</span>
+					</section>
+				)
+			}
+
 			content = (
 				<div className="large_card_area single_meeting">
 					<header>
@@ -171,74 +263,8 @@ class ViewHosted extends Component {
 							)
 						}
 
-						<section>
-							<h3>Attendee Availabilities</h3>
-							<div className="attendee_availabilities">
-								<div className="attendee_names">
-									<span>Team Member</span>
-									{
-										this
-										.state
-										.meeting
-										.attendees
-										.map(attendee => {
-											return <span>{attendee.name}</span>
-										})
-									}
-								</div>
-								<div className="attendee_slots">
-									<div
-										className="attendee_event_times"
-										style={{width: `${sortedSlots.length * 150}px`}}>
-										{
-											sortedSlots
-											.map(slot => {
-												let time = slot.range.start.format("ddd Do h:mma-")
-													+ slot.range.end.format("h:mma")
-												return <span>{time}</span>
-											})
-										}
-									</div>
-									{
-										this
-										.state
-										.meeting
-										.attendees
-										.map(attendee => {
-											return (
-												<div
-													className="attendee_availability_row"
-													style={{width: `${sortedSlots.length * 150}px`}}>
-													{
-														sortedSlots.map(slot => {
-															let index = -1;
-															for(let i = 0; i < slot.attendees.length; i++) {
-																if (slot.attendees[i].id === attendee.id) {
-																	index = i;
-																	break;
-																}
-															}
-															let value = (index > -1) ? "YES" : "NO";
-															return <span className={value}>{value}</span>
-														})
-													}
-												</div>
-											)
-										})
-									}
-									<div className="attendee_availability_select">
-										{
-											sortedSlots.map(slot => (
-												<button
-													className="button"
-													onClick={()=>this.selectTime(slot.range)}>Select</button>
-											))
-										}
-									</div>
-								</div>
-							</div>
-							<strong>Selected time slot:</strong><span>{selected_message}</span>
-						</section>
+						{ availabilities }
+						
 
 						<section>
 							<h3>Attendees</h3>
@@ -250,11 +276,10 @@ class ViewHosted extends Component {
 											.state
 											.meeting
 											.attendees
-											.sort((a,b)=> a === true ? 0 : 1) //FIX: make this actually work
 											.map(attendee => {
 												const user = this.props.teamMembers.find(teamMember => attendee.id === teamMember.id)
-												const classes = `attendee_block ${attendee.status == "" ? "unresponsive" : "responsive"}`
-												const blockTitle = `${attendee.displayName} has ${attendee.status == "" ? "not yet " : ""}responded`
+												const classes = `attendee_block ${attendee.response === 0 ? "unresponsive" : "responsive"}`
+												const blockTitle = `${attendee.name} has ${attendee.response === 0 ? "not yet " : ""}responded`
 												return (
 													<div
 														key={attendee.id}
@@ -276,6 +301,10 @@ class ViewHosted extends Component {
 
 						<footer>
 							<a onClick={()=>this.props.ctrl.dashboard()} className="button cancel maxed" role="button">Back</a>
+							<button
+								onClick={this.deleteMeeting}
+								className="button primary delete maxed"
+								role="button">Delete Meeting</button>
 							<button
 								onClick={this.finaliseMeetingTime}
 								className="button primary finalise maxed"
