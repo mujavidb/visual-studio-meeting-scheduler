@@ -1,6 +1,6 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import Meeting from '../src/components/meeting'
+import HostedMeeting from '../src/components/hosted-meeting'
 
 const testData = {
 	details: {
@@ -27,13 +27,13 @@ const testData = {
 		}
 	],
 	ctrl: {
-		viewMeeting: () => {}
+		viewHosted: () => {}
 	}
 }
 
-test('Clicking meeting navigates to ViewMeeting', () => {
+test('Clicking hosted meeting navigates to HostedMeeting', () => {
 	const component = renderer.create(
-		<Meeting
+		<HostedMeeting
 			key={testData.id}
 			details={testData.details}
 			ctrl={testData.ctrl}

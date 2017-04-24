@@ -1,6 +1,6 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import Meeting from '../src/components/meeting'
+import Invitation from '../src/components/invitation'
 
 const testData = {
 	details: {
@@ -27,13 +27,13 @@ const testData = {
 		}
 	],
 	ctrl: {
-		viewMeeting: () => {}
+		respondInvitation: () => { }
 	}
 }
 
-test('Clicking meeting navigates to ViewMeeting', () => {
+test('Clicking invitation navigates to RespondInvitation', () => {
 	const component = renderer.create(
-		<Meeting
+		<Invitation
 			key={testData.id}
 			details={testData.details}
 			ctrl={testData.ctrl}

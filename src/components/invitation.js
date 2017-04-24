@@ -5,9 +5,7 @@ import { generateRGBColor } from '../helpers/color-generator'
 import { getInitials } from '../helpers/get-initials'
 
 const Invitation = props => {
-	console.log(props);
 	return (
-		//TODO: Route this to seperate invitation view
 		<a className="meeting_card_container" role="button" onClick={()=>props.ctrl.respondInvitation(props.details.meetingId)}>
 			<div className="meeting_card">
 				<h3 className="meeting_title">{ props.details.meetingName }</h3>

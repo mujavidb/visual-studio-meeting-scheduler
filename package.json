@@ -7,7 +7,7 @@
 	"test" : "jest",
     "dev_server": "webpack-dev-server --hot",
     "watch_sass": "node-sass --watch --output-style compressed --include-path scss src/scss/main.scss src/assets/css/main.css",
-    "build": "npm run sass; npm run autoprefix; npm run version; npm run clean_copy; npm run webpack; npm run extension",
+    "build": "npm run test; npm run sass; npm run autoprefix; npm run version; npm run clean_copy; npm run webpack; npm run extension",
     "sass": "node-sass --output-style compressed --include-path scss src/scss/main.scss src/assets/css/main.css",
     "autoprefix": "postcss --use autoprefixer src/assets/css/main.css -d src/assets/css/",
     "version": "awk -F'[\"]' -v OFS='\"'  '/\"version\":/{split($4,a,\".\");$4=a[1]\".\"a[2]\".\"a[3]+1};1' src/vss-extension.json > src/vss-extension.json~; mv src/vss-extension.json~ src/vss-extension.json",
