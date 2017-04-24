@@ -204,7 +204,7 @@ class ViewHosted extends Component {
 											</div>
 										)
 									})
-
+								}
 								<div
 									className="attendee_availability_select"
 									style={{width: `${sortedSlots.length * 150}px`}}>
