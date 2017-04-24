@@ -44,12 +44,13 @@ class HostedMeetings extends Component {
 
 	render(){
 		return (
-			<div className="large_card_area hosted_meetings">
+			<div className={"large_card_area hosted_meetings" + (this.state.isPast ? " past" : "")}>
 				<header>
 					<div className="topbar">
 						<h2 className="container_title">
 							My Hosted Meetings
 						</h2>
+						<a onClick={this.props.ctrl.createMeeting} className="button primary" role="button">Create</a>
 					</div>
 					<div className="content_filters">
 						<a className="upcoming_button" onClick={()=>this.toggleMeetings(false)} role="button">Upcoming</a>

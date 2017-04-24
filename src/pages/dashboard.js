@@ -26,8 +26,6 @@ class Dashboard extends Component {
 		let context = {};
 		context = VSS.getWebContext();
 		while (context === {}); //pause until context received
-		console.log("WEB CONTEXT:");
-		console.log(context);
 		this.setState({context: context}, () => {
 			axios.defaults.headers.post['Content-Type'] = 'application/json';
 			axios({
@@ -36,14 +34,11 @@ class Dashboard extends Component {
 				withCredentials: true
 			})
 			.then(function (response) {
-				console.log("Document");
-				console.log(response);
 				_this.getAllMeetings();
 				_this.getAllInvitations();
 				_this.getAllHostedMeetings();
 			})
 			.catch(function (error) {
-				console.log(error);
 			});
 		})
 
@@ -57,11 +52,9 @@ class Dashboard extends Component {
 		})
 		.then(function (response) {
 			_this.setState({meetings: response.data});
-			console.log("Meetings");
-			console.log(response);
 		})
 		.catch(function (error) {
-			console.log(error);
+			console.log("Error getting data.")
 		});
 
 	}
@@ -76,10 +69,9 @@ class Dashboard extends Component {
 		})
 		.then(function (response) {
 			_this.setState({invitations: response.data});
-			console.log(response);
 		})
 		.catch(function (error) {
-			console.log(error);
+			console.log("Error getting data.")
 		});
 	}
 	getAllHostedMeetings(){
@@ -91,10 +83,11 @@ class Dashboard extends Component {
 			withCredentials: true
 		})
 		.then(function (response) {
-			_this.setState({hosted: response.data, loading: false});
+			_this.setState({hosted: response.data, loading: false}, () => {
+			});
 		})
 		.catch(function (error) {
-			console.log(error);
+			console.log("Error getting data.")
 		});
 	}
 	render(){
@@ -116,12 +109,12 @@ class Dashboard extends Component {
 						meetings={this.state.meetings}
 						ctrl={this.props.ctrl}
 						teamMembers={this.props.teamMembers}/>
-					<Invitations
-						invitations={this.state.invitations}
-						ctrl={this.props.ctrl}
-						teamMembers={this.props.teamMembers} />
 					<HostedMeetings
 						meetings={this.state.hosted}
+						ctrl={this.props.ctrl}
+						teamMembers={this.props.teamMembers} />
+					<Invitations
+						invitations={this.state.invitations}
 						ctrl={this.props.ctrl}
 						teamMembers={this.props.teamMembers} />
 				</div>

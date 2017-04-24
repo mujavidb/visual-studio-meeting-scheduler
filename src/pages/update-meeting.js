@@ -13,15 +13,18 @@ export default class UpdateMeeting extends Component {
 		this.updateAttendees = this.updateAttendees.bind(this)
 		this.onSubmit = this.onSubmit.bind(this)
 		this.state = {
+			loading: true,
 			meeting: {},
 			markdown_text: 'Enter *markdown* here',
 			timeSlots: [],
 			errors: [],
 			formSubmitted: false,
-			attendees: []
+			attendees: [],
+			updated: false
 		}
 		this._titleInput = {}
 		this._locationInput = {}
+		console.log(this.props)
 	}
 	updateMarkdown(text){
 		this.setState({markdown_text: text, updated: true})
@@ -54,18 +57,22 @@ export default class UpdateMeeting extends Component {
 
 		if (this.validateInput()){
 			const data = {
-				"hostId": "1234567891234",
 				"meetingName": this._titleInput.value,
 				"hostAvailability": this.state.timeSlots.map(a=>({start: a.start.toString(), end: a.end.toString()})),
 				"meetingLocation": this._locationInput.value,
-				"attendees": this.state.attendees.map(a=>({ id: a.id, name: a.name }))
+				"attendees": this.state.attendees.map(a=>({ 
+					id: a.id, 
+					name: a.name, 
+					response: a.response ? a.response : 0,
+					availableTimes: a.availableTimes : []
+				})),
+				"agenda": this.state.markdown_text
 			}
-			console.log("Sending Data")
-			console.log(data)
 			const _this = this
+			const context = VSS.getWebContext()
 			axios({
 				method: 'post',
-				url: `https://localhost:3000/${this.accountID}/${this.state.meeting.meetingId}/create`,
+				url: `https://meeting-scheduler.azurewebsites.net/${context.account.id}/${this.props.meetingId}/edit`,
 				data: data,
 				withCredentials: true
 			})
@@ -79,7 +86,6 @@ export default class UpdateMeeting extends Component {
 		}
 	}
 	componentDidMount(){
-		this._titleInput.focus()
 		this.getMeeting()
 	}
 	componentDidUpdate(){
@@ -96,18 +102,11 @@ export default class UpdateMeeting extends Component {
 			withCredentials: true
 		})
 		.then(function (response) {
-			_this.setState({meeting: response.data[0].meeting, loading: false});
-			console.log(response);
+			_this.setState({meeting: response.data[0].meeting, attendees: response.data[0].meeting.attendees ,loading: false});
 		})
 		.catch(function (error) {
 			console.log(error);
 		})
-	}
-	getInitials(fullName) {
-		let names = fullName.split(" ");
-		let initials = "";
-		names.forEach(name => initials += name.charAt(0));
-		return initials;
 	}
 	render(){
 		let errors
@@ -154,7 +153,7 @@ export default class UpdateMeeting extends Component {
 								ref={x=>this._titleInput = x}
 								type="text"
 								placeholder="Enter meeting title"
-								value={this.state.meeting.meetingName}
+								defaultValue={this.state.meeting.meetingName}
 								onChange={()=>this.state.formSubmitted ? this.validateInput() : ""}/>
 						</section>
 
@@ -164,7 +163,7 @@ export default class UpdateMeeting extends Component {
 								ref={x=>this._locationInput = x}
 								type="text"
 								placeholder="Enter meeting location"
-								value={this.state.meeting.meetingLocation}
+								defaultValue={this.state.meeting.meetingLocation}
 								onChange={()=>this.state.formSubmitted ? this.validateInput() : ""}/>
 						</section>
 
@@ -184,7 +183,9 @@ export default class UpdateMeeting extends Component {
 								oldValue={this.state.meeting.attendees}
 								update={this.updateAttendees}/>
 						</section>
+
 						{ errors }
+
 						<footer>
 							<button onClick={this.props.ctrl.dashboard} className="button cancel maxed">Cancel</button>
 							<button onClick={this.onSubmit} className="button primary maxed">Update</button>
