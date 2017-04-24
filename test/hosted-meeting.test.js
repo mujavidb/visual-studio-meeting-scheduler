@@ -45,3 +45,12 @@ test('Clicking hosted meeting navigates to HostedMeeting', () => {
 	tree.props.onClick();
 	expect(tree).toMatchSnapshot();
 });
+
+test("", () => {});
+test("", () => {});
+test("", () => {});
+test("", () => {});
+test("", () => {});
+test("", () => {});
+test("", () => {});
+test("", () => {});

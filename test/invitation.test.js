@@ -45,3 +45,12 @@ test('Clicking invitation navigates to RespondInvitation', () => {
 	tree.props.onClick();
 	expect(tree).toMatchSnapshot();
 });
+
+test("", () => {});
+test("", () => {});
+test("", () => {});
+test("", () => {});
+test("", () => {});
+test("", () => {});
+test("", () => {});
+test("", () => {});

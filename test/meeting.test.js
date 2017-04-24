@@ -45,3 +45,12 @@ test('Clicking meeting navigates to ViewMeeting', () => {
 	tree.props.onClick();
 	expect(tree).toMatchSnapshot();
 });
+
+test("", () => {});
+test("", () => {});
+test("", () => {});
+test("", () => {});
+test("", () => {});
+test("", () => {});
+test("", () => {});
+test("", () => {});
