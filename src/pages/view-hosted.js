@@ -41,7 +41,9 @@ class ViewHosted extends Component {
 				withCredentials: true
 			})
 			.then(function (response) {
-				_this.setState({meeting: response.data[0].meeting, loading: false});
+				_this.setState({meeting: response.data[0].meeting, loading: false}, () => {
+					_this.sortMeetingSlots()
+				});
 			})
 			.catch(function (error) {
 			})
@@ -73,37 +75,37 @@ class ViewHosted extends Component {
 			});
 		}
 	}
-	componentWillMount(){
-		if (this.state.loading === false && this.state.sorted_slots === false) {
-			const attendees = this.state.meeting.attendees;
-			let timeSlots = {}
-			for (let i = 0; i < attendees.length; i++) {
-				if (attendees[i].availableTimes.length > 0) {
-					for (let j = 0; j < attendees[i].availableTimes.length; j++){
-						let range = {
-							start: moment(attendees[i].availableTimes[j].dateStart),
-							end: moment(attendees[i].availableTimes[j].dateEnd)
-						}
-						let rangeStr = range.start.toString() + range.end.toString()
-						if (rangeStr in timeSlots) {
-							timeSlots[rangeStr].attendees.push({id: attendees[i].id, name: attendees[i].name})
-						} else {
-							timeSlots[rangeStr] = {
-								range: range,
-								attendees: [{id: attendees[i].id, name: attendees[i].name}]
-							}
+	sortMeetingSlots(){
+		const attendees = this.state.meeting.attendees;
+		let timeSlots = {}
+		for (let i = 0; i < attendees.length; i++) {
+			if (attendees[i].availableTimes.length > 0) {
+				for (let j = 0; j < attendees[i].availableTimes.length; j++){
+					let range = {
+						start: moment(attendees[i].availableTimes[j].dateStart),
+						end: moment(attendees[i].availableTimes[j].dateEnd)
+					}
+					let rangeStr = range.start.toString() + range.end.toString()
+					if (rangeStr in timeSlots) {
+						timeSlots[rangeStr].attendees.push({id: attendees[i].id, name: attendees[i].name})
+					} else {
+						timeSlots[rangeStr] = {
+							range: range,
+							attendees: [{id: attendees[i].id, name: attendees[i].name}]
 						}
 					}
 				}
 			}
-			let sortedSlots = Object
-								.keys(timeSlots)
-								.map(key => timeSlots[key])
-								.sort((a,b) => compareMilli(a.range.start, b.range.start))
-			this.setState({sorted_slots: sortedSlots})
 		}
+		let sortedSlots = Object
+							.keys(timeSlots)
+							.map(key => timeSlots[key])
+							.sort((a,b) => compareMilli(a.range.start, b.range.start))
+		this.setState({sorted_slots: sortedSlots})
 	}
 	render(){
+		console.log("About to render, here is loading state:")
+		console.log(this.state.loading)
 		let content = {};
 		if (this.state.loading === true || this.state.sorted_slots === false) {
 			content = (
@@ -117,6 +119,9 @@ class ViewHosted extends Component {
 			const meetingTimeTitle = this.state.meeting.finalDate ? moment(this.state.meeting.finalDate.dateStart).format("ddd Do MMMM YYYY, H:mm") + " - " + moment(this.state.meeting.finalDate.dateEnd).format("H:mm") : "Time TBC"
 
 			let sortedSlots = this.state.sorted_slots
+			console.log("Checking slots")
+			console.log(this.state.sorted_slots)
+			console.log(sortedSlots)
 
 			let selected_message = ""
 			if (this.state.selected_slot === false || this.state.selected_slot === undefined) {

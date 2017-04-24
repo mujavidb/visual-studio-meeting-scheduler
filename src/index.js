@@ -14,9 +14,9 @@ import ViewHosted from './pages/view-hosted'
 class MainController extends Component {
 	constructor(){
 		super()
-
 		this.updateTeamMembers = this.updateTeamMembers.bind(this);
-		//ctrl object passed around update view
+
+		//ctrl object passed around to update view
 		this.ctrl = {
 			dashboard           : () => this.setState({current: <Dashboard ctrl={this.ctrl} teamMembers={this.state.teamMembers} />}),
 			createMeeting       : () => this.setState({current: <CreateMeeting ctrl={this.ctrl} teamMembers={this.state.teamMembers} />}),

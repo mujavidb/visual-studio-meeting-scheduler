@@ -71,6 +71,7 @@ class Dashboard extends Component {
 			_this.setState({invitations: response.data});
 		})
 		.catch(function (error) {
+			console.log("Error getting data.")
 		});
 	}
 	getAllHostedMeetings(){
@@ -85,6 +86,7 @@ class Dashboard extends Component {
 			_this.setState({hosted: response.data, loading: false});
 		})
 		.catch(function (error) {
+			console.log("Error getting data.")
 		});
 	}
 	render(){

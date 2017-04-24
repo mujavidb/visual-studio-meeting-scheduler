@@ -22,8 +22,8 @@ class AllMeetings extends Component {
 	compareDate(a, b){
 		if(!a.finalDate) return 1;
 		if(!b.finalDate) return -1;
-		let aTime = new moment(a.finalDate.dateStart);
-		let bTime = new moment(b.finalDate.dateStart);
+		let aTime = moment(a.finalDate.dateStart);
+		let bTime = moment(b.finalDate.dateStart);
 		if(aTime.isBefore(bTime)) return -1;
 		if(aTime.isAfter(bTime)) return 1;
 		return 0;
