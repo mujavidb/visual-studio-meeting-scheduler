@@ -77,7 +77,23 @@ class ViewHosted extends Component {
 	}
 	sortMeetingSlots(){
 		const attendees = this.state.meeting.attendees;
+		const hostAvailability = this.state.meeting.hostAvailability;
 		let timeSlots = {}
+
+		//convert open availabilities to individual timeslots
+		for (let i = 0; i < hostAvailability.length; i++){
+			let range = {
+				start: moment(hostAvailability[i].dateStart),
+				end: moment(hostAvailability[i].dateEnd)
+			}
+			let rangeStr = range.start.toString() + range.end.toString()
+			timeSlots[rangeStr] = {
+				range: range,
+				attendees: []
+			}
+		}
+
+		//add attendee availabilities to each slot
 		for (let i = 0; i < attendees.length; i++) {
 			if (attendees[i].availableTimes.length > 0) {
 				for (let j = 0; j < attendees[i].availableTimes.length; j++){
@@ -88,11 +104,6 @@ class ViewHosted extends Component {
 					let rangeStr = range.start.toString() + range.end.toString()
 					if (rangeStr in timeSlots) {
 						timeSlots[rangeStr].attendees.push({id: attendees[i].id, name: attendees[i].name})
-					} else {
-						timeSlots[rangeStr] = {
-							range: range,
-							attendees: [{id: attendees[i].id, name: attendees[i].name}]
-						}
 					}
 				}
 			}
@@ -104,8 +115,6 @@ class ViewHosted extends Component {
 		this.setState({sorted_slots: sortedSlots})
 	}
 	render(){
-		console.log("About to render, here is loading state:")
-		console.log(this.state.loading)
 		let content = {};
 		if (this.state.loading === true || this.state.sorted_slots === false) {
 			content = (
@@ -119,9 +128,6 @@ class ViewHosted extends Component {
 			const meetingTimeTitle = this.state.meeting.finalDate ? moment(this.state.meeting.finalDate.dateStart).format("ddd Do MMMM YYYY, H:mm") + " - " + moment(this.state.meeting.finalDate.dateEnd).format("H:mm") : "Time TBC"
 
 			let sortedSlots = this.state.sorted_slots
-			console.log("Checking slots")
-			console.log(this.state.sorted_slots)
-			console.log(sortedSlots)
 
 			let selected_message = ""
 			if (this.state.selected_slot === false || this.state.selected_slot === undefined) {
@@ -131,7 +137,7 @@ class ViewHosted extends Component {
 			}
 
 			let attendee_availabilities = ""
-			if (this.state.meeting.finalDate) {
+			if (!this.state.meeting.finalDate) {
 				attendee_availabilities = (
 					<section>
 						<h3>Attendee Availabilities</h3>

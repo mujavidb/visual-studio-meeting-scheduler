@@ -4,9 +4,8 @@ import { formatMarkdown } from '../helpers/format-markdown'
 export default class MarkdownEditor extends Component {
 	constructor(props){
 		super(props)
-		let markdown_text = this.props.oldValue ? this.props.oldValue : 'Enter *markdown* here'
 		this.state = {
-			markdown_text: markdown_text
+			markdown_text: this.props.oldValue ? this.props.oldValue : "Enter *markdown* here",
 		}
 		this.updateMarkdown = this.updateMarkdown.bind(this)
 	}
