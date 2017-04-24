@@ -16,15 +16,14 @@ const Meeting = props => {
 						props
 						.details
 						.attendees
-						.sort((a,b)=> a === true ? 0 : 1)
 						.map(attendee => {
-							const classes = `attendee_block ${attendee.status == "" ? "unresponsive" : "responsive"}`
-							const blockTitle = `${attendee.displayName} has ${attendee.status == "" ? "not yet " : ""}responded`
 							const user = props.teamMembers.find(teamMember => attendee.id === teamMember.id)
+							const classes = `attendee_block ${attendee.response === 0 ? "unresponsive" : "responsive"}`
+							const blockTitle = `${attendee.name} has ${attendee.response === 0 ? "not yet " : ""}responded`
 							return (
 								<div
-									key={user.id}
-									id={user.id}
+									key={attendee.id}
+									id={attendee.id}
 									className={classes}
 									title={blockTitle}
 									style={{
@@ -32,6 +31,7 @@ const Meeting = props => {
 											backgroundSize: "cover",
 										}}>
 								</div>)
+
 						})
 					}
 				</div>
