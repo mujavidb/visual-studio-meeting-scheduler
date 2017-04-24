@@ -4,21 +4,6 @@ import { formatToLongTime } from '../helpers/format-time'
 import { generateRGBColor } from '../helpers/color-generator'
 import { getInitials } from '../helpers/get-initials'
 
-const testData = {
-	details: {
-		meetingId: "asjdaifhwijd",
-		meetingName: "Test",
-		finalDate: new Date(),
-		meetingLocation: "somewhere",
-		attendees: [
-			{
-				status: "unresponsive",
-				displayName: "Mr T",
-			}
-		]
-	}
-}
-
 const Meeting = props => {
 	return (
 		<a onClick={()=>props.ctrl.viewMeeting(props.details.meetingId)} className="meeting_card_container" role="button">

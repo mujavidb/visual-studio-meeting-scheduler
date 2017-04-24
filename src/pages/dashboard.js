@@ -83,7 +83,10 @@ class Dashboard extends Component {
 			withCredentials: true
 		})
 		.then(function (response) {
-			_this.setState({hosted: response.data, loading: false});
+			_this.setState({hosted: response.data, loading: false}, () => {
+				console.log("Just got hosted:");
+				console.log(this.state.hosted);
+			});
 		})
 		.catch(function (error) {
 			console.log("Error getting data.")

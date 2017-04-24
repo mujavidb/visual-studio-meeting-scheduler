@@ -13,15 +13,18 @@ export default class UpdateMeeting extends Component {
 		this.updateAttendees = this.updateAttendees.bind(this)
 		this.onSubmit = this.onSubmit.bind(this)
 		this.state = {
+			loading: true,
 			meeting: {},
 			markdown_text: 'Enter *markdown* here',
 			timeSlots: [],
 			errors: [],
 			formSubmitted: false,
-			attendees: []
+			attendees: [],
+			updated: false
 		}
 		this._titleInput = {}
 		this._locationInput = {}
+		console.log(this.props)
 	}
 	updateMarkdown(text){
 		this.setState({markdown_text: text, updated: true})
@@ -60,8 +63,6 @@ export default class UpdateMeeting extends Component {
 				"meetingLocation": this._locationInput.value,
 				"attendees": this.state.attendees.map(a=>({ id: a.id, name: a.name }))
 			}
-			console.log("Sending Data")
-			console.log(data)
 			const _this = this
 			axios({
 				method: 'post',
@@ -79,7 +80,6 @@ export default class UpdateMeeting extends Component {
 		}
 	}
 	componentDidMount(){
-		this._titleInput.focus()
 		this.getMeeting()
 	}
 	componentDidUpdate(){
@@ -97,7 +97,6 @@ export default class UpdateMeeting extends Component {
 		})
 		.then(function (response) {
 			_this.setState({meeting: response.data[0].meeting, loading: false});
-			console.log(response);
 		})
 		.catch(function (error) {
 			console.log(error);
@@ -184,7 +183,9 @@ export default class UpdateMeeting extends Component {
 								oldValue={this.state.meeting.attendees}
 								update={this.updateAttendees}/>
 						</section>
+
 						{ errors }
+
 						<footer>
 							<button onClick={this.props.ctrl.dashboard} className="button cancel maxed">Cancel</button>
 							<button onClick={this.onSubmit} className="button primary maxed">Update</button>

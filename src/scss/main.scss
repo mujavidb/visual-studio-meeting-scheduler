@@ -621,8 +621,8 @@ header {
 .attendee_event_times {
 	display: flex;
 	flex-flow: row nowrap;
-	overflow:scroll;
-	width:200%;
+	width: auto;
+	white-space: nowrap;
 
 	span {
 		text-align: center;

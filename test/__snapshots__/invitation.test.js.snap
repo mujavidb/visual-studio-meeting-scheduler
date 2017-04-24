@@ -1,0 +1,87 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Clicking invitation navigates to RespondInvitation 1`] = `
+<a
+  className="meeting_card_container"
+  onClick={[Function]}
+  role="button"
+>
+  <div
+    className="meeting_card"
+  >
+    <h3
+      className="meeting_title"
+    >
+      Test
+    </h3>
+    <p
+      className="meeting_datetime"
+    >
+      Wednesday 30th November, 12:00am
+    </p>
+    <p
+      className="meeting_location"
+    >
+      somewhere
+    </p>
+    <div
+      className="attendees"
+    >
+      <div
+        className="attendee_block responsive"
+        id="92hd98fhueohi"
+        style={
+          Object {
+            "backgroundImage": "url(undefined)",
+            "backgroundSize": "cover",
+          }
+        }
+        title="Mr T has responded"
+      />
+    </div>
+  </div>
+</a>
+`;
+
+exports[`Clicking invitation navigates to RespondInvitation 2`] = `
+<a
+  className="meeting_card_container"
+  onClick={[Function]}
+  role="button"
+>
+  <div
+    className="meeting_card"
+  >
+    <h3
+      className="meeting_title"
+    >
+      Test
+    </h3>
+    <p
+      className="meeting_datetime"
+    >
+      Wednesday 30th November, 12:00am
+    </p>
+    <p
+      className="meeting_location"
+    >
+      somewhere
+    </p>
+    <div
+      className="attendees"
+    >
+      <div
+        className="attendee_block responsive"
+        id="92hd98fhueohi"
+        style={
+          Object {
+            "backgroundImage": "url(undefined)",
+            "backgroundSize": "cover",
+          }
+        }
+        title="Mr T has responded"
+      />
+    </div>
+  </div>
+</a>
+`;

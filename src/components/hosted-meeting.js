@@ -5,7 +5,6 @@ import { generateRGBColor } from '../helpers/color-generator'
 import { getInitials } from '../helpers/get-initials'
 
 const HostedMeeting = props => {
-	console.log(props);
 	return (
 		<a className="meeting_card_container" role="button" onClick={()=>props.ctrl.viewHosted(props.details.meetingId)}>
 			<div className="meeting_card">
