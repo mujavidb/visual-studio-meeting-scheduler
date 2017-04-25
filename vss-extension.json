@@ -1,0 +1,84 @@
+{
+    "manifestVersion": 1,
+    "id": "meeting-extension",
+    "version": "1.0.0",
+    "name": "Meetings",
+    "description": "Schedule and manage all your meetings",
+    "publisher": "UCL",
+    "public": true,
+    "tags": [
+        "meeting",
+        "plan",
+        "schedule",
+        "time"
+    ],
+    "categories": [
+        "Plan and track"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/mujavidb/visual-studio-meeting-scheduler"
+    },
+    "content": {
+        "details": {
+            "path": "overview.md"
+        }
+    },
+    "branding": {
+        "color": "rgb(250, 250, 250)"
+    },
+    "targets": [
+        {
+            "id": "Microsoft.VisualStudio.Services"
+        }
+    ],
+    "icons": {
+        "default": "assets/images/logo_inverted.png"
+    },
+    "contributions": [
+        {
+            "id": "meetings",
+            "type": "ms.vss-web.hub",
+            "description": "Meetings dashboard hub.",
+            "targets": ["ms.vss-web.home-hub-group"],
+            "properties": {
+                "name": "Meetings",
+                "order": 1,
+                "uri": "index.html"
+            }
+        }
+    ],
+    "scopes": [
+        "vso.profile",
+        "vso.work"
+    ],
+    "files": [
+        {
+            "path": "index.html", "addressable": true
+        },
+        {
+            "path": "index.js", "addressable": true
+        },
+        {
+            "path": "assets/js/VSS.SDK.min.js", "addressable": true
+        },
+        {
+            "path": "assets/images/logo_inverted.png", "addressable": true
+        },
+        {
+            "path": "assets/images/dashboard.png", "addressable": true
+        },
+        {
+            "path": "assets/images/finalize.png", "addressable": true
+        },
+        {
+            "path": "assets/images/create-meeting.png", "addressable": true
+        },
+        {
+            "path": "assets/images/respond-invitation.png", "addressable": true
+        },
+        {
+            "path": "assets/css", "addressable": true
+        }
+    ]
+}
