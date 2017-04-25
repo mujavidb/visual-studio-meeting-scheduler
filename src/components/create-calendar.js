@@ -17,10 +17,11 @@ export default class CreateCalendar extends Component {
 			this.events = this.props.editTimeSlots.map(a => ({
 				start:moment(a.dateStart),
 				end:moment(a.dateEnd),
-				editable: false,
-				resourceEditable: false
+				editable: false
 			}))
-		}	
+		} else {
+			this.events = []
+		}
 	}
 	componentDidMount() {
 		const { calendar } = this.refs;
@@ -67,7 +68,11 @@ export default class CreateCalendar extends Component {
 			eventOverlap: true,
 			eventLimit: true // allow "more" link when too many events
 		})
-		$(calendar).fullCalendar('addEventSource', this.events)
+		this.events.forEach(event => {
+			$(calendar).fullCalendar('renderEvent', event, true); // stick? = true
+			var events = $(calendar).fullCalendar('clientEvents');
+			_this.props.onChangeTimeSlots(events);
+		})
 	}
 
 	render() {

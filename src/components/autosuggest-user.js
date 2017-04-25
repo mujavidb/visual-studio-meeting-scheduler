@@ -13,10 +13,10 @@ export default class AutosuggestUser extends Component {
 		this.onUpdateAttendeesInput = this.onUpdateAttendeesInput.bind(this)
 		this.onSuggestionSelected = this.onSuggestionSelected.bind(this)
 		this.data = this.props.originalData.map(a => ({ id: a.id, name: a.displayName, imgURL: a.imageUrl }))
-
+		let attendees = this.props.oldValue ? this.props.oldValue.map(a => ({ id: a.id, name: a.displayName, imgURL: this.props.originalData.find(teamMember => teamMember.id === a.id).imageUrl })) : []
 		this.state = {
 			attendee_value: "",
-			attendees: [],
+			attendees: attendees,
 			suggestions: this.data
 		}
 	}
@@ -65,9 +65,6 @@ export default class AutosuggestUser extends Component {
 		}
 	}
 	componentDidUpdate(){
-		console.log("componentDidUpdate()")
-		console.log("Name")
-		console.log(this.state.attendee_value)
 		if (this.state.click) {
 			this.onSuggestionSelected()
 			this.setState({ click: false })
@@ -81,10 +78,9 @@ export default class AutosuggestUser extends Component {
 		e.preventDefault()
 	}
 	componentDidMount(){
-		console.log("OLD VALUE:", this.props.oldValue)
 		if(this.props.oldValue) {
 
-			let attendees = this.props.oldValue.map(a => ({ id: a.id, name: a.displayName, imgURL: a.imageUrl }))
+			let attendees = this.props.oldValue.map(a => ({ id: a.id, name: a.displayName, imgURL: this.props.originalData.find(teamMember => teamMember.id === a.id).imageUrl }))
 			this.setState({attendees: attendees})
 		}
 	}

@@ -68,8 +68,6 @@ export default class CreateMeeting extends Component {
 				"attendees": this.state.attendees.map(a=>({ id: a.id, name: a.name })),
 				"agenda": this.state.markdown_text
 			}
-			console.log("Sending Data")
-			console.log(data)
 			const _this = this
 			axios({
 				method: 'post',
@@ -78,7 +76,6 @@ export default class CreateMeeting extends Component {
 				withCredentials: true
 			})
 			.then(function (response) {
-			    console.log(response);
 			    _this.props.ctrl.dashboard.call();
 			})
 			.catch(function (error) {

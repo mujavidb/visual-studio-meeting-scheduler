@@ -41,9 +41,6 @@ class AllMeetings extends Component {
 			)
 		}
 	}
-	componentDidMount(){
-		console.log("All Meetings this.props.teamMembers:", this.props.teamMembers);
-	}
 	render(){
 		return (
 			<div className={"large_card_area all_meetings" + (this.state.isPast ? " past" : "")}>

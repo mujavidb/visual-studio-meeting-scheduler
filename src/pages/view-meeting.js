@@ -16,7 +16,6 @@ class ViewMeeting extends Component {
 		this.getMeeting();
 	}
 	getMeeting(){
-		console.log("GET MEETING");
 		let context = VSS.getWebContext();
 		let _this = this;
 		axios({
@@ -26,9 +25,6 @@ class ViewMeeting extends Component {
 		})
 		.then(function (response) {
 			_this.setState({meeting: response.data[0].meeting, loading: false});
-			console.log("RESPONSE");
-			console.log(response);
-			console.log("GOT MEETING");
 		})
 		.catch(function (error) {
 			console.log(error);
