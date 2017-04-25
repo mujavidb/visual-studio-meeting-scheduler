@@ -87,7 +87,6 @@ class ViewHosted extends Component {
 				withCredentials: true
 			})
 			.then(function (response) {
-			    console.log(response);
 			    _this.props.ctrl.dashboard.call();
 			})
 			.catch(function (error) {

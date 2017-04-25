@@ -4,6 +4,7 @@ import AutosuggestUser from '../components/autosuggest-user'
 import MarkdownEditor from '../components/markdown-editor'
 import axios from 'axios'
 import LoadingImage from '../components/loading-image'
+import moment from 'moment'
 
 export default class UpdateMeeting extends Component {
 	constructor(props){
@@ -15,22 +16,22 @@ export default class UpdateMeeting extends Component {
 		this.state = {
 			loading: true,
 			meeting: {},
-			markdown_text: 'Enter *markdown* here',
+			markdown_text: '',
 			timeSlots: [],
 			errors: [],
 			formSubmitted: false,
 			attendees: [],
-			updated: false
+			updated: false,
+			changedTimeslots: false
 		}
 		this._titleInput = {}
 		this._locationInput = {}
-		console.log(this.props)
 	}
 	updateMarkdown(text){
 		this.setState({markdown_text: text, updated: true})
 	}
 	updateTimeSlots(newTimeSlots){
-		this.setState({timeSlots:newTimeSlots, updated: true})
+		this.setState({timeSlots:newTimeSlots, changedTimeslots: true, updated: true})
 	}
 	updateAttendees(attendees){
 		this.setState({attendees: attendees, updated: true})
@@ -43,7 +44,7 @@ export default class UpdateMeeting extends Component {
 		if (this._locationInput.value === "") {
 			errors.push("You need to add a location.")
 		}
-		if (this.state.timeSlots.length === 0){
+		if (this.state.timeSlots.length === 0 && this.state.changedTimeslots){
 			errors.push("You need to select some availability slots on the calendar.")
 		}
 		if (this.state.attendees.length === 0){
@@ -56,16 +57,27 @@ export default class UpdateMeeting extends Component {
 		this.setState({formSubmitted: true})
 
 		if (this.validateInput()){
-			const data = {
-				"meetingName": this._titleInput.value,
-				"hostAvailability": this.state.timeSlots.map(a=>({start: a.start.toString(), end: a.end.toString()})),
-				"meetingLocation": this._locationInput.value,
-				"attendees": this.state.attendees.map(a=>({ 
+			let attendees = []
+			if(this.state.changedTimeslots) {
+				attendees = this.state.attendees.map(a=>({ 
+					id: a.id, 
+					name: a.name, 
+					response: 0,
+					availableTimes: []
+				}))
+			} else {
+				attendees = this.state.attendees.map(a=>({ 
 					id: a.id, 
 					name: a.name, 
 					response: a.response ? a.response : 0,
-					availableTimes: a.availableTimes : []
-				})),
+					availableTimes: a.availableTimes ? a.availableTimes : []
+				}))
+			}
+			const data = {
+				"meetingName": this._titleInput.value,
+				"hostAvailability": this.state.timeSlots.map(a=>({dateStart: a.start.toISOString(), dateEnd: a.end.toISOString()})),
+				"meetingLocation": this._locationInput.value,
+				"attendees": attendees,
 				"agenda": this.state.markdown_text
 			}
 			const _this = this
@@ -77,7 +89,6 @@ export default class UpdateMeeting extends Component {
 				withCredentials: true
 			})
 			.then(function (response) {
-			    console.log(response);
 			    _this.props.ctrl.dashboard.call();
 			})
 			.catch(function (error) {
@@ -102,34 +113,14 @@ export default class UpdateMeeting extends Component {
 			withCredentials: true
 		})
 		.then(function (response) {
-			_this.setState({meeting: response.data[0].meeting, attendees: response.data[0].meeting.attendees ,loading: false});
+			_this.setState({meeting: response.data[0].meeting, attendees: response.data[0].meeting.attendees, markdown_text: response.data[0].meeting.agenda, loading: false});
 		})
 		.catch(function (error) {
 			console.log(error);
 		})
 	}
 	render(){
-		let errors
-		if (this.state.errors.length > 0){
-			errors = (
-				<section>
-					<ul className="error_list">
-						{this.state.errors.map(e=><li key={e}>{e}</li>)}
-					</ul>
-				</section>
-			)
-		}
-		let availability
-		if (!this.state.meeting.finalDate) {
-			availability = (
-				<section>
-					<h3>Availability</h3>
-					<CreateCalendar
-						editTimeSlots={this.state.meeting.hostAvailability}
-						onChangeTimeSlots={this.updateTimeSlots}/>
-				</section>
-			)
-		}
+		
 		let content
 		if (this.state.loading) {
 			content = (
@@ -139,6 +130,39 @@ export default class UpdateMeeting extends Component {
 				</div>
 			)
 		} else {
+			let errors
+			if (this.state.errors.length > 0){
+				errors = (
+					<section>
+						<ul className="error_list">
+							{this.state.errors.map(e=><li key={e}>{e}</li>)}
+						</ul>
+					</section>
+				)
+			}
+			let availability
+			if (!this.state.meeting.finalDate) {
+				availability = (
+					<section>
+						<h3>Availability</h3>
+						<CreateCalendar
+							editTimeSlots={this.state.meeting.hostAvailability}
+							onChangeTimeSlots={this.updateTimeSlots}/>
+					</section>
+				)
+			}
+			let attendees
+			if (this.state.meeting.finalDate && moment(this.state.meeting.finalDate.dateStart).isAfter(moment())) {
+				attendees = (
+					<section>
+						<h3>Attendees</h3>
+						<AutosuggestUser
+							originalData={this.props.teamMembers}
+							oldValue={this.state.meeting.attendees}
+							update={this.updateAttendees}/>
+					</section>
+				)
+			}
 			content = (
 				<div className="large_card_area create_meeting">
 					<header>
@@ -176,13 +200,7 @@ export default class UpdateMeeting extends Component {
 
 						{ availability }
 
-						<section>
-							<h3>Attendees</h3>
-							<AutosuggestUser
-								originalData={this.props.teamMembers}
-								oldValue={this.state.meeting.attendees}
-								update={this.updateAttendees}/>
-						</section>
+						{ attendees }
 
 						{ errors }
 

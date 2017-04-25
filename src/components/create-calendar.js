@@ -16,7 +16,8 @@ export default class CreateCalendar extends Component {
 		if(this.props.editTimeSlots) {
 			this.events = this.props.editTimeSlots.map(a => ({
 				start:moment(a.dateStart),
-				end:moment(a.dateEnd)
+				end:moment(a.dateEnd),
+				editable: false
 			}))
 		} else {
 			this.events = []

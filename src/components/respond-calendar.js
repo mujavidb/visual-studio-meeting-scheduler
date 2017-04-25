@@ -18,7 +18,6 @@ export default class RespondCalendar extends Component {
 		const bg = {backgroundColor: "#10CC89"}
 	}
 	componentDidMount() {
-		console.log("EVENTS:", this.events);
 		const { calendar } = this.refs;
 		const _this = this;
 		$(calendar).fullCalendar({
@@ -43,13 +42,11 @@ export default class RespondCalendar extends Component {
 				if ($this.hasClass("selected")){
 					_this.setState({selected: _this.state.selected.filter(e=>e!=calendarEvent)}, () => {
 						$this.removeClass("selected")
-						console.log(_this.state.selected)
 						_this.props.onSelectTimeSlots(_this.state.selected)
 					})
 				} else {
 					_this.setState({selected: [..._this.state.selected, calendarEvent]}, () => {
 						$this.addClass("selected")
-						console.log(_this.state.selected)
 						_this.props.onSelectTimeSlots(_this.state.selected)
 					})
 				}

@@ -52,7 +52,7 @@ class RespondInvitation extends Component {
 	}
 	onSubmit(){
 		let response = 1;
-		if(this.selected.length === 0) {
+		if(this.state.selected.length === 0) {
 			response = 0;
 		}
 		let context = VSS.getWebContext();
