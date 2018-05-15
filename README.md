@@ -1,3 +1,7 @@
+# This app is no longer maintained.
+
+______
+
 # Meetings
 
 ![logo](assets/images/logo_inverted.png)
